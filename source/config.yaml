@@ -4,12 +4,14 @@ locations:
   curl: /opt/local/bin/curl
   flickrocket: /path/to/uploader
   ffprobe: /opt/local/bin/ffprobe
+  mogrify: /opt/local/bin/mogrify
+  
 
 default:
-  assembly: /Users/colin/Documents/Aptana Studio 3 Workspace/EdgeInteractiveDeployment/Assembly
-  finish: /Users/colin/Documents/Aptana Studio 3 Workspace/EdgeInteractiveDeployment/Finished
+  assembly: /Users/colin/Documents/Aptana Studio 3 Workspace/JobCard/Assembly
+  finish: /Users/colin/Documents/Aptana Studio 3 Workspace/JobCard/Finished
   scratch: SCRATCH
-  source: /Users/colin/Documents/Aptana Studio 3 Workspace/EdgeInteractiveDeployment/EdgeSource01
+  source: /Users/colin/Documents/Aptana Studio 3 Workspace/JobCard/EdgeSource01
   deliveries: DELIVERIES
   joblog: joblog
 
