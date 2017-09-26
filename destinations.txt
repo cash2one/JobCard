@@ -1,0 +1,39 @@
+
+	
+ASSEMBLY
+	INPUT_Q 
+		cards go here
+		filename.yml
+	SCRATCH
+	OUTPUT_Q	  ==> Finished after QC
+		PROJECT#_PART# [Folder]
+			TOFINISH
+				PHOTOSETS (Captures, photosets, books, thumbnails) [ JPG, PSD, TIFF]
+				PROMO (promo[boxcover]) [Marketing, Logos, Graphic Art]
+ 				VIDEOS (preview, compliance, transcode, concat)^2 [MOV MP4 VCD]
+				COMPONENTS (text, 2257, joblog, yml, ISOs, blog copy, brochure, video info, filelist ) [Everything else]
+			TODELIVERIES	
+				DVD.iso (Named edgeid.iso) [ vob playable, extras PHOTOSETS* ]
+				ROM.iso (named edgeid_ROM.iso) [ VIDEO, PHOTOSET, PROMO] really the ebay product
+				CLIPS4SALE (ftp & description text)
+				PROMO (description, boxcover, promoimages, scene_thumb)
+				FLICKROCKET (script upload, xml file)
+				VIDEO (2 videos complete, description txt)
+				PICTURESETs (Photoset, captures, thumbnails, description txt)
+					CAPTURE: Defined
+					THUMBNAILS: defined
+					PHOTOSET: set name
+				HOTMOVIES (ftp items, description text)
+				AEBN (ftp items, description text)
+				PICTICON (specs coming, pictures or videos, web deliver)
+			
+				
+		
+		
+			
+
+FINISHED
+
+
+DELIVERIES
+

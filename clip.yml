@@ -1,0 +1,49 @@
+clipinfo:
+  EdgeID: EDGE0001
+  projectno: PROJ01
+  title: Edge Interactive Collector's ROM
+  description: Abstract
+  comment: My Comments go here
+  keywords: Fuck Fuck A2M Cumshot
+  star: LuckyGirl
+  supporting: Long Dong Silver
+  ProductionDate: 10/10/1984
+  releasedate: 01/01/2001
+  Licensor: Global Media International License
+ 
+product:
+  clips4sale: edge0001
+  ebay: True
+  flickrocket: True
+  dvdrom: True
+  dvdvid: True
+  picticon: True
+
+video:
+  size1_width: 1280
+  size1_height: 720
+  size1_kbps: 1500
+  size2_width: 1920
+  size2_height: 1080
+  size2_kbps: 6000
+  capture: 30
+  source_video: /Users/colin/Desktop/Projects/PythonCodeTest/HDVC003.mp4
+
+photo:
+    size1_height: 1920
+    size1_width: 1080
+    timed: True
+  
+photoset:
+    dir1:  /Users/colin/Desktop/Projects/PythonCodeTest/Photos/
+    
+    
+box_cover:
+  cover: /Users/colin/Desktop/Projects/PythonCodeTest/IMG_9905.JPG
+  clipimg1: /Users/colin/Desktop/Projects/PythonCodeTest/Photos/HDVC003_capture_001.jpg
+  clipimg2: /Users/colin/Desktop/Projects/PythonCodeTest/Photos/HDVC003_capture_002.jpg
+  clipimg3: /Users/colin/Desktop/Projects/PythonCodeTest/Photos/HDVC003_capture_003.jpg
+  clipimg4: /Users/colin/Desktop/Projects/PythonCodeTest/Photos/HDVC003_capture_004.jpg    
+  clipimg5: /Users/colin/Desktop/Projects/PythonCodeTest/Photos/HDVC003_capture_005.jpg
+  clipimg6: /Users/colin/Desktop/Projects/PythonCodeTest/Photos/HDVC003_capture_006.jpg
+  clipimg7: /Users/colin/Desktop/Projects/PythonCodeTest/Photos/HDVC003_capture_007.jpg  

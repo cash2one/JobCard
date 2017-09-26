@@ -1,0 +1,137 @@
+clipinfo: 
+     projectno: Test01
+     edgeid: GMCZ0022
+     star: Donna Bell
+     supporting: Choky Ice
+     shorttitle: Suck Fuck Anal A2M Facial
+     title: Edge Interactive Collector's ROM
+     description: Romanian Donna Bell started out shooting masturbation, toy and lesbo work but quickly graduated to sucking and fucking cocks. Here she is breaking through into in anal, A2M, and eventually DP roles. Today she runs with Choky Ice as the Spanish Maid with white hose and heels.
+     keywords: Porn Stars, Hetrosexual, Blowjobs, Finger Fucking, Vaginal Sex, Anal, A2M, Facials, Hose, Uniforms
+     ProductionDate: June 1, 2010
+     ReleaseDate: September 9, 2017
+     Licensor: Global Media International License. 
+     comment: Combat Zone, acquired 2015 GMI License. Stats trimmed from Iafd 38D-27-38 to 36C-27-37
+     2257: Finished/C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_2257/
+
+product: 
+     clips4sale: produce
+     ebay: produce
+     flickrocket: produce
+     dvd: produce
+     picticon: ignore
+     aben: ignore
+     hotmovies: ignore
+
+component: 
+     boxcover: produce
+     photoset1: produce
+     photoset2: produce
+     capture: produce
+     video1: produce
+     video2: produce
+     promoimg: produce
+     preview: produce
+     compliance: produce
+     videoinfo: produce
+     book: produce
+     description: produce
+
+clips4sale: 
+     account: edgeinter11
+     boxcover: exsts
+     promoimg: exsts
+     video1: produce
+     out_dir: clips4sale
+
+ebay: 
+     photoset1: include
+     video1: include
+     capture1: include
+     dvdrom: true
+     promoimg: true
+     boxcover: include
+     description: include
+     out_dir: ebay
+
+dvdvid: 
+     photoset1: omit
+     video1: include
+     capture1: omit
+     boxcover: include
+     out_dir: dvd
+
+picticon: 
+     photoset1: include
+     video1: omit
+     thumbnails: include
+     scenethumb: include
+     thumbsize: 96
+     out_dir: picticon
+
+video:
+    source_video: EdgeSource01/C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4
+    
+video1: 
+     size1_width: 1280
+     size1_height: 720
+     size1_kbps: 1500     
+     out_dir: video
+
+video2:     
+     size2_width: 1920
+     size2_height: 1080
+     size2_kbps: 6000
+     out_dir: video
+
+capture: 
+     frame-every: 30
+     capturedir: Assembly/OUTPUT_Q/TO_FINISHED/GMCZ0022_CAP_Test01
+     out_dir: capture
+     function: CAPTURE
+
+box_cover: 
+     cover: Finished/C16F01-C16G00/C16F98_Finished_B70824-B70828_/GMCZ_SomeCovers_JPG/GMCZ0022_DONNA_BELL__CHOKY_ICE_32_BoxCover.JPG
+     out_dir: promo
+
+promoimg: 
+     promodir1: Finished/C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_Samples/
+     out_dir: promo
+
+photoset1: 
+     dir1: Finished/C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_3872P_JPG/
+     set1_x: 3872
+     set1_y: 2592
+     set1_timed: True
+     set1_name: Husband uses Spanish Maid's Every Hole
+     out_dir: photoset
+     set_dir: set1
+
+photoset2: 
+     dir2: Finished/C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_1920CP_CAP_JPG/
+     set2_x: 1920
+     set2_y: 1080
+     set2_timed: true
+     set2_name: Spanish Maid A2M Captures
+     out_dir: photoset
+     set_dir: capture
+
+book: 
+     pict1: PATHNAME/
+     pict2: PATHNAME/
+     description: exists
+     out_dir: promo
+     
+aebn:
+    out_dir:aebn
+    
+hotmovies:
+    out_dir:hotmovies  
+    
+flickrocket:
+    out_dir:flickrocket
+    
+preview:
+    out_dir:video
+    
+compliance:
+    out_dir:video              

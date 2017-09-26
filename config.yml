@@ -1,0 +1,67 @@
+locations:
+  convert: /opt/local/bin/convert
+  ffmpeg: /opt/local/bin/ffmpeg
+  curl: /opt/local/bin/curl
+  flickrocket: /path/to/uploader
+  ffprobe: /opt/local/bin/ffprobe
+
+default:
+  assembly: /Users/colin/Documents/Aptana Studio 3 Workspace/EdgeInteractiveDeployment/Assembly
+  finish: /Users/colin/Documents/Aptana Studio 3 Workspace/EdgeInteractiveDeployment/Finished
+  scratch: SCRATCH
+  source: /Users/colin/Documents/Aptana Studio 3 Workspace/EdgeInteractiveDeployment/EdgeSource01
+  deliveries: DELIVERIES
+  joblog: joblog
+
+functions:
+  capture: CAPTURE
+  transcode: TRANSCODE
+  video1: makeVideo
+  video2: makeVideo
+  photoset1: makePhotoSet
+  photoset2: makePhotoSet
+  photoset3: makePhotoSet
+  photoset4: makePhotoSet   
+  box_cover: makeBoxCover
+  promoimg: makePromoImg
+  book: makeBook
+  videoinfo: makeVideoInfo
+
+compliance:
+  licensedefault: Edge Interactive  
+  template: /Users/colin/Desktop/Projects/PythonCodeTest/compliance.txt
+  preview_color: blue
+  preview_font_color: yellow
+  preview_font_size: 48
+  preview_x: 100
+  preview_y: 100
+  compliance_color: green
+  compliance_font: /Library/Fonts/Arial.ttf
+  compliance_text_color: FFFFFF
+  compliance_text_size: 20
+
+ 
+clips4sale:
+  ftpsite: 192.168.23.128
+  edge0001: MyPassword
+  edge0002: AnotherPassword
+  edge0003: YetAnotherPassword
+
+flickrocket:  
+  username: username
+  password: password
+    
+boxcover:
+  font: /Library/Fonts/Skia.ttf
+  star_size: 150
+  support_size: 120
+  keyword_size: 150
+  partno_size: 150
+  title_size: 150
+  title_location: right 
+  font_color: white
+  suffix: _box_cover
+  box_width: 3724
+  box_height: 5616
+
+    
