@@ -1,3 +1,8 @@
 *.class
 *.pyc
 *.pyo
+Assembly/*
+Finished/*
+EdgeSource01/*
+.DS_Store
+*/.DS_Store
