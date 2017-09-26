@@ -1,0 +1,143 @@
+clipinfo: 
+  projectno: Test01
+  edgeid: GMCZ0022
+  star: Donna Bell
+  supporting: Choky Ice
+  shorttitle: Suck Fuck Anal A2M Facial
+  title: Edge Interactive Collector's ROM 
+  description: Romanian Donna Bell started out shooting masturbation, toy and lesbo work but quickly graduated to sucking and fucking cocks. Here she is breaking through into in anal, A2M, and eventually DP roles. Today she runs with Choky Ice as the Spanish Maid with white hose and heels.
+  keywords: Porn Stars, Hetrosexual, Blowjobs, Finger Fucking, Vaginal Sex, Anal, A2M, Facials, Hose, Uniforms
+  productiondate: June 1, 2010
+  releasedate: September 8, 2017
+  licensor: Global Media International License. 
+  comment: Combat Zone, acquired 2015 GMI License. Stats trimmed from Iafd 38D-27-38 to 36C-27-37
+  2257: PATHDIR
+
+product: 
+  clips4sale: produce
+  ebay: produce
+  flickrocket: produce
+  dvd: produce
+  picticon: delivered
+  aebn: produce
+  hotmovies: produce
+  book: ignore
+
+component:      
+  box_cover: exists
+  photoset1: exists
+  photoset2: ignore
+  photoset3: ignore
+  photoset4: ignore
+  capture: ignore
+  promoimg: exists
+  videoinfo: produce
+  book: produce  
+  video1: produce
+  video2: produce
+  
+
+sub-component:
+  scene_thumb: ignore
+  thumbnails: produce
+  description: produce     
+
+video1:   
+  size_width: 1920
+  size_height: 1080
+  size_kbps: 6000
+  out_dir: video
+  
+video2: 
+  size_width: 1280
+  size_height: 720
+  size_kbps: 1500
+  out_dir: video 
+
+  
+video:  
+  source_video: C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4
+ 
+capture:
+  frame_every: 30 
+  dir: USE SOURCE VIDEO
+  out_dir: photoset/capture
+
+  
+box_cover: 
+  cover: C1E253-C1E258/C1E255_COMBAT_ZONE-682/BoxCovers/GMCZ0022_DONNA_BELL__CHOKY_ICE_32_BoxCover.JPG
+  alignment: right
+  out_dir: promo
+  alt_cover: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_3872P_JPG/GMCZ0022_DONNA_BELL__CHOKY_ICE_14.JPG
+
+  
+promoimg:     
+     dir: C1E253-C1E258/C1E255_COMBAT_ZONE-682/Promos/GMCZ0022_Samples/
+     promo_width: 2048
+     promo_height: 1024
+     timed: true
+     out_dir: promo/images
+     
+     
+photoset1: 
+     dir: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_3872P_JPG/
+     description:  
+     set_width: 3724
+     set_height: 5616
+     set_timed: True
+     out_dir: photoset/primary
+     
+photoset2:     
+     dir: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_1920CP_CAP_JPG/
+     description: 
+     set_width: 1920
+     set_height: 1080
+     set_timed: True
+     out_dir: photoset/Secondary
+
+book:
+  pic1:PATH
+  pic2:PATH  
+
+videoinfo:
+  out_dir: promo      
+
+thumbnails:
+  size: 10%
+  out_dir: thumbs
+    
+scenethumb:
+  img:
+  size_width:
+  size_height:
+  out_dir:
+        
+description:
+  out_dir:
+    
+clips4sale: 
+  account: edgeinter11
+  boxcover: true
+  promoimg: true
+  video1: true
+  
+ebay: 
+     photoset1: true
+     video1: true
+     capture: true
+     dvdrom: true
+     promoimg: true
+     boxcover: true
+     description: true
+     
+dvd: 
+     photoset1: true
+     video1: true
+     capture: true
+     boxcover: true
+     
+picticon: 
+     photoset1: true
+     video1: true
+     thumbnails: true
+     scenethumb: true
