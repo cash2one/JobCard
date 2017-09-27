@@ -1,14 +1,14 @@
-#!/usr/bin/python
+.0#!/opt/local/bin/python2.7
 
 #Import Libraries
 import yaml
 import subprocess
-import sys
 import os
+import sys
 import argparse
 import shlex
 import datetime
-import shutil
+
 
 
 # Parse the Command Line
@@ -133,7 +133,7 @@ def makeDirectories(name):
             if args.verbose:
                 logger("Creating Directory: " + str(name))
         else:    
-            dir = os.makedirs(str(name),0777)
+            os.makedirs(str(name),0777)
         status = True
     return status
 
@@ -184,6 +184,9 @@ def CAPTURE(component,jobflag):
     destination = Assembly + "/" + Project + "/" + edgeid + "/" + jobcard['capture']['out_dir']
     videoName = os.path.basename(video)
     pathName = os.path.dirname( Source + "/" + video)
+    thumb = jobcard['sub-component']['thumbnails']
+    t_size = jobcard['thumbnails']['size']
+    t_dir = jobcard['thumbnails']['out_dir']
         
     if args.verbose:
         logger("Make Stills for Video: " + videoName)
@@ -199,8 +202,9 @@ def CAPTURE(component,jobflag):
    
     CMD = FFMPEG + " -c:v h264_vda -i '"  + video + "' -thread_type slice -hide_banner -vf fps=1/" + str(seconds) + "  -c:v mjpeg '" + destination + "/" + edgeid + "_" + SizeOfVideo + "_capture_%03d.jpg'" 
     
-    if args.verbose:   
-       logger("StillCommand:\n  " + CMD)
+    if args.verbose:
+        logger("Making stills from video:" + video + " Size:" + str(SizeOfVideo) + " Duration:" + str(Duration) + " seconds @ bitrate:" + str(Bitrate))
+        logger("StillCommand:\n  " + CMD)
     
     if args.noexec:
         logger("No Execute")
@@ -221,12 +225,23 @@ def CAPTURE(component,jobflag):
     #
     #
     # Create Thumbnails for all of the images
-    CMD = MOGRIFY + " -path '" + destination + "/thumbs' -thumbnail '10%' '" + destination + "/*.jpg'"
-    if args.verbose:
-        logger("Creating Thumbnails in " + destination)
-        logger(" ThumbCMD\n  " + CMD)
-    if not args.noexec:     
-        result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)      
+    if thumb == 'produce':
+        # Create Thumbnails for all of the images
+        CMD = MOGRIFY + " -path '" + destination + "/" + str(t_dir) +"' -thumbnail '" + str(t_size) + "' '" + destination + "/*.jpg'"
+        
+        if args.verbose:
+            logger("Creating Thumbnails in " + destination)
+            logger(" ThumbCMD\n  " + CMD)
+        if not args.noexec:     
+            result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        else:
+        # No Exec
+            result = subprocess.Popen("ls", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        
+    else:
+        logger("Ignore thumbnail creation")
+        result = subprocess.Popen("ls", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        
     return(result)
 
 def makeBoxCover(component,jobflag):
@@ -263,8 +278,6 @@ def makeBoxCover(component,jobflag):
     if jobflag == 'exists':
         # Copy the file
         
-        #Get end filename:
-        filename = os.path.basename(image)
         
         
         CMD = "convert '" + Source + "/" + image + "' -resize " + str(config['boxcover']['box_width']) + "x" + str(config['boxcover']['box_height']) + " -set filename:mysize '%wx%h' " + edgeid + "_cover'_%[filename:mysize].jpg'"
@@ -409,6 +422,10 @@ def makePhotoSet(component,jobflag):
         result = subprocess.Popen("echo", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)  
         return(result)
     else:
+        thumb = jobcard['sub-component']['thumbnails']
+        t_size = jobcard['thumbnails']['size']
+        t_dir = jobcard['thumbnails']['out_dir']
+        
         PhotoMatrix = {}
     # If Produce
         if jobflag == 'produce':
@@ -453,12 +470,12 @@ def makePhotoSet(component,jobflag):
                     return(result) 
                 
             makeDirectories(destination)
-            makeDirectories(destination + "/thumbs")
+            makeDirectories(destination + "/" + t_dir)
             count = 0
             for filename in os.listdir(sourcedir):
                 if filename.endswith(".tif") or filename.endswith(".jpg"): 
                     if args.verbose:
-                        logger("copying file " + filename + " to " + destination )
+                        logger("  " + str(count).zfill(3) +" copying file " + filename + " to " + destination )
                     CMD = CONVERT + " '" + sourcedir + "/" + filename + "' -resize " + str(jobcard[component]['set_width']) + "x" + str(jobcard[component]['set_height']) + "  '" + destination + "/" + edgeid + "_" +str(jobcard[component]['set_width']) + "x" + str(jobcard[component]['set_height']) +"_" + str(count).zfill(3) + ".jpg' " 
                     if args.verbose:
                         logger("makePhotoSetCMD\n  " + CMD)
@@ -469,27 +486,39 @@ def makePhotoSet(component,jobflag):
                 else:
                     if args.verbose:
                         logger("ignoring file " + filename )
-    # Wait for the last convert to complete. 
-    for photo in range(0,count):
-        logger("  Checking on Photo # " + str(photo) + " to complete")
-        stdoutdata, stderrdata = PhotoMatrix[photo].communicate()
-        PartStatus = PhotoMatrix[photo].returncode 
+    if not args.noexec:
+        # Wait for the last convert to complete. 
+        for photo in range(0,count):
+            if args.verbose:
+                logger("  Checking on Photo # " + str(photo) + " to complete")
+            stdoutdata, stderrdata = PhotoMatrix[photo].communicate()
+            PartStatus = PhotoMatrix[photo].returncode 
+            if args.verbose:
+                logger(" Photo conversion returned Status: " + PartStatus)
     # Might have to verify all completed 
     #
     #
-    # Create Thumbnails for all of the images
-    CMD = MOGRIFY + " -path '" + destination + "/thumbs' -thumbnail '10%' '" + destination + "/*.jpg'"
-    if args.verbose:
-        logger("Creating Thumbnails in " + destination)
-        logger(" ThumbCMD\n  " + CMD)
-    if not args.noexec:     
-        result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    
-       
+    if thumb == 'produce':
+        # Create Thumbnails for all of the images
+        CMD = MOGRIFY + " -path '" + destination + "/" + str(t_dir) +"' -thumbnail '" + str(t_size) + "' '" + destination + "/*.jpg'"
+        
+        if args.verbose:
+            logger("Creating Thumbnails in " + destination)
+            logger(" ThumbCMD\n  " + CMD)
+        if not args.noexec:     
+            result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        else:
+        # No Exec
+            result = subprocess.Popen("ls", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        
+    else:
+        logger("Ignore thumbnail creation")
+        result = subprocess.Popen("ls", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+           
     return(result)
 
 def PREVIEW(component, jobflag):
-    video =  Source + "/" +jobcard['video']['source_video'] 
     destination = Assembly + "/" + jobcard['clipinfo']['projectno']  + "/" + edgeid + "/" + jobcard[component]['out_dir']
     width = jobcard[component]['size_width']
     height = jobcard[component]['size_height']
@@ -533,6 +562,7 @@ def PREVIEW(component, jobflag):
    
     if args.verbose: 
         logger("  PreviewCommand:\n  " + CMD)
+        logger("  Offset X="  + str(x) + " Offset Y=" + str(y))
     if args.noexec:
         results = subprocess.Popen("echo", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     else:    
@@ -560,7 +590,7 @@ def makeComplianceTrailer(outdir,kbps,width,height):
     compliance_file.write("\n\n\n")
  
     for line in compliance_template:
-         compliance_file.write(line)
+        compliance_file.write(line)
     
     compliance_file.close()
     compliance_template.close()
@@ -642,7 +672,7 @@ def makeVideo(component,jobflag):
     if args.verbose:
         logger("  Verify that preview and compliance have finished")
      
-     # Verify Preview
+    # Verify Preview
     stdoutdata, stderrdata = PartMatrix['preview'].communicate()
     PartStatus = PartMatrix['preview'].returncode   
     
@@ -712,7 +742,7 @@ def writeMP4Metadata(component,jobflag):
     release = quote + jobcard['clipinfo']['releasedate'] + quote
     comment = quote + jobcard['clipinfo']['keywords'] + quote
     genre = quote + "Adult"  + quote
-    copyright = quote + "This production is produced 8/9/17 and copyright 2017 Edge Interactive Publishing Inc. All rights reserved. No right is granted for reproduction of these images other than for the personal use by the purchaser of this disk." + quote
+    copyright_t = quote + "This production is produced 8/9/17 and copyright 2017 Edge Interactive Publishing Inc. All rights reserved. No right is granted for reproduction of these images other than for the personal use by the purchaser of this disk." + quote
     description = quote +  jobcard['clipinfo']['description'] + quote
     synopsis = quote + jobcard['clipinfo']['description'] + quote
     show = quote + jobcard['clipinfo']['shorttitle'] + quote
@@ -724,7 +754,7 @@ def writeMP4Metadata(component,jobflag):
     
     logger("Writing MP4 metadata")
     CMD = FFMPEG + " -i '" + destination + "/" + video + "' -metadata title=" + title + " -metadata author=" + author + " -metadata composer=" + composer + " -metadata album=" + album + " -metadata date=" + proddate + " -metadata purchase_date=" + release
-    CMD = CMD + " -metadata track=" + track + " -metadata artist=" + actors +" -metadata comment=" + comment + " -metadata genre=" + genre + " -metadata copyright=" + copyright + " -metadata description=" + description + " -metadata synopsis=" + synopsis
+    CMD = CMD + " -metadata track=" + track + " -metadata artist=" + actors +" -metadata comment=" + comment + " -metadata genre=" + genre + " -metadata copyright=" + copyright_t + " -metadata description=" + description + " -metadata synopsis=" + synopsis
     CMD = CMD + " -metadata show=" + show + " -metadata episode_id=" + episode_id + " -metadata network=" + network + " -metadata media_type=9 -y -c:v h264_videotoolbox '" + destination + "/" + outvideo + "'"
     
     if args.verbose: 
@@ -745,9 +775,9 @@ for product in jobcard['product']:
 logger("Start Processing Job Card for:" + edgeid)
 
 products = ['capture','box_cover','videoinfo','promoimg','photoset1','video1','video2' ]
-product = ['photoset1']
+product = ['capture']
 
-for component in products:  
+for component in product:  
     JobFlag = jobcard['component'][component]
     JobFlag = JobFlag.lower()
     component = component.lower()
