@@ -56,7 +56,7 @@ video2:
 
   
 video:  
-  source_video: C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4
+  src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4
  
 capture:
   frame_every: 30 
@@ -72,7 +72,7 @@ box_cover:
 
   
 promoimg:     
-     dir: C1E253-C1E258/C1E255_COMBAT_ZONE-682/Promos/GMCZ0022_Samples/
+     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/Promos/GMCZ0022_Samples/
      promo_width: 2048
      promo_height: 1024
      timed: true
@@ -80,7 +80,7 @@ promoimg:
      
      
 photoset1: 
-     dir: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_3872P_JPG/
+     src: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_3872P_JPG/
      description:  
      set_width: 3724
      set_height: 5616
@@ -88,7 +88,7 @@ photoset1:
      out_dir: photoset/primary
      
 photoset2:     
-     dir: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_1920CP_CAP_JPG/
+     src: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_1920CP_CAP_JPG/
      description: 
      set_width: 1920
      set_height: 1080
@@ -107,19 +107,21 @@ thumbnails:
   out_dir: thumbs
     
 scenethumb:
-  img:
-  size_width:
-  size_height:
-  out_dir:
+  src: path to source image
+  size_width: 3724
+  size_height: 5616
+  out_dir: thumbs
         
 description:
-  out_dir:
+  src: description.txt
+  out_dir: promo
     
 clips4sale: 
   account: edgeinter11
   boxcover: true
   promoimg: true
   video1: true
+  out_dir: ftp
   
 ebay: 
      photoset1: true
@@ -129,15 +131,30 @@ ebay:
      promoimg: true
      boxcover: true
      description: true
+     out_dir: tofinished/ebay
      
 dvd: 
      photoset1: true
      video1: true
      capture: true
      boxcover: true
+     out_dir: tofinished/dvd
      
 picticon: 
      photoset1: true
      video1: true
      thumbnails: true
      scenethumb: true
+     outdir: tofinished/web
+     
+aebn:
+  out_dir: tofinished/aebn
+  video1: true
+  
+hotmovies:
+  out_dir: tofinished/hotmovies
+  video1: true
+  
+book:
+  out_dir: tofinished/book
+  book: true         

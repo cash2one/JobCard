@@ -179,7 +179,7 @@ def getVideoSize(video):
 
 def CAPTURE(component,jobflag):
     # Define Parameters
-    video =  Source + "/" +jobcard['video']['source_video']
+    video =  Source + "/" +jobcard['video']['src']
     seconds = jobcard['capture']['frame_every']
     destination = Assembly + "/" + Project + "/" + edgeid + "/" + jobcard['capture']['out_dir']
     videoName = os.path.basename(video)
@@ -335,7 +335,7 @@ def makeBoxCover(component,jobflag):
     return(result) 
 
 def makeVideoInfo(component,jobflag):
-    video =  Source + "/" +jobcard['video']['source_video']
+    video =  Source + "/" +jobcard['video']['src']
     destination = Assembly + "/" + Project + "/" + edgeid + "/" + jobcard['videoinfo']['out_dir']
     videoName = os.path.basename(video)
     pathName = os.path.dirname( Source + "/" + video)
@@ -391,7 +391,7 @@ def makePromoImg(component,jobflag):
         else:
            # If exsists
             logger("Exists")
-            sourcedir = Finish + "/"  + jobcard['promoimg']['dir']
+            sourcedir = Finish + "/"  + jobcard['promoimg']['src']
             if args.verbose:
                 logger("makePromoIMG: Exists")
             if not os.path.isdir(sourcedir):
@@ -459,7 +459,7 @@ def makePhotoSet(component,jobflag):
         else:
             # Exists
             destination = Assembly + "/" + Project + "/" + edgeid + "/" + jobcard[component]['out_dir']
-            sourcedir = Finish + "/" + jobcard[component]['dir']
+            sourcedir = Finish + "/" + jobcard[component]['src']
             if args.verbose:
                 logger("makePhotoSet: Exists")
             if not os.path.isdir(sourcedir):
@@ -494,7 +494,7 @@ def makePhotoSet(component,jobflag):
             stdoutdata, stderrdata = PhotoMatrix[photo].communicate()
             PartStatus = PhotoMatrix[photo].returncode 
             if args.verbose:
-                logger(" Photo conversion returned Status: " + PartStatus)
+                logger(" Photo conversion returned Status: " + str(PartStatus))
     # Might have to verify all completed 
     #
     #
@@ -644,7 +644,7 @@ def makeConcatVideo(component,jobflag):
 
 def makeVideo(component,jobflag):
     # component is component1 or component2
-    video =  Source + "/" +jobcard['video']['source_video'] 
+    video =  Source + "/" +jobcard['video']['src'] 
     destination = Assembly + "/" + jobcard['clipinfo']['projectno']  + "/" + edgeid + "/" + jobcard[component]['out_dir']
     width = jobcard[component]['size_width']
     height = jobcard[component]['size_height']
@@ -777,7 +777,7 @@ logger("Start Processing Job Card for:" + edgeid)
 products = ['capture','box_cover','videoinfo','promoimg','photoset1','video1','video2' ]
 product = ['capture']
 
-for component in product:  
+for component in products:  
     JobFlag = jobcard['component'][component]
     JobFlag = JobFlag.lower()
     component = component.lower()
