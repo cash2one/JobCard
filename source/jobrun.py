@@ -755,7 +755,7 @@ def writeMP4Metadata(component,jobflag):
     logger("Writing MP4 metadata")
     CMD = FFMPEG + " -i '" + destination + "/" + video + "' -metadata title=" + title + " -metadata author=" + author + " -metadata composer=" + composer + " -metadata album=" + album + " -metadata date=" + proddate + " -metadata purchase_date=" + release
     CMD = CMD + " -metadata track=" + track + " -metadata artist=" + actors +" -metadata comment=" + comment + " -metadata genre=" + genre + " -metadata copyright=" + copyright_t + " -metadata description=" + description + " -metadata synopsis=" + synopsis
-    CMD = CMD + " -metadata show=" + show + " -metadata episode_id=" + episode_id + " -metadata network=" + network + " -metadata media_type=9 -y -c:v h264_videotoolbox '" + destination + "/" + outvideo + "'"
+    CMD = CMD + " -metadata show=" + show + " -metadata episode_id=" + episode_id + " -metadata network=" + network + " -metadata media_type=9 -y -c:v h264_videotoolbox -b:v " + str(kbps) +"k '" + destination + "/" + outvideo + "'"
     
     if args.verbose: 
         logger("  Writing Meta Data CMD:\n  " +  CMD )
@@ -775,7 +775,7 @@ for product in jobcard['product']:
 logger("Start Processing Job Card for:" + edgeid)
 
 products = ['capture','box_cover','videoinfo','promoimg','photoset1','video1','video2' ]
-product = ['capture']
+product = ['video1']
 
 for component in products:  
     JobFlag = jobcard['component'][component]
@@ -789,6 +789,10 @@ for component in products:
         logger("Processing Component:" + str(component))
     method = eval(action)
     JobMatrix[component] = method(component, JobFlag)
+
+# Now Build Products
+
+
 
 
 print "==============================================="
