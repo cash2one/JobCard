@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dvdauthor>
+  <vmgm>
+    <!--First Play-->
+    <fpc>jump menu entry title;</fpc>
+    <menus>
+      <video format="ntsc" aspect="4:3" resolution="720xfull"/>
+      <!--copy-n-paste?-->
+      <subpicture lang="EN"/>
+      <pgc entry="title">
+        <pre>g1 = 1; g2 = 0; jump titleset 1 menu entry root;</pre>
+      </pgc>
+    </menus>
+  </vmgm>
+  <titleset>
+    <menus>
+      <video format="ntsc" aspect="16:9" widescreen="nopanscan"/>
+      <subpicture>
+        <stream id="0" mode="widescreen"/>
+        <stream id="1" mode="letterbox"/>
+      </subpicture>
+      <pgc entry="root">
+        <pre>if(g1 != 1) {jump menu 1;}</pre>
+        <vob file="1.Menu 1/MenuSub.mpg"/>
+      </pgc>
+    </menus>
+    <titles>
+      <video format="ntsc" aspect="16:9" widescreen="nopanscan"/>
+      <pgc>
+        <vob file="/home/colin/.cache/bombono-dvd-video/1.GMCZ0022_1920x1080x6000_final.mp4.mpg"/>
+        <post>g2 = 0; call menu entry root;</post>
+      </pgc>
+    </titles>
+  </titleset>
+</dvdauthor>

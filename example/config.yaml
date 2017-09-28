@@ -31,7 +31,7 @@ functions:
 
 compliance:
   licensedefault: Edge Interactive  
-  template: /Users/colin/Desktop/Projects/PythonCodeTest/compliance.txt
+  template: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/example/compliance_template.txt
   preview_color: blue
   preview_font_color: yellow
   preview_font_size: 48
