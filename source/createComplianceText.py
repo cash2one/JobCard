@@ -27,9 +27,10 @@ def word_wrap(string, width=80, ind1=0, ind2=0, prefix=''):
     return newstring + string
 
 
-def createDescription(destination, component, jobcard):
+def produce(source, prefix, component, jobcard, config, noexec):
     from string import Template
     import os
+    import subprocess
 
     
     COMPLIANCE = ''
@@ -37,8 +38,8 @@ def createDescription(destination, component, jobcard):
     ERROR = ''
     NEWLINE = "\n"
     
-    print jobcard
-
+    MESSAGE = MESSAGE + "Create " + component + " from Template" + NEWLINE
+    
     template = jobcard[component]['src']
 
     if os.path.isfile(template):
@@ -50,10 +51,10 @@ def createDescription(destination, component, jobcard):
     
     
     
-    out_dir = jobcard[component]['out_dir']
     name = jobcard['clipinfo']['edgeid'] + jobcard[component]['suffix']
     projectno = jobcard['clipinfo']['projectno']
     edgeid = jobcard['clipinfo']['edgeid']
+    prime_dubya = jobcard['clipinfo']['prime_dubya']
     star = jobcard['clipinfo']['star']
     supporting = jobcard['clipinfo']['supporting']
     shorttitle = jobcard['clipinfo']['shorttitle']
@@ -64,11 +65,16 @@ def createDescription(destination, component, jobcard):
     releasedate = jobcard['clipinfo']['releasedate']
     licensor = jobcard['clipinfo']['licensor']
 
-    if not os.path.isfile(destination + "/" + out_dir):
-        os.makedirs(destination + "/" + out_dir,0777)
+    destination = prefix + "/" + jobcard[component]['out_dir']
+
+    
+
+
+    if not os.path.isdir(destination):
+        os.makedirs(destination,0777)
            
     desc_template = open(template,"r")
-    desc_text = open(destination + "/" + out_dir + "/" + name, "w")
+    desc_text = open(destination + "/" + name, "w")
 
 
     for line in desc_template:
@@ -79,20 +85,33 @@ def createDescription(destination, component, jobcard):
 
     Modified = Template(COMPLIANCE).safe_substitute(STAR=star, EDGEID=edgeid, SUPPORTING=supporting,SHORTTITLE=shorttitle, KEYWORDS=keywords, PRODUCTIONDATE=productiondate, RELEASEDATE=releasedate, LICENSOR=licensor, PROJECTNO=projectno, DESCRIPTION=description, TITLE=title)
     desc_text.write(Modified)
-     
-    return(Modified)  
+    
+    
+    
+    result = subprocess.Popen("echo", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    #==========================================================================
+    # Return a result code for parallel processing (use echo for something that will resolve as true if not needed
+    # Next return logging MESSAGE
+    # Next return Error Messages
+    # Next return any work (or blank string if none)
+    #==========================================================================
+    
+    return(result, MESSAGE, ERROR, Modified)  
 
 
 if __name__ == "__main__":
     import sys
     import yaml
     import os
-    destination = sys.argv[1]
+    prefix = sys.argv[1]
     component = sys.argv[2]
     
     jobfile = sys.argv[3]
     job = open(jobfile,'r')
     jobcard = yaml.load(job)
+    
+    destination = prefix + "/" + jobcard[component]['out_dir']
+    
     #print jobcard
     print "Destination:" + str(destination) 
     print "Component:" + component 
@@ -101,6 +120,6 @@ if __name__ == "__main__":
     if not os.path.isdir(destination):
         os.makedirs(destination,0777)
         
-    createDescription(destination, component , jobcard )
+    produce(destination, component , jobcard )
     
     

@@ -12,6 +12,7 @@ clipinfo:
   licensor: Global Media International License. 
   comment: Combat Zone, acquired 2015 GMI License. Stats trimmed from Iafd 38D-27-38 to 36C-27-37
   2257: PATHDIR
+  prima_dubya: GMCZ_Scenes
 
 product: 
   clips4sale: produce
@@ -35,11 +36,6 @@ component:
   book: produce  
   video1: produce
   video2: produce
-  
-
-sub-component:
-  scene_thumb: ignore
-  thumbnails: produce
   description: produce     
 
 video1:   
@@ -161,6 +157,6 @@ hotmovies:
 book:
   out_dir: tofinished/book
   book: true
-  pic1: PATH
-  pic2: PATH
+  pic1: true
+  pic2: true
   description: true           

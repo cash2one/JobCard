@@ -177,7 +177,7 @@ def getVideoSize(video):
  
     return(sizeofVideo,Duration,BitRate)
 
-def .(component,jobflag):
+def CAPTURE(component,jobflag):
     # Define Parameters
     video =  Source + "/" +jobcard['video']['src']
     seconds = jobcard['capture']['frame_every']
@@ -792,6 +792,11 @@ for component in products:
 
 # Now Build Products
 
+for product in jobcard['product']:
+    print product
+    for component in jobcard['component']:
+        #print component
+        print "     " + component
 
 
 
