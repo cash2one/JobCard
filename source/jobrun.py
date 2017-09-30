@@ -184,9 +184,9 @@ def CAPTURE(component,jobflag):
     destination = Assembly + "/" + Project + "/" + edgeid + "/" + jobcard['capture']['out_dir']
     videoName = os.path.basename(video)
     pathName = os.path.dirname( Source + "/" + video)
-    thumb = jobcard['sub-component']['thumbnails']
     t_size = jobcard['thumbnails']['size']
     t_dir = jobcard['thumbnails']['out_dir']
+    thumb = 'produce'
         
     if args.verbose:
         logger("Make Stills for Video: " + videoName)

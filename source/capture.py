@@ -34,7 +34,14 @@ def produce(source, prefix, component, jobcard, config, noexec):
     pathName = os.path.dirname( source + "/" + video)
     t_size = jobcard['thumbnails']['size']
     thumb_dir = jobcard['thumbnails']['out_dir']
-    destination = prefix + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/" + jobcard[component]['out_dir']
+    
+    
+    # Get video Size 
+    message, error, SizeOfVideo, Duration, Bitrate  = getvideosize.produce(source, prefix, component, jobcard, config, noexec)
+    
+    # We need the size to name the capture directory
+    
+    destination = prefix + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/" + jobcard[component]['out_dir'] + "_" + SizeOfVideo
     
         
     MESSAGE = MESSAGE + "Make Stills for Video: " + videoName + NEWLINE
@@ -45,13 +52,12 @@ def produce(source, prefix, component, jobcard, config, noexec):
         os.makedirs(destination + "/" + thumb_dir,0777)
 
     
-    # Get video Size 
-    message, error, SizeOfVideo, Duration, Bitrate  = getvideosize.produce(source, prefix, component, jobcard, config, noexec)
+    
     
     MESSAGE = MESSAGE + message + NEWLINE
     ERROR = ERROR + error + NEWLINE         
    
-    CMD = FFMPEG + " -c:v h264_vda -i '"  + video + "' -thread_type slice -hide_banner -vf fps=1/" + str(seconds) + "  -c:v mjpeg '" + destination + "/" + edgeid + "_" + SizeOfVideo + "_capture_%03d.jpg'" 
+    CMD = FFMPEG + " -c:v h264_vda -i '"  + video + "' -thread_type slice -hide_banner -vf fps=1/" + str(seconds) + "  -c:v mjpeg '" + destination + "/" + edgeid  + "_capture_%03d.jpg'" 
     
     MESSAGE = MESSAGE + "Making stills from video:" + video + " Size:" + str(SizeOfVideo) + " Duration:" + str(Duration) + " seconds @ bitrate:" + str(Bitrate) + NEWLINE
     MESSAGE = MESSAGE + "StillCommand:\n  " + CMD + NEWLINE

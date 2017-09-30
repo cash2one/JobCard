@@ -12,7 +12,7 @@ clipinfo:
   licensor: Global Media International License. 
   comment: Combat Zone, acquired 2015 GMI License. Stats trimmed from Iafd 38D-27-38 to 36C-27-37
   2257: PATHDIR
-  prima_dubya: GMCZ_Scenes
+  prime_dubya: GMCZ_Scenes
 
 product: 
   clips4sale: produce
@@ -36,7 +36,8 @@ component:
   book: produce  
   video1: produce
   video2: produce
-  description: produce     
+  description: produce  
+  ebay_text: produce   
 
 video1:   
   size_width: 1920
@@ -58,6 +59,7 @@ capture:
   frame_every: 30 
   dir: USE SOURCE VIDEO
   out_dir: photoset/capture
+  module: capture
 
   
 box_cover: 
@@ -82,6 +84,7 @@ photoset1:
      set_height: 5616
      set_timed: True
      out_dir: photoset/primary
+     module: photoset
      
 photoset2:     
      src: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_1920CP_CAP_JPG/
@@ -90,6 +93,7 @@ photoset2:
      set_height: 1080
      set_timed: True
      out_dir: photoset/Secondary
+     module: photoset
 
 videoinfo:
   out_dir: promo      
@@ -108,11 +112,13 @@ description:
   src: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/example/compliance_template.txt
   suffix: _description.txt
   out_dir: /
+  module: description
     
 ebay_text:
   src: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/example/ebay_template.txt
   suffix: _ebay.txt
   out_dir: promo
+  module: description
     
 clips4sale: 
   account: edgeinter11

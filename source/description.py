@@ -65,7 +65,7 @@ def produce(source, prefix, component, jobcard, config, noexec):
     releasedate = jobcard['clipinfo']['releasedate']
     licensor = jobcard['clipinfo']['licensor']
 
-    destination = prefix + "/" + jobcard[component]['out_dir']
+    destination = prefix + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/" + jobcard[component]['out_dir']
 
     
 
