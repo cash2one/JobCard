@@ -1,4 +1,4 @@
-.0#!/opt/local/bin/python2.7
+#!/opt/local/bin/python2.7
 
 #Import Libraries
 import yaml
@@ -177,7 +177,7 @@ def getVideoSize(video):
  
     return(sizeofVideo,Duration,BitRate)
 
-def CAPTURE(component,jobflag):
+def .(component,jobflag):
     # Define Parameters
     video =  Source + "/" +jobcard['video']['src']
     seconds = jobcard['capture']['frame_every']

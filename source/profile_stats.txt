@@ -1,0 +1,174 @@
+Fri Sep 29 14:46:59 2017    source.processcard_profile.txt
+
+         6221 function calls (6126 primitive calls) in 0.006 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.006    0.006 <string>:1(<module>)
+        1    0.000    0.000    0.006    0.006 processcard.py:45(main)
+        1    0.000    0.000    0.005    0.005 argparse.py:1700(parse_args)
+        1    0.000    0.000    0.005    0.005 argparse.py:1707(parse_known_args)
+        1    0.000    0.000    0.005    0.005 argparse.py:1742(_parse_known_args)
+        1    0.000    0.000    0.004    0.004 argparse.py:1810(consume_optional)
+        1    0.000    0.000    0.004    0.004 argparse.py:1789(take_action)
+        1    0.000    0.000    0.004    0.004 argparse.py:995(__call__)
+        1    0.000    0.000    0.004    0.004 argparse.py:2337(print_help)
+        1    0.000    0.000    0.004    0.004 argparse.py:2293(format_help)
+        1    0.000    0.000    0.004    0.004 argparse.py:280(format_help)
+      5/1    0.000    0.000    0.004    0.004 argparse.py:205(format_help)
+       28    0.000    0.000    0.003    0.000 argparse.py:487(_format_action)
+       28    0.000    0.000    0.002    0.000 argparse.py:616(_split_lines)
+       28    0.000    0.000    0.002    0.000 textwrap.py:343(wrap)
+       84    0.000    0.000    0.002    0.000 re.py:230(_compile)
+       10    0.000    0.000    0.002    0.000 sre_compile.py:567(compile)
+       75    0.000    0.000    0.001    0.000 re.py:192(compile)
+       28    0.000    0.000    0.001    0.000 textwrap.py:316(wrap)
+       10    0.000    0.000    0.001    0.000 sre_parse.py:725(parse)
+       28    0.000    0.000    0.001    0.000 textwrap.py:115(__init__)
+    19/10    0.000    0.000    0.001    0.000 sre_parse.py:336(_parse_sub)
+    22/11    0.000    0.000    0.001    0.000 sre_parse.py:414(_parse)
+        2    0.000    0.000    0.001    0.000 argparse.py:292(_format_usage)
+       10    0.000    0.000    0.001    0.000 sre_compile.py:552(_code)
+        2    0.000    0.000    0.001    0.000 argparse.py:384(_format_actions_usage)
+        1    0.000    0.000    0.001    0.001 argparse.py:1556(__init__)
+        8    0.000    0.000    0.001    0.000 re.py:148(sub)
+       28    0.000    0.000    0.001    0.000 textwrap.py:243(_wrap_chunks)
+    37/10    0.000    0.000    0.001    0.000 sre_compile.py:64(_compile)
+        7    0.000    0.000    0.001    0.000 argparse.py:1263(add_argument)
+       28    0.000    0.000    0.000    0.000 textwrap.py:163(_split)
+       28    0.000    0.000    0.000    0.000 argparse.py:592(_expand_help)
+        3    0.000    0.000    0.000    0.000 argparse.py:1182(__init__)
+       28    0.000    0.000    0.000    0.000 {method 'split' of '_sre.SRE_Pattern' objects}
+        8    0.000    0.000    0.000    0.000 argparse.py:2326(_get_formatter)
+      122    0.000    0.000    0.000    0.000 sre_parse.py:213(get)
+        8    0.000    0.000    0.000    0.000 argparse.py:154(__init__)
+       10    0.000    0.000    0.000    0.000 sre_compile.py:433(_compile_info)
+       18    0.000    0.000    0.000    0.000 sre_compile.py:228(_compile_charset)
+       37    0.000    0.000    0.000    0.000 {method 'sub' of '_sre.SRE_Pattern' objects}
+      158    0.000    0.000    0.000    0.000 sre_parse.py:194(__next)
+      368    0.000    0.000    0.000    0.000 {hasattr}
+        5    0.000    0.000    0.000    0.000 gettext.py:641(gettext)
+    47/24    0.000    0.000    0.000    0.000 sre_parse.py:152(getwidth)
+       18    0.000    0.000    0.000    0.000 sre_compile.py:256(_optimize_charset)
+        5    0.000    0.000    0.000    0.000 gettext.py:603(dgettext)
+       35    0.000    0.000    0.000    0.000 argparse.py:534(_format_action_invocation)
+        5    0.000    0.000    0.000    0.000 gettext.py:537(translation)
+      134    0.000    0.000    0.000    0.000 sre_parse.py:142(__getitem__)
+        5    0.000    0.000    0.000    0.000 gettext.py:497(find)
+     1086    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+1144/1123    0.000    0.000    0.000    0.000 {len}
+        1    0.000    0.000    0.000    0.000 argparse.py:2020(_match_argument)
+       23    0.000    0.000    0.000    0.000 argparse.py:573(_format_args)
+        1    0.000    0.000    0.000    0.000 re.py:138(match)
+        2    0.000    0.000    0.000    0.000 argparse.py:273(add_arguments)
+        7    0.000    0.000    0.000    0.000 argparse.py:255(add_argument)
+       38    0.000    0.000    0.000    0.000 argparse.py:287(_join_parts)
+       28    0.000    0.000    0.000    0.000 textwrap.py:146(_munge_whitespace)
+       16    0.000    0.000    0.000    0.000 sre_parse.py:237(_class_escape)
+      105    0.000    0.000    0.000    0.000 sre_parse.py:207(match)
+        6    0.000    0.000    0.000    0.000 re.py:284(_subx)
+        5    0.000    0.000    0.000    0.000 gettext.py:205(_expand_lang)
+      404    0.000    0.000    0.000    0.000 {method 'pop' of 'list' objects}
+       35    0.000    0.000    0.000    0.000 argparse.py:605(_iter_indented_subactions)
+        2    0.000    0.000    0.000    0.000 argparse.py:1310(add_argument_group)
+        7    0.000    0.000    0.000    0.000 argparse.py:1680(_add_action)
+        6    0.000    0.000    0.000    0.000 re.py:264(_compile_repl)
+        2    0.000    0.000    0.000    0.000 argparse.py:1486(__init__)
+      253    0.000    0.000    0.000    0.000 {isinstance}
+        7    0.000    0.000    0.000    0.000 argparse.py:1508(_add_action)
+        6    0.000    0.000    0.000    0.000 argparse.py:1400(_get_optional_kwargs)
+        3    0.000    0.000    0.000    0.000 sre_parse.py:759(parse_template)
+       13    0.000    0.000    0.000    0.000 sre_parse.py:190(__init__)
+       13    0.000    0.000    0.000    0.000 sre_compile.py:428(_simple)
+      120    0.000    0.000    0.000    0.000 {method 'join' of 'str' objects}
+       48    0.000    0.000    0.000    0.000 sre_parse.py:150(append)
+        7    0.000    0.000    0.000    0.000 argparse.py:1320(_add_action)
+       73    0.000    0.000    0.000    0.000 sre_parse.py:138(__len__)
+       34    0.000    0.000    0.000    0.000 argparse.py:1234(register)
+      112    0.000    0.000    0.000    0.000 {min}
+       28    0.000    0.000    0.000    0.000 argparse.py:566(format)
+       37    0.000    0.000    0.000    0.000 sre_parse.py:93(__init__)
+       20    0.000    0.000    0.000    0.000 UserDict.py:91(get)
+        1    0.000    0.000    0.000    0.000 argparse.py:2350(_print_message)
+       15    0.000    0.000    0.000    0.000 sre_parse.py:278(_escape)
+      111    0.000    0.000    0.000    0.000 {method 'strip' of 'str' objects}
+       28    0.000    0.000    0.000    0.000 {filter}
+      119    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+       28    0.000    0.000    0.000    0.000 argparse.py:557(_metavar_formatter)
+        2    0.000    0.000    0.000    0.000 argparse.py:480(_format_text)
+       58    0.000    0.000    0.000    0.000 {max}
+        1    0.000    0.000    0.000    0.000 {method 'write' of 'file' objects}
+        7    0.000    0.000    0.000    0.000 argparse.py:765(__init__)
+       28    0.000    0.000    0.000    0.000 argparse.py:625(_get_help_string)
+        8    0.000    0.000    0.000    0.000 UserDict.py:35(__getitem__)
+        5    0.000    0.000    0.000    0.000 locale.py:365(normalize)
+        7    0.000    0.000    0.000    0.000 argparse.py:1435(_pop_action_class)
+       10    0.000    0.000    0.000    0.000 {_sre.compile}
+       20    0.000    0.000    0.000    0.000 sre_compile.py:546(isstring)
+       46    0.000    0.000    0.000    0.000 {method 'find' of 'bytearray' objects}
+        2    0.000    0.000    0.000    0.000 argparse.py:636(_fill_text)
+       10    0.000    0.000    0.000    0.000 argparse.py:199(__init__)
+       14    0.000    0.000    0.000    0.000 argparse.py:1238(_registry_get)
+       28    0.000    0.000    0.000    0.000 {vars}
+        3    0.000    0.000    0.000    0.000 argparse.py:807(__init__)
+       14    0.000    0.000    0.000    0.000 argparse.py:95(_callable)
+       14    0.000    0.000    0.000    0.000 {method 'upper' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 sre_compile.py:411(_mk_bitmap)
+       34    0.000    0.000    0.000    0.000 {method 'translate' of 'str' objects}
+       28    0.000    0.000    0.000    0.000 {method 'expandtabs' of 'str' objects}
+       10    0.000    0.000    0.000    0.000 sre_parse.py:68(__init__)
+       20    0.000    0.000    0.000    0.000 UserDict.py:103(__contains__)
+        1    0.000    0.000    0.000    0.000 argparse.py:865(__init__)
+       11    0.000    0.000    0.000    0.000 argparse.py:230(_add_item)
+        2    0.000    0.000    0.000    0.000 argparse.py:236(start_section)
+        6    0.000    0.000    0.000    0.000 sre_parse.py:75(opengroup)
+       13    0.000    0.000    0.000    0.000 {method 'match' of '_sre.SRE_Pattern' objects}
+        6    0.000    0.000    0.000    0.000 sre_parse.py:86(closegroup)
+        7    0.000    0.000    0.000    0.000 argparse.py:1448(_check_conflict)
+        6    0.000    0.000    0.000    0.000 argparse.py:192(_dedent)
+        1    0.000    0.000    0.000    0.000 argparse.py:2156(_get_nargs_pattern)
+        1    0.000    0.000    0.000    0.000 argparse.py:962(__init__)
+        1    0.000    0.000    0.000    0.000 argparse.py:842(__init__)
+        3    0.000    0.000    0.000    0.000 argparse.py:1439(_get_handler)
+        1    0.000    0.000    0.000    0.000 argparse.py:2200(_get_values)
+        1    0.000    0.000    0.000    0.000 argparse.py:983(__init__)
+       12    0.000    0.000    0.000    0.000 {range}
+        2    0.000    0.000    0.000    0.000 posixpath.py:112(basename)
+       33    0.000    0.000    0.000    0.000 {method 'reverse' of 'list' objects}
+        2    0.000    0.000    0.000    0.000 argparse.py:242(end_section)
+        1    0.000    0.000    0.000    0.000 argparse.py:1002(__init__)
+        2    0.000    0.000    0.000    0.000 {sorted}
+        4    0.000    0.000    0.000    0.000 argparse.py:246(add_text)
+       15    0.000    0.000    0.000    0.000 {method 'find' of 'str' objects}
+       13    0.000    0.000    0.000    0.000 sre_parse.py:146(__setitem__)
+        1    0.000    0.000    0.000    0.000 argparse.py:250(add_usage)
+        3    0.000    0.000    0.000    0.000 argparse.py:2055(_parse_optional)
+        2    0.000    0.000    0.000    0.000 {method 'splitlines' of 'str' objects}
+       40    0.000    0.000    0.000    0.000 {method 'setdefault' of 'dict' objects}
+        7    0.000    0.000    0.000    0.000 {method 'remove' of 'list' objects}
+        6    0.000    0.000    0.000    0.000 argparse.py:188(_indent)
+        1    0.000    0.000    0.000    0.000 argparse.py:1384(_get_positional_kwargs)
+       30    0.000    0.000    0.000    0.000 {ord}
+       27    0.000    0.000    0.000    0.000 {method 'extend' of 'list' objects}
+        4    0.000    0.000    0.000    0.000 {method 'replace' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 argparse.py:2359(exit)
+        1    0.000    0.000    0.000    0.000 {__import__}
+       13    0.000    0.000    0.000    0.000 {method 'pop' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 {method 'split' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 {method 'rfind' of 'str' objects}
+        5    0.000    0.000    0.000    0.000 {setattr}
+        1    0.000    0.000    0.000    0.000 argparse.py:1160(__init__)
+        1    0.000    0.000    0.000    0.000 argparse.py:1692(_get_positional_actions)
+       10    0.000    0.000    0.000    0.000 {method 'items' of 'dict' objects}
+        4    0.000    0.000    0.000    0.000 sre_parse.py:140(__delitem__)
+        3    0.000    0.000    0.000    0.000 {getattr}
+        1    0.000    0.000    0.000    0.000 {sys.exit}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        2    0.000    0.000    0.000    0.000 {method 'lstrip' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 {iter}
+        1    0.000    0.000    0.000    0.000 {method 'group' of '_sre.SRE_Match' objects}
+        2    0.000    0.000    0.000    0.000 {method 'add' of 'set' objects}
+        1    0.000    0.000    0.000    0.000 sre_parse.py:217(tell)
+
+

@@ -1,5 +1,7 @@
 #!/opt/local/bin/python2.7
 
+# Create a compliance file
+
 
 def word_wrap(string, width=80, ind1=0, ind2=0, prefix=''):
     """ word wrapping function.
@@ -24,34 +26,81 @@ def word_wrap(string, width=80, ind1=0, ind2=0, prefix=''):
 
     return newstring + string
 
-star = 'Donna Bell'
-edgeid = 'GMCZ0022'
-shorttitle = 'Suck Fuck Anal A2M Facial'
-supporting = 'Choky Ice'
-keywords = 'Porn Stars, Hetrosexual, Blowjobs, Finger Fucking, Vaginal Sex, Anal, A2M, Facials, Hose, Uniforms'
-stats = 'Model Stats with crazy formatting I am sure'
-productiondate = 'June 1, 2010'
-releasedate = 'September 26, 2017'
-licensor = 'Global Media International License.'
-primedubya = 'GMCZ_Scenes'
 
+def createDescription(destination, component, jobcard):
+    from string import Template
+    import os
 
-# Create a compliance file
-from string import Template
-
-template = '/Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/example/compliance_template.txt'
-
-compliance_template = open(template,"r")
-
-
-COMPLIANCE = ''
-
-for line in compliance_template:
     
-    formatted_line = word_wrap(line, width=80, ind1=0, ind2=11, prefix='')
-    COMPLIANCE = COMPLIANCE + formatted_line
+    COMPLIANCE = ''
+    MESSAGE = ''
+    ERROR = ''
+    NEWLINE = "\n"
+    
+    print jobcard
+
+    template = jobcard[component]['src']
+
+    if os.path.isfile(template):
+        MESSAGE = MESSAGE + "Template Exists: " + template + NEWLINE
+    else:
+        ERROR = ERROR + "Template Does not Exist: " + template + NEWLINE
+        return(ERROR)
+     
+    
+    
+    
+    out_dir = jobcard[component]['out_dir']
+    name = jobcard['clipinfo']['edgeid'] + jobcard[component]['suffix']
+    projectno = jobcard['clipinfo']['projectno']
+    edgeid = jobcard['clipinfo']['edgeid']
+    star = jobcard['clipinfo']['star']
+    supporting = jobcard['clipinfo']['supporting']
+    shorttitle = jobcard['clipinfo']['shorttitle']
+    title = jobcard['clipinfo']['title']
+    description = jobcard['clipinfo']['description']
+    keywords = jobcard['clipinfo']['keywords']
+    productiondate = jobcard['clipinfo']['productiondate']
+    releasedate = jobcard['clipinfo']['releasedate']
+    licensor = jobcard['clipinfo']['licensor']
+
+    if not os.path.isfile(destination + "/" + out_dir):
+        os.makedirs(destination + "/" + out_dir,0777)
+           
+    desc_template = open(template,"r")
+    desc_text = open(destination + "/" + out_dir + "/" + name, "w")
+
+
+    for line in desc_template:
+        
+        formatted_line = word_wrap(line, width=80, ind1=0, ind2=11, prefix='')
+        COMPLIANCE = COMPLIANCE + formatted_line
     
 
-Modified = Template(COMPLIANCE).safe_substitute(STAR=star, EDGEID=edgeid, SUPPORTING=supporting,SHORTTITLE=shorttitle, KEYWORDS=keywords, STATS=stats, PRODUCTIONDATE=productiondate, RELEASEDATE=releasedate, LICENSOR=licensor, PRIMEDUBYA=primedubya)
+    Modified = Template(COMPLIANCE).safe_substitute(STAR=star, EDGEID=edgeid, SUPPORTING=supporting,SHORTTITLE=shorttitle, KEYWORDS=keywords, PRODUCTIONDATE=productiondate, RELEASEDATE=releasedate, LICENSOR=licensor, PROJECTNO=projectno, DESCRIPTION=description, TITLE=title)
+    desc_text.write(Modified)
+     
+    return(Modified)  
 
-print Modified    
+
+if __name__ == "__main__":
+    import sys
+    import yaml
+    import os
+    destination = sys.argv[1]
+    component = sys.argv[2]
+    
+    jobfile = sys.argv[3]
+    job = open(jobfile,'r')
+    jobcard = yaml.load(job)
+    #print jobcard
+    print "Destination:" + str(destination) 
+    print "Component:" + component 
+    print "Job card file: " + jobfile
+
+    if not os.path.isdir(destination):
+        os.makedirs(destination,0777)
+        
+    createDescription(destination, component , jobcard )
+    
+    

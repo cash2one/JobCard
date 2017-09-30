@@ -95,10 +95,6 @@ photoset2:
      set_timed: True
      out_dir: photoset/Secondary
 
-book:
-  pic1:PATH
-  pic2:PATH  
-
 videoinfo:
   out_dir: promo      
 
@@ -113,7 +109,13 @@ scenethumb:
   out_dir: thumbs
         
 description:
-  src: description.txt
+  src: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/example/compliance_template.txt
+  suffix: _description.txt
+  out_dir: /
+    
+ebay_text:
+  src: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/example/ebay_template.txt
+  suffix: _ebay.txt
   out_dir: promo
     
 clips4sale: 
@@ -131,6 +133,7 @@ ebay:
      promoimg: true
      boxcover: true
      description: true
+     ebay_text: true
      out_dir: tofinished/ebay
      
 dvd: 
@@ -157,4 +160,7 @@ hotmovies:
   
 book:
   out_dir: tofinished/book
-  book: true         
+  book: true
+  pic1: PATH
+  pic2: PATH
+  description: true           
