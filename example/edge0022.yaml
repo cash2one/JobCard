@@ -74,6 +74,7 @@ promoimg:
      set_height: 6000
      timed: true
      out_dir: promo/images
+     module: photoset
      
      
 photoset1: 
@@ -94,7 +95,8 @@ photoset2:
      module: photoset
 
 videoinfo:
-  out_dir: promo      
+  out_dir: promo 
+  module: videoinfo     
 
 thumbnails:
   size: 10%

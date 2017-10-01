@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 
-def produce(source, prefix, component, jobcard, config, noexec):
+def produce(source, output, component, jobcard, config, noexec):
 
     import shlex
     import os
@@ -25,32 +25,12 @@ def produce(source, prefix, component, jobcard, config, noexec):
     MOGRIFY=config['locations']['mogrify']
     FONT=config['boxcover']['font']
     
-    MESSAGE = ''
-    ERROR = ''
-    NEWLINE = '\n'
+   
+    Error = False
     
     logger.info("Produce - Starting" )
-    
-    #Validate global short cuts exists
-    if not os.path.isfile(CURL):
-        print "Curl is missing:" + str(CURL)
-        exit(3)
-    if not os.path.isfile(CURL):
-        print "Convert is missing:" + str(CONVERT)
-        exit(3)
-    if not os.path.isfile(FFMPEG):
-        print "ffmpeg is missing:" + str(FFMPEG)
-        exit(3) 
-    if not os.path.isfile(FFPROBE):
-        print "ffprobe is missing:" + str(FFPROBE)
-        exit(3)
-    if not os.path.isfile(MOGRIFY):
-        print "Font is missing:" + str(FONT)
-        exit(3)  
-    if not os.path.isfile(FONT):
-        print "Font is missing:" + str(FONT)
-        exit(3)       
-    
+ 
+   
     video =  source + "/" + jobcard['video']['src']
 
     
@@ -61,9 +41,9 @@ def produce(source, prefix, component, jobcard, config, noexec):
     videoName = os.path.basename(video)
     pathName = os.path.dirname( source + "/" + video)
     
-    MESSAGE = MESSAGE + "Get the Video Size Information for Video: " + videoName + NEWLINE
-    MESSAGE = MESSAGE + "Source Dir:" + pathName + NEWLINE
-    MESSAGE = MESSAGE + "getVideoSizeCMD:\n  " + CMD  + NEWLINE
+    logger.info("Get the Video Size Information for Video: " + videoName )
+    logger.info("Source Dir:" + pathName )
+    logger.info("getVideoSizeCMD:\n  " )
     
 
     pCMD = shlex.split(CMD)
@@ -94,10 +74,15 @@ def produce(source, prefix, component, jobcard, config, noexec):
         sizeofVideo =  str(Width) + "x" + str(Height)
         myduration = str(datetime.timedelta(seconds=int(float(Duration))))
         mybitrate = str(int(BitRate)/1000)
+        
+         
+        
           
         
-    MESSAGE = MESSAGE + "Video Source: Size: " + sizeofVideo + " Duration:" + myduration + " BitRate:" + mybitrate + " kbps" 
+    logger.info("Video Source: Size: " + sizeofVideo + " Duration:" + myduration + " BitRate:" + mybitrate + " kbps" )
+    
+    
  
-    return(success, sizeofVideo, Duration, BitRate)
+    return(Error, sizeofVideo, Duration, BitRate)
 
 
