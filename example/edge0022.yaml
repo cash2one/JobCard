@@ -25,7 +25,7 @@ product:
   book: ignore
 
 component:      
-  box_cover: exists
+  box_cover: produce
   photoset1: exists
   photoset2: ignore
   photoset3: ignore
@@ -61,11 +61,12 @@ capture:
   module: capture
 
   
-box_cover: 
-  src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/BoxCovers/GMCZ0022_cover_3724x5296.jpg
+box_cover:
+  src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/Boxcovers/GMCZ0022_DONNA_BELL__CHOKY_ICE_22.jpg 
+  alt_src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/BoxCovers/GMCZ0022_cover_3724x5296.jpg
   alignment: right
   out_dir: promo
-  alt_cover: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_3872P_JPG/GMCZ0022_DONNA_BELL__CHOKY_ICE_14.JPG
+  module: boxcover
 
   
 promoimg:     
