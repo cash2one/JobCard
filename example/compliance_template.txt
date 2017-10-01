@@ -1,4 +1,3 @@
-EBAY TEMPLATE
 Display_Title: $STAR & $SUPPORTING $SHORTTITLE Collector Scene $EDGEID
 
 Name(s): $STAR & $SUPPORTING

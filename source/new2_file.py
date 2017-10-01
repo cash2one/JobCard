@@ -1,6 +1,31 @@
+'''
+Created on Sep 30, 2017
+
+@author: colin
+'''
 import yaml
 import importlib
 import os
+import sys
+
+# Import Local Modules
+import validate
+
+
+#===============================================================================
+# Setup test Logging
+#===============================================================================
+import logging
+import logging.config
+
+logger = logging.getLogger(__name__)
+
+
+
+logging.basicConfig(format='%(asctime)s [%(levelname)s] %(name)s: %(message)s',disable_existing_loggers=False, level=logging.INFO)
+
+
+
 
 component = 'promoimg'
 prefix = '/Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/Assembly/'
@@ -17,22 +42,14 @@ jobflag = 'exists'
 #destination = prefix + jobcard['clipinfo']['projectno'] + "/" + jobcard['clipinfo']['prime_dubya'] + "/" + jobcard['clipinfo']['edgeid']
 #if not os.path.isdir(destination):
 #        os.makedirs(destination,0777)
+logger.info(sys.argv[0] + "[Starting]")
+logger.info('Starting Job Processing for ' + jobcard['clipinfo']['edgeid'])
 
 
-#print createComplianceText.createDescription(destination,component, jobcard)
 
-myModule = importlib.import_module('photoset')
+if not validate.produce(source, prefix, component, jobcard, config, noexec):
+    logger.info("JobCard is valid")
+else:
+    logger.error("Fix JobCard issues; then rerun")    
 
-if jobflag == 'produce':
-    result, message, error, work = myModule.produce(source, prefix, component, jobcard, config, noexec)
-elif jobflag == 'exists':
-    result, message, error, work = myModule.exists(finish, prefix, component, jobcard, config, noexec)
-
-
-#message, error, sizeofVideo,Duration,BitRate = myModule.produce(source, prefix, component, jobcard, config, noexec)
-
-
-print "Result:" + str(result)
-print "Message:\n" + message
-print "Error:\n" + error
-print "Work:\n"+ work
+logger.info('[end program]')

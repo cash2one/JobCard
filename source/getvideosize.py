@@ -5,12 +5,13 @@ Created on Sep 29, 2017
 '''
 # Useful functions too small for their own module
 
-
-
+import logging
+logger = logging.getLogger(__name__)
 
 
 
 def produce(source, prefix, component, jobcard, config, noexec):
+
     import shlex
     import os
     from string import Template
@@ -28,7 +29,7 @@ def produce(source, prefix, component, jobcard, config, noexec):
     ERROR = ''
     NEWLINE = '\n'
     
-    
+    logger.info("Produce - Starting" )
     
     #Validate global short cuts exists
     if not os.path.isfile(CURL):
@@ -97,6 +98,6 @@ def produce(source, prefix, component, jobcard, config, noexec):
         
     MESSAGE = MESSAGE + "Video Source: Size: " + sizeofVideo + " Duration:" + myduration + " BitRate:" + mybitrate + " kbps" 
  
-    return(MESSAGE, ERROR, sizeofVideo,Duration,BitRate)
+    return(success, sizeofVideo, Duration, BitRate)
 
 

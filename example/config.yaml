@@ -2,7 +2,7 @@ locations:
   convert: /opt/local/bin/convert
   ffmpeg: /opt/local/bin/ffmpeg
   curl: /opt/local/bin/curl
-  flickrocket: /path/to/uploader
+  flickrocket: /bin/echo
   ffprobe: /opt/local/bin/ffprobe
   mogrify: /opt/local/bin/mogrify
   
@@ -12,8 +12,8 @@ default:
   finish: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/Finished
   scratch: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/Scratch
   source: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/EdgeSource01
-  deliveries: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/Deliveries
-  joblog: joblog
+  deliveries: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/
+
 
 functions:
   capture: CAPTURE

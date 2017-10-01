@@ -1,7 +1,38 @@
-#!/opt/local/bin/python2.7
+'''
+Created on Sep 30, 2017
 
-# Create a compliance file
+@author: colin
+'''
 
+#===============================================================================
+# Import 
+#===============================================================================
+
+import os
+from string import Template
+import logging
+logger = logging.getLogger(__name__)
+
+#===============================================================================
+# Setup Commnands for Produce and Exists
+#===============================================================================
+
+CMD_PRODUCE = ''
+
+CMD_EXISTS = ''
+
+#===============================================================================
+# Module Global Variables
+#===============================================================================
+
+MESSAGE = ''
+ERROR = ''
+NEWLINE = '\n'
+Error = False
+
+#===============================================================================
+# Module Functions
+#===============================================================================
 
 def word_wrap(string, width=80, ind1=0, ind2=0, prefix=''):
     """ word wrapping function.
@@ -26,30 +57,35 @@ def word_wrap(string, width=80, ind1=0, ind2=0, prefix=''):
 
     return newstring + string
 
+def main (source, output,  component, jobcard, config, noexec):
+    #===============================================================================
+    # Module Global Variables
+    #===============================================================================
+    
+    CURL=config['locations']['curl']
+    CONVERT=config['locations']['convert']
+    FFMPEG=config['locations']['ffmpeg']
+    FFPROBE=config['locations']['ffprobe']
+    MOGRIFY=config['locations']['mogrify']
+    FONT=config['boxcover']['font']
+    
+    logger.debug("CURL = " + CURL)
+    logger.debug("CONVERT = " + CONVERT)
+    logger.debug("FFMPEG = " + FFMPEG)
+    logger.debug("FFPROBE = " + FFPROBE)
+    logger.debug("MOGRIFY = " + MOGRIFY)
+    logger.debug("FONT = " + FONT)
+    
+    logger.info("Produce - Module Main - Start")
+    # Start Code here
+    
+    
+    logger.info("Produce - Module Main - Start")
+    
+    return(Error)
 
-def produce(source, prefix, component, jobcard, config, noexec):
-    from string import Template
-    import os
-    import subprocess
-
-    
-    COMPLIANCE = ''
-    MESSAGE = ''
-    ERROR = ''
-    NEWLINE = "\n"
-    
-    MESSAGE = MESSAGE + "Create " + component + " from Template" + NEWLINE
-    
-    template = jobcard[component]['src']
-
-    if os.path.isfile(template):
-        MESSAGE = MESSAGE + "Template Exists: " + template + NEWLINE
-    else:
-        ERROR = ERROR + "Template Does not Exist: " + template + NEWLINE
-        return(ERROR)
-     
-    
-    
+def produce(source, output,  component, jobcard, config, noexec):
+    logger.info("Produce - Start")
     
     name = jobcard['clipinfo']['edgeid'] + jobcard[component]['suffix']
     projectno = jobcard['clipinfo']['projectno']
@@ -64,62 +100,55 @@ def produce(source, prefix, component, jobcard, config, noexec):
     productiondate = jobcard['clipinfo']['productiondate']
     releasedate = jobcard['clipinfo']['releasedate']
     licensor = jobcard['clipinfo']['licensor']
-
-    destination = prefix + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/" + jobcard[component]['out_dir']
-
+    template = template = jobcard[component]['src']
+    TEXT = ''
     
 
-
-    if not os.path.isdir(destination):
+    destination = output + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/" + jobcard[component]['out_dir']
+    
+    logger.info("\tFile will be created @ " + destination)
+    logger.info("\tUsing Template: "+ template)
+    
+    
+    if not os.path.isdir(destination) and not noexec:
         os.makedirs(destination,0777)
            
     desc_template = open(template,"r")
-    desc_text = open(destination + "/" + name, "w")
-
-
+    if not noexec:
+        desc_text = open(destination + "/" + name, "w")
+    
     for line in desc_template:
         
         formatted_line = word_wrap(line, width=80, ind1=0, ind2=11, prefix='')
-        COMPLIANCE = COMPLIANCE + formatted_line
+        TEXT = TEXT + formatted_line
     
 
-    Modified = Template(COMPLIANCE).safe_substitute(STAR=star, EDGEID=edgeid, SUPPORTING=supporting,SHORTTITLE=shorttitle, KEYWORDS=keywords, PRODUCTIONDATE=productiondate, RELEASEDATE=releasedate, LICENSOR=licensor, PROJECTNO=projectno, DESCRIPTION=description, TITLE=title)
-    desc_text.write(Modified)
+    Modified = Template(TEXT).safe_substitute(STAR=star, EDGEID=edgeid, SUPPORTING=supporting,SHORTTITLE=shorttitle, KEYWORDS=keywords, PRODUCTIONDATE=productiondate, RELEASEDATE=releasedate, LICENSOR=licensor, PROJECTNO=projectno, DESCRIPTION=description, TITLE=title)
     
+    if not noexec:
+        desc_text.write(Modified)
+        desc_text.close()
+    desc_template.close()
     
-    
-    result = subprocess.Popen("echo", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    #==========================================================================
-    # Return a result code for parallel processing (use echo for something that will resolve as true if not needed
-    # Next return logging MESSAGE
-    # Next return Error Messages
-    # Next return any work (or blank string if none)
-    #==========================================================================
-    
-    return(result, MESSAGE, ERROR, Modified)  
+    logger.info("Produce - End")
+    return(Error)
 
 
-if __name__ == "__main__":
-    import sys
-    import yaml
-    import os
-    prefix = sys.argv[1]
-    component = sys.argv[2]
+def exists(source, output,  component, jobcard, config, noexec):
+    logger.info("Produce - Start")
+    logger.error("Not Valid")
+    Error = True
     
-    jobfile = sys.argv[3]
-    job = open(jobfile,'r')
-    jobcard = yaml.load(job)
     
-    destination = prefix + "/" + jobcard[component]['out_dir']
-    
-    #print jobcard
-    print "Destination:" + str(destination) 
-    print "Component:" + component 
-    print "Job card file: " + jobfile
+    logger.info("Produce - End")
+    return(Error)
 
-    if not os.path.isdir(destination):
-        os.makedirs(destination,0777)
-        
-    produce(destination, component , jobcard )
+
+
+def ignore(source, output,  component, jobcard, config, noexec):
+    logger.info("Produce - Start")
     
     
+    
+    logger.info("Produce - End")
+    return(Error)
