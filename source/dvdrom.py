@@ -91,8 +91,12 @@ def produce(source, output,  component, jobcard, config, noexec):
     projectno = jobcard['clipinfo']['projectno']
     edgeid = jobcard['clipinfo']['edgeid']
     prime_dubya = jobcard['clipinfo']['prime_dubya']
-    destination = output + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/" + jobcard[component]['out_dir']
     
+    myout_dir = jobcard[component]['out_dir']
+    if not myout_dir[0] =='/':
+        destination = output + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/" + jobcard[component]['out_dir']
+    else:
+        destination = myout_dir
 
     if not os.path.isdir(destination ) and not noexec:
         os.makedirs(destination,0777)
@@ -128,7 +132,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     
     logger.info("Creating DVD Image")
     
-    CMD = MKISOFS + " -J -r -o " + source + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/" + edgeid + "_ROM.iso -V " + edgeid + "_ROM -uid 500 -find " + destination
+    CMD = MKISOFS + " -J -r -o " + destination + "/" + edgeid + "_ROM.iso -V " + edgeid + "_ROM -uid 500 -find " + destination
     
     logger.info("DVD Creation Command \n\t" + CMD)
     

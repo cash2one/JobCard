@@ -156,7 +156,7 @@ ebay:
      box_cover: true
      description: true
      ebay_text: true
-     out_dir: ebay
+     out_dir: ebay_product
      module: dvdrom
      
 dvd: 

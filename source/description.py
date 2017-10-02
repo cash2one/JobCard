@@ -119,14 +119,14 @@ def produce(source, output,  component, jobcard, config, noexec):
     
     for line in desc_template:
         
-        formatted_line = word_wrap(line, width=80, ind1=0, ind2=11, prefix='')
+        replaced_line = Template(line).safe_substitute(STAR=star, EDGEID=edgeid, SUPPORTING=supporting,SHORTTITLE=shorttitle, KEYWORDS=keywords, PRODUCTIONDATE=productiondate, RELEASEDATE=releasedate, LICENSOR=licensor, PROJECTNO=projectno, DESCRIPTION=description, TITLE=title)
+        formatted_line = word_wrap(replaced_line, width=80, ind1=0, ind2=11, prefix='')
         TEXT = TEXT + formatted_line
     
 
-    Modified = Template(TEXT).safe_substitute(STAR=star, EDGEID=edgeid, SUPPORTING=supporting,SHORTTITLE=shorttitle, KEYWORDS=keywords, PRODUCTIONDATE=productiondate, RELEASEDATE=releasedate, LICENSOR=licensor, PROJECTNO=projectno, DESCRIPTION=description, TITLE=title)
     
     if not noexec:
-        desc_text.write(Modified)
+        desc_text.write(TEXT)
         desc_text.close()
     desc_template.close()
     

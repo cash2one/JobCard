@@ -161,7 +161,7 @@ def produce(source, output,  component, jobcard, config, noexec):
             logger.warning("\t\t Compliance failed with Status:"+ str(status))
             Error = True
     
-    CMD = FFMPEG + " -y -i '" + video + "' -threads 8 -hide_banner -vf scale=" + str(width) + "x" + str(height) + " -c:v h264_videotoolbox -b:v " + str(kbps) + "k -bufsize " + str(kbps*1000) +" -nal-hrd cbr -c:a aac -strict -2 '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "transcoded.mp4'"
+    CMD = FFMPEG + " -y -i '" + video + "' -threads 8 -hide_banner -vf scale=" + str(width) + "x" + str(height) + " -c:v h264_videotoolbox -b:v " + str(kbps) + "k -bufsize " + str(kbps*1000) +" -nal-hrd cbr -c:a aac -strict -2 '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_transcoded.mp4'"
 
     logger.warning("Transcode Command\n\t" + CMD)
     if not noexec:
@@ -173,12 +173,30 @@ def produce(source, output,  component, jobcard, config, noexec):
         else:
             logger.warning("\t\t Compliance failed with Status:"+ str(status))
             Error = True
+    
+    
+    logger.info("Putting it all together PREVIEW + TRANSCODE + COMPLIANCE")
+    
+    CMD = FFMPEG + " -i '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "_preview.mp4'  -i '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_transcoded.mp4' -i '"  + destination + "/" + edgeid + "_" + str(width) + "x" + str(height)  + "_compliance.mp4' " 
+    CMD = CMD + "-filter_complex 'concat=n=3:v=1:a=1'  -c:v h264_videotoolbox -b:v " + str(kbps) +"k -bufsize 1500000 -nal-hrd cbr -c:a aac -strict -2 '"   + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_assembled.mp4'"
  
+    logger.warning("Concat Command\n\t" + CMD)
+    if not noexec:
+        result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdoutdata, stderrdata = result.communicate()
+        status = result.returncode 
+        if status == 0:
+            logger.info("\t\t Concat returned Status: " + str(status))
+        else:
+            logger.warning("\t\t Concat failed with Status:"+ str(status))
+            Error = True
+    
     logger.info("Adding Metadata to the Video and Re-transcoding")
     
     quote = "\""
     
-    invideo = destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "transcoded.mp4"
+    invideo = destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_assembled.mp4"
+    
     title = quote + jobcard['clipinfo']['title'] + " " + edgeid + quote
     author = quote + jobcard['clipinfo']['star'] + quote
     composer = quote + "Edge Interactive" + quote

@@ -143,7 +143,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     
      
     
-    logger.warning("Box Cover Command\n\t\t" + CMD)
+    logger.warning("Box Cover Command\n\t" + CMD)
     
     if not noexec:
         result = subprocess.Popen( RESIZE_CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) 
