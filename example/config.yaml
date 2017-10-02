@@ -5,6 +5,8 @@ locations:
   flickrocket: /bin/echo
   ffprobe: /opt/local/bin/ffprobe
   mogrify: /opt/local/bin/mogrify
+  mkisofs: /opt/local/bin/mkisofs
+  dvdauthor: /opt/local/bin/dvdauthor
   
 
 default:
@@ -65,5 +67,6 @@ boxcover:
   suffix: _box_cover
   box_width: 3724
   box_height: 5616
+  
 
     

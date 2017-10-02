@@ -15,13 +15,13 @@ clipinfo:
   prime_dubya: GMCZ_Scenes
 
 product: 
-  clips4sale: produce
+  clips4sale: ignore
   ebay: produce
-  flickrocket: produce
-  dvd: produce
-  picticon: delivered
-  aebn: produce
-  hotmovies: produce
+  flickrocket: ignore
+  dvd: ignore
+  picticon: ignore
+  aebn: ignore
+  hotmovies: ignore
   book: ignore
 
 component:      
@@ -44,12 +44,16 @@ video1:
   size_height: 1080
   size_kbps: 6000
   out_dir: video
+  module: makevideo
+  suffix: 6000.mp4
   
 video2: 
   size_width: 1280
   size_height: 720
   size_kbps: 1500
   out_dir: video 
+  module: makevideo
+  suffix: 1500.mp4
 
   
 video:  
@@ -59,6 +63,7 @@ capture:
   frame_every: 30 
   out_dir: photoset/capture
   module: capture
+  suffix: .jpg
 
   
 box_cover:
@@ -67,6 +72,7 @@ box_cover:
   alignment: right
   out_dir: promo
   module: boxcover
+  suffix: _box_cover.jpg
 
   
 promoimg:     
@@ -76,6 +82,7 @@ promoimg:
      timed: true
      out_dir: promo/images
      module: photoset
+     suffix: .jpg
      
      
 photoset1: 
@@ -85,6 +92,7 @@ photoset1:
      set_timed: True
      out_dir: photoset/primary
      module: photoset
+     suffix: .jpg
      
 photoset2:     
      src: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_1920CP_CAP_JPG/
@@ -94,6 +102,7 @@ photoset2:
      set_timed: True
      out_dir: photoset/Secondary
      module: photoset
+     suffix: .jpg
 
 videoinfo:
   out_dir: promo 
@@ -108,18 +117,28 @@ scenethumb:
   size_width: 3724
   size_height: 5616
   out_dir: thumbs
+  module: validate
         
 description:
   src: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/example/compliance_template.txt
   suffix: _description.txt
-  out_dir: /
+  out_dir: ./
   module: description
+  
     
 ebay_text:
   src: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/example/ebay_template.txt
   suffix: _ebay.txt
   out_dir: promo
   module: description
+  
+  
+video_text:
+  src: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/example/compliance_template.txt
+  suffix: _compliance.txt
+  out_dir: video
+  module: description 
+  
     
 clips4sale: 
   account: edgeinter11
@@ -127,24 +146,26 @@ clips4sale:
   promoimg: true
   video1: true
   out_dir: ftp
+  module: validate
   
 ebay: 
      photoset1: true
      video1: true
      capture: true
-     dvdrom: true
      promoimg: true
-     boxcover: true
+     box_cover: true
      description: true
      ebay_text: true
-     out_dir: tofinished/ebay
+     out_dir: ebay
+     module: dvdrom
      
 dvd: 
      photoset1: true
      video1: true
      capture: true
      boxcover: true
-     out_dir: tofinished/dvd
+     out_dir: dvd
+     module: validate
      
 picticon: 
      photoset1: true
@@ -152,18 +173,28 @@ picticon:
      thumbnails: true
      scenethumb: true
      outdir: tofinished/web
+     module: validate
      
 aebn:
   out_dir: tofinished/aebn
   video1: true
+  module: validate
   
 hotmovies:
   out_dir: tofinished/hotmovies
   video1: true
+  module: validate
   
 book:
   out_dir: tofinished/book
   book: true
   pic1: true
   pic2: true
-  description: true           
+  description: true
+  module: validate   
+  
+flickrocket:
+  out_dir: flickrocket
+  video: true
+  promo: true
+  module: validate         

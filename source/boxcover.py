@@ -112,7 +112,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     if alignment == 'left':
         title = " " + title
         star = " " + star
-        support = " " + supporting
+        support = "  " + supporting
         gravity='Northwest'
     if alignment == 'center':
         gravity = 'North'
@@ -120,7 +120,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         gravity='NorthEast'       
         title = title + " "
         star = star + " "
-        support =  supporting + " "
+        support =  supporting + "  "
         
         
     RESIZE_CMD = CONVERT + " -size 3724x5616 canvas:black '" + str(sourceimg) + "' -gravity center -resize " + str(width) +"x" + str(height) + "  -flatten '" + destination +  "/" + str(edgeid) + "_" + str(width) +"x" + str(height) + ".jpg'"
@@ -134,7 +134,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         
     CMD = CONVERT + " -verbose -size " + str(config['boxcover']['box_width']) + "x" + str(config['boxcover']['box_height']) + " -font " + str(FONT) + " -pointsize " + str(title_size)
     CMD = CMD + " -fill " + str(color) + " \( \( -gravity " + gravity + " -background transparent -pointsize  " + str(title_size) + "  label:\"" + title_f +"\"" + " -pointsize " + str(star_size)
-    CMD = CMD + " -annotate +0+250 '" + str(star) + "'" + " -pointsize " + str(support_size) + " -annotate +0+450 '" +  str(supporting) + "' -splice 0x18 \)"
+    CMD = CMD + " -annotate +0+250 '" + str(star) + "'" + " -pointsize " + str(support_size) + " -annotate +0+450 '" +  str(supporting) + "' -splice 0x16 \)"
     CMD = CMD + " \( +clone -background black -shadow 20x-9+0+0 \) -background transparent +swap -layers merge +repage \)  \( \( -gravity West -background transparent -pointsize " 
     CMD = CMD + str(keyword_size) + " label:'" + str(keywords_f) + "'  -splice 50x0 \)  \( +clone -background black -shadow 20x-9+0+0 \) -background transparent +swap -layers merge +repage \) \( -gravity SouthWest "+ " -pointsize " +str(edgeid_size) + " -background transparent label:"
     CMD = CMD + str(edgeid) +" -splice 100x0 \) " + "  \( \( -gravity SouthEast -background transparent label:'EDGE   \n' -splice 0x18  -pointsize 50  -annotate +50+192 '  _____________________   ' -splice 0x18 -pointsize 100 -annotate +50+120 'interactive  '   \) "

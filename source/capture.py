@@ -94,7 +94,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     
     # We need the size to name the capture directory
     
-    destination = output + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/" + jobcard[component]['out_dir'] + "_" + SizeOfVideo
+    destination = output + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/" + jobcard[component]['out_dir'] 
     
     
     if not os.path.isdir(destination + "/" + thumb_dir) and not noexec:

@@ -141,9 +141,30 @@ def produce(source, output, component, jobcard, config, noexec):
                         Error = True 
         else:        
             logger.info(component +" is ignored")
+     
              
+    # Validate all products
+    for product in jobcard['product']:
+        logger.info("Validate " + product)
         
-    
+        if jobcard['product'][product] == 'produce':
+            logger.info(product + " will be produced")
+        
+            for component in jobcard[product]:
+                
+                if component == 'out_dir':
+                    logger.info("Scratch work will be written to\n")
+                    logger.info("\t: " + config['default']['scratch'])
+                    logger.info("\t: out_dir:" + str(jobcard[product][component]))
+                else:
+                    logger.info("including component " + component)
+                    
+        elif jobcard['product'][product] == 'exists':   
+            logger.info(product + " will be copied from existing files")
+             
+             
+        else:
+            logger.info(product +" is ignored")     
     
     logger.info("Produce - End")
     return(Error)

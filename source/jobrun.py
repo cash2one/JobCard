@@ -122,16 +122,17 @@ logger.info('Starting Job Processing for ' + jobcard['clipinfo']['edgeid'])
 
 
 # For debugging (Select only these and in order)
-products = ['capture','videoinfo','promoimg','photoset1','description','box_cover' ]
-product = ['box_cover']
+products = ['capture','videoinfo','promoimg','photoset1','description','box_cover']
+productZ = ['ebay_text']
 
 
 if not validate.produce(source, output, component, jobcard, config, noexec):
     logger.info("JobCard is valid")
 
-# If Job Card is Good Code Goes Here
 
-    for component in product:
+# If Job Card is Good Code Goes Here
+    logger.info('Creating Components')
+    for component in productZ:
         # Get Processing Module
         run_module = jobcard[component]['module']
         myModule = importlib.import_module(run_module)
@@ -144,7 +145,29 @@ if not validate.produce(source, output, component, jobcard, config, noexec):
         else:
             myModule.ignore(source, output,  component, jobcard, config, noexec)    
 
-
+    
+    logger.info("Creating Products")
+    
+    for product in jobcard['product']:
+        logger.info("Make " + product)
+                # Get Processing Module
+        run_module = jobcard[product]['module']
+        myModule = importlib.import_module(run_module)
+        jobflag = jobcard['product'][product]
+        output = config['default']['scratch']
+        source = config['default']['assembly']
+        component = product
+        
+        if jobflag == 'produce':
+            myModule.produce(source, output,  component, jobcard, config, noexec)
+        elif jobflag == 'exists':
+            myModule.exists(finish, output,  component, jobcard, config, noexec)
+        else:
+            #myModule.ignore(source, output,  component, jobcard, config, noexec)  
+            logger.warning("Ignoring product " + product)  
+            
+        
+ 
 
 # JobCard doesn't validate
 else:

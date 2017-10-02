@@ -74,7 +74,7 @@ def main (source, output,  component, jobcard, config, noexec):
     CONVERT=config['locations']['convert']
     MOGRIFY=config['locations']['mogrify']
     
-    destination = output + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/" + jobcard[component]['out_dir'] + "_" + str(jobcard[component]['set_width']) + "x" + str(jobcard[component]['set_height'])
+    destination = output + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/" + jobcard[component]['out_dir'] 
     if not os.path.isdir(destination + "/" + thumb_dir) and not noexec:
         os.makedirs(destination + "/" + thumb_dir,0777)
         logger.info("Creating Directory: " + destination)
