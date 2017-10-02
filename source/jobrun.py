@@ -122,7 +122,7 @@ logger.info('Starting Job Processing for ' + jobcard['clipinfo']['edgeid'])
 
 
 # For debugging (Select only these and in order)
-products = ['capture','videoinfo','promoimg','photoset1','description','box_cover']
+products = ['capture','videoinfo','promoimg','photoset1','description','box_cover','video1', 'video2']
 productZ = ['ebay_text']
 
 
@@ -132,7 +132,7 @@ if not validate.produce(source, output, component, jobcard, config, noexec):
 
 # If Job Card is Good Code Goes Here
     logger.info('Creating Components')
-    for component in productZ:
+    for component in products:
         # Get Processing Module
         run_module = jobcard[component]['module']
         myModule = importlib.import_module(run_module)

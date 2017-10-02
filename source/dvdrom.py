@@ -12,6 +12,7 @@ import os
 from string import Template
 import shutil
 import logging
+import subprocess
 logger = logging.getLogger(__name__)
 
 #===============================================================================
@@ -85,7 +86,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     logger.debug("MKISOFS = " + MKISOFS)
     logger.debug("DVDAUTHOR = " + DVDAUTHOR)
     
-    
+    Error = False
     
     projectno = jobcard['clipinfo']['projectno']
     edgeid = jobcard['clipinfo']['edgeid']
@@ -102,7 +103,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         
     logger.info("Creating Product Files for ->" + component)
     for part in jobcard[component]:
-        logger.warning("component = " + part)
+        logger.info("component = " + part)
         if (not part == 'out_dir') and (not part == 'module') :
             logger.info("Evaluation requirements for component " + part)
             logger.info("Target files = " + jobcard[part]['suffix'] )
@@ -115,16 +116,31 @@ def produce(source, output,  component, jobcard, config, noexec):
             suffix = str(jobcard[part]['suffix'] )
             for filename in os.listdir(file_dir):
                 if filename.endswith(suffix) and not noexec:
-                    logger.warning("copy filename=" + filename)
+                    logger.info("copy filename=" + filename)
                     if not os.path.isdir(destination + "/" + out_dir ) and not noexec:
                         os.makedirs(destination + "/" + out_dir ,0777)
                     shutil.copy(file_dir + "/" + filename, destination + "/" + out_dir) 
                 elif  filename.endswith(suffix):
-                    logger.warning("copy filename=" + filename)
-                    logger.warning("to " + destination + "/" + out_dir) 
+                    logger.info("copy filename=" + filename)
+                    logger.info("to " + destination + "/" + out_dir) 
         else:
             logger.critical("Ignoring component" + part) 
-                     
+    
+    logger.info("Creating DVD Image")
+    
+    CMD = MKISOFS + " -J -r -o " + source + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/" + edgeid + "_ROM.iso -V " + edgeid + "_ROM -uid 500 -find " + destination
+    
+    logger.info("DVD Creation Command \n\t" + CMD)
+    
+    if not noexec:                
+        result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdoutdata, stderrdata = result.communicate()
+        status = result.returncode 
+        if status == 0:
+            logger.info("\t\t DVD Creation returned Status: " + str(status))
+        else:
+            logger.warning("\t\t DVD Creation failed with Status:"+ str(status))
+            Error = True 
                 
             
             

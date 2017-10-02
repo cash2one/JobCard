@@ -125,7 +125,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         result=subprocess.Popen("echo", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     else:
         logger.warning("Running Command" )  
-        result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        
         result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdoutdata, stderrdata = result.communicate()
         status = result.returncode 
