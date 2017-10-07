@@ -8,6 +8,10 @@ locations:
   mkisofs: /opt/local/bin/mkisofs
   dvdauthor: /opt/local/bin/dvdauthor
   
+codec:
+  mp4_decode:
+  mp4_encode:  
+  
 
 default:
   assembly: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/Assembly

@@ -1,208 +1,219 @@
+# All Clip Related Variables go here
 clipinfo: 
-  projectno: Test01
-  edgeid: GMCZ0022
-  star: Donna Bell
-  supporting: Choky Ice
-  shorttitle: Suck Fuck Anal A2M Facial
-  title: Edge Interactive Collector's ROM 
-  description: Romanian Donna Bell started out shooting masturbation, toy and lesbo work but quickly graduated to sucking and fucking cocks. Here she is breaking through into in anal, A2M, and eventually DP roles. Today she runs with Choky Ice as the Spanish Maid with white hose and heels.
-  keywords: Porn Stars, Hetrosexual, Blowjobs, Finger Fucking, Vaginal Sex, Anal, A2M, Facials, Hose, Uniforms
-  productiondate: June 1, 2010
-  releasedate: September 8, 2017
-  licensor: Global Media International License. 
-  comment: Combat Zone, acquired 2015 GMI License. Stats trimmed from Iafd 38D-27-38 to 36C-27-37
-  2257: PATHDIR
-  prime_dubya: GMCZ_Scenes
+     projectno: Test01
+     prime_dubya: GMCZ_Scenes
+     edgeid: GMCZ0022
+     star: Donna Bell
+     supporting: Choky Ice
+     shorttitle: Suck Fuck Anal A2M Facial
+     title: Edge Interactive Collector Scene
+     description: Romanian Donna Bell started out shooting masturbation, toy and lesbo work but quickly graduated to sucking and fucking cocks. Here she is breaking through into in anal, A2M, and eventually DP roles. Today she runs with Choky Ice as the Spanish Maid with white hose and heels.
+     keywords: Porn Stars, Hetrosexual, Blowjobs, Finger Fucking, Vaginal Sex, Anal, A2M, Facials, Hose, Uniforms
+     productiondate: June 1, 2010
+     releasedate: October 6, 2017
+     licensor: Global Media International. 
+     birthdate: August 11, 1988
+     age: 21
+     height: '5'' 7"'
+     weight: 105
+     measurements: 36C-27-37
+     hair: Blonde`
+     eyes: Blue
+     skin: Caucasian
+     birthplace: Constanta, Romania
+     comment: Combat Zone, acquired 2015 GMI License. Stats trimmed from Iafd 38D-27-38 to 36C-27-37
+     2257: Finished/C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_2257/
 
+# All Products that can be created/produced go here
 product: 
-  clips4sale: produce
-  ebay: produce
-  flickrocket: ignore
-  dvd: ignore
-  picticon: ignore
-  aebn: ignore
-  hotmovies: ignore
-  book: ignore
+     clips4sale: ignore
+     ebay: produce
+     flickrocket: ignore
+     dvd: ignore
+     picticon: ignore
+     aben: ignore
+     hotmovies: ignore
+     book: ignore
 
-component:      
-  box_cover: produce
-  photoset1: exists
-  photoset2: ignore
-  photoset3: ignore
-  photoset4: ignore
-  capture: produce
-  promoimg: exists
-  videoinfo: produce
-  book: ignore  
-  video1: produce
-  video2: produce
-  description: produce  
-  ebay_text: produce   
+# All components go here.
+# Choose [produce|validate|exists|ignore]
+# Validate runs through the validation module only and allows the component to be called
 
-video1:   
-  size_width: 1920
-  size_height: 1080
-  size_kbps: 6000
-  out_dir: video
-  module: makevideo
-  suffix: 6000.mp4
-  
+component: 
+     boxcover: produce
+     photoset1: exists
+     photoset2: ignore
+     photoset3: ignore
+     photoset4: ignore
+     capture: produce
+     promoimg: exists
+     videoinfo: produce
+     book: ignore
+     video1: produce
+     video2: produce
+     description_text: exists
+     compliance_text: produce
+     scenethumb: produce
+     thumbnails: produce
+     2257: exists
+
+# Components Go here
+# out_dir is relative unless it starts with a "/" then it is absolute
+video1: 
+     size_width: 1920
+     size_height: 1080
+     size_kbps: 6000
+     out_dir: video
+     module: makevideo
+     suffix: .mp4
+     
 video2: 
-  size_width: 1280
-  size_height: 720
-  size_kbps: 1500
-  out_dir: video 
-  module: makevideo
-  suffix: 1500.mp4
+     size_width: 1280
+     size_height: 720
+     size_kbps: 1500
+     out_dir: video
+     module: makevideo
+     suffix: .mp4
 
-  
-video:  
-  src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4
- 
-capture:
-  frame_every: 30 
-  out_dir: photoset/capture
-  module: capture
-  suffix: .jpg
+video: 
+     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4
+     
+capture: 
+     frame_every: 30
+     out_dir: photoset/capture
+     module: capture
+     suffix: .jpg
+     
+boxcover: 
+     source: C16F01-C16G00/C16F98_Finished_B70824-B70828_/GMCZ_SomeCovers_JPG/GMCZ0022_DONNA_BELL__CHOKY_ICE_32_BoxCover.JPG
+     alt_src: C1E253-C1E258/C1E260_COMBAT_ZONE-682/HCPC022/GMCZ0022_DONNA_BELL__CHOKY_ICE_32_BoxCover.JPG
+     alignment: right
+     out_dir: promo
+     module: boxcover
+     suffix: _BoxCover.jpg
 
-  
-box_cover:
-  src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/Boxcovers/GMCZ0022_DONNA_BELL__CHOKY_ICE_22.jpg 
-  alt_src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/BoxCovers/GMCZ0022_cover_3724x5296.jpg
-  alignment: right
-  out_dir: promo
-  module: boxcover
-  suffix: _box_cover.jpg
-
-  
-promoimg:     
-     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/Promos/GMCZ0022_Samples/
-     set_width: 2780
-     set_height: 6000
+promoimg: 
+     src: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_Samples/
+     set_width: 3782
+     set_height: 2592
      timed: true
      out_dir: promo/images
      module: photoset
      suffix: .jpg
-     
-     
+
 photoset1: 
-     src: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_3872P_JPG
-     set_width: 3724
-     set_height: 5616
-     set_timed: True
+     src: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_3872P_JPG/
+     set_width: 3872
+     set_height: 2592
+     timed: true
      out_dir: photoset/primary
      module: photoset
      suffix: .jpg
-     
-photoset2:     
+
+photoset2: 
      src: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_1920CP_CAP_JPG/
-     description: 
-     set_width: 1024
+     set_width: 1920
      set_height: 1080
-     set_timed: True
-     out_dir: photoset/Secondary
+     timed: true
+     out_dir: photoset/secondary
      module: photoset
      suffix: .jpg
 
-videoinfo:
-  out_dir: promo 
-  module: videoinfo     
+videoinfo: 
+     out_dir: promo
+     module: videoinfo
 
-thumbnails:
-  size: 10%
-  out_dir: thumbs
-    
-scenethumb:
-  src: path to source image
-  size_width: 3724
-  size_height: 5616
-  out_dir: thumbs
-  module: validate
-        
-description:
-  src: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/example/compliance_template.txt
-  suffix: _description.txt
-  out_dir: ./
-  module: description
-  
-    
-ebay_text:
-  src: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/example/ebay_template.txt
-  suffix: _ebay.txt
-  out_dir: promo
-  module: description
-  
-  
-video_text:
-  src: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/example/compliance_template.txt
-  suffix: _compliance.txt
-  out_dir: video
-  module: description 
-  
-    
+thumbnails: 
+     size: 96
+     out_dir: thumbs
+     suffix: _T.jpg
+
+scenethumb: 
+     src: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_3872P_JPG/DONNA_BELL__CHOKY_ICE_32.JPG
+     size: 96
+     out_dir: thumbs
+     module: validate
+
+description_text: 
+     src: description_template.txt
+     suffix: _description.txt
+     out_dir: ./
+     module: description
+
+ebay_txt: 
+     --src: ebay_template.txt
+     --suffix: _ebay.txt
+     --out_dir: promo
+     --module: description
+
+compliance_txt: 
+     src: compliance_template.txt
+     suffix: _compliance.txt
+     out_dir: video
+     module: description
+
 clips4sale: 
-  account: edgeinter11
-  box_cover: true
-  promoimg: true
-  video1: true
-  out_dir: clips4sale
-  module: dvdrom
-  map_video1: clips
-  map_promoimg: clips_images
-  map_box_cover: clips_images
-  description: true
-  
+     account: edgeinter11
+     boxcover: true
+     promoimg: true
+     video1: true
+     out_dir: ftp
+     module: validate
+
 ebay: 
      photoset1: true
      video1: true
-     capture: true
+     capture1: true
      promoimg: true
-     box_cover: true
+     boxcover: true
      description: true
      ebay_text: true
-     out_dir: ebay_product
-     module: dvdrom
-     map_photoset: photos
-     map_promoimg: photos/promo
-     map_photoset1: photos/set1
-     map_capture: photos/set2
-     
+     out_dir: ebay
+     module: validate
+
 dvd: 
      photoset1: true
      video1: true
      capture: true
      boxcover: true
+     compliance_text: true
      out_dir: dvd
      module: validate
-     
+
 picticon: 
      photoset1: true
      video1: true
      thumbnails: true
      scenethumb: true
-     outdir: tofinished/web
+     description_text: exists
+     out_dir: tofinished/web
      module: validate
-     
-aebn:
-  out_dir: tofinished/aebn
-  video1: true
-  module: validate
-  
-hotmovies:
-  out_dir: tofinished/hotmovies
-  video1: true
-  module: validate
-  
-book:
-  out_dir: tofinished/book
-  book: true
-  pic1: true
-  pic2: true
-  description: true
-  module: validate   
-  
-flickrocket:
-  out_dir: flickrocket
-  video: true
-  promo: true
-  module: validate         
+
+aebn: 
+     out_dir: tofinished/aebn
+     video1: true
+     boxcover: true
+     2257: true
+     module: validate
+
+hotmovies: 
+     out_dir: tofinished/hotmovies
+     video1: true
+     boxcover: true
+     2257: true
+     module: validate
+
+flickrocket: 
+     out_dir: flickrocket
+     video1: true
+     boxcover: true
+     promo: true
+     module: validate
+
+book: 
+     out_dir: tofinished/book
+     book: true
+     pict1: true
+     pict2: true
+     description: true
+     module: validate
