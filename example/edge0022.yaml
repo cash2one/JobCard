@@ -15,7 +15,7 @@ clipinfo:
   prime_dubya: GMCZ_Scenes
 
 product: 
-  clips4sale: ignore
+  clips4sale: produce
   ebay: produce
   flickrocket: ignore
   dvd: ignore
@@ -142,11 +142,15 @@ video_text:
     
 clips4sale: 
   account: edgeinter11
-  boxcover: true
+  box_cover: true
   promoimg: true
   video1: true
-  out_dir: ftp
-  module: validate
+  out_dir: clips4sale
+  module: dvdrom
+  map_video1: clips
+  map_promoimg: clips_images
+  map_box_cover: clips_images
+  description: true
   
 ebay: 
      photoset1: true
@@ -158,6 +162,10 @@ ebay:
      ebay_text: true
      out_dir: ebay_product
      module: dvdrom
+     map_photoset: photos
+     map_promoimg: photos/promo
+     map_photoset1: photos/set1
+     map_capture: photos/set2
      
 dvd: 
      photoset1: true

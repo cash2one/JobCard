@@ -1,0 +1,18 @@
+2017-10-02 16:07:26,154 - __main__ - INFO - Job Card Exists: ../example/edge0022.yaml
+2017-10-02 16:07:26,195 - __main__ - INFO - Config file exists
+2017-10-02 16:07:26,209 - __main__ - INFO - ./jobrun.py[Starting]
+2017-10-02 16:07:26,209 - __main__ - INFO - Starting Job Processing for GMCZ0022
+2017-10-02 16:07:26,209 - __main__ - INFO - JobCard is valid
+2017-10-02 16:07:26,209 - __main__ - INFO - Creating Components
+2017-10-02 16:07:26,210 - __main__ - INFO - Creating Products
+2017-10-02 16:07:26,210 - __main__ - INFO - Make hotmovies
+2017-10-02 16:07:26,210 - __main__ - WARNING - Ignoring product hotmovies
+2017-10-02 16:07:26,210 - __main__ - INFO - Make dvd
+2017-10-02 16:07:26,210 - __main__ - WARNING - Ignoring product dvd
+2017-10-02 16:07:26,210 - __main__ - INFO - Make flickrocket
+2017-10-02 16:07:26,210 - __main__ - WARNING - Ignoring product flickrocket
+2017-10-02 16:07:26,210 - __main__ - INFO - Make picticon
+2017-10-02 16:07:26,211 - __main__ - WARNING - Ignoring product picticon
+2017-10-02 16:07:26,211 - __main__ - INFO - Make book
+2017-10-02 16:07:26,211 - __main__ - WARNING - Ignoring product book
+2017-10-02 16:07:26,211 - __main__ - INFO - Make clips4sale

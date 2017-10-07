@@ -36,29 +36,55 @@ if args.jobcard == None:
     print parser.parse_args(['-h'])
     exit(1)
     
-# If logfile is found open for writing
 
-if args.logfile != None:
-    print "Opening Log file: " + args.configfile
-    log = open(args.logfile, 'w')        
-else:
-    print "Logging disabled"    
 
-def logger(message):
-        myTime = datetime.datetime.now()
-        if args.logfile != None:
-            log.write(str(myTime) + "-> " + message + "\n")
-        else:
-            print str(myTime) + "-> " + str(message)
-            
 
+
+
+
+
+
+
+#===================================================================#
+# Functions                                                         #
+#===================================================================#
+
+#===============================================================================
+# Setup  Logging
+#===============================================================================
+import logging
+import logging.config
+
+
+logger = logging.getLogger(__name__)
+
+logging.basicConfig(disable_existing_loggers=False)
+
+logger.setLevel(logging.DEBUG)
+# create file handler which logs even debug messages
+fh = logging.FileHandler('spam.log')
+fh.setLevel(logging.DEBUG)
+# create console handler with a higher log level
+ch = logging.StreamHandler()
+ch.setLevel(logging.ERROR)
+# create formatter and add it to the handlers
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+ch.setFormatter(formatter)
+fh.setFormatter(formatter)
+# add the handlers to logger
+logger.addHandler(ch)
+logger.addHandler(fh)
+       
+#===============================================================================
+# Pre Main Code
+#===============================================================================
 # Check Job card is really there
 if os.path.isfile(args.jobcard):
-    logger("Job Card Exists: " + args.jobcard)
+    logger.info("Job Card Exists: " + args.jobcard)
     job = open(args.jobcard,'r')
     jobcard = yaml.load(job)
 else:
-    logger("Job card invalid")
+    logger.info("Job card invalid")
     exit(2)
 
 
@@ -66,13 +92,13 @@ else:
 #Open Config File
 
 if os.path.isfile(args.configfile):
-    logger("Config file exists")
+    logger.info("Config file exists")
     cfg = open(args.configfile,'r')
     config = yaml.load(cfg)
 else:
-    logger("Missing Config File")
+    logger.info("Missing Config File")
     exit(2)
-
+    
 # Set Global short cuts
 # Set Global Configuration Values
 
@@ -97,23 +123,7 @@ output = config['default']['assembly']
 finish = config['default']['finish']
 component = 'validate'
 noexec = args.noexec
-
-
-#===================================================================#
-# Functions                                                         #
-#===================================================================#
-
-#===============================================================================
-# Setup  Logging
-#===============================================================================
-import logging
-import logging.config
-
-logger = logging.getLogger(__name__)
-
-logging.basicConfig(format='%(asctime)s [%(levelname)s] %(name)s: %(message)s',disable_existing_loggers=False, level=logging.INFO)
-
-
+    
 #===============================================================================
 # Main Code
 #===============================================================================
@@ -132,7 +142,7 @@ if not validate.produce(source, output, component, jobcard, config, noexec):
 
 # If Job Card is Good Code Goes Here
     logger.info('Creating Components')
-    for component in products:
+    for component in productZ:
         # Get Processing Module
         run_module = jobcard[component]['module']
         myModule = importlib.import_module(run_module)

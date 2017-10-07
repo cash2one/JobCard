@@ -108,15 +108,56 @@ def produce(source, output,  component, jobcard, config, noexec):
     logger.info("Creating Product Files for ->" + component)
     for part in jobcard[component]:
         logger.info("component = " + part)
-        if (not part == 'out_dir') and (not part == 'module') :
+        
+        # destination = product out_dir
+        # srcdir = component out_dir
+        # mapdir = component replacement for outdir 
+                
+            
+        
+        if (not part == 'out_dir') and (not part == 'module') and (not part == 'account') and (not part[0:3] == 'map'):
+            if jobcard[part]['out_dir']:
+                src_dir = jobcard[part]['out_dir']
+                
+            else:
+                src_dir =  source + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/"
+            
+            file_dir = source + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/" + src_dir
+            
+            if jobcard[part]['out_dir']:
+                my_dir = jobcard[part]['out_dir']
+            
+            else:
+                my_dir = source + "/" + projectno + "/" +  prime_dubya +"/" + edgeid
+                
+                   
+            
+            # See if there is a mapping for the component out_dir
+            mapped = "map_" + part
+            logger.info("Check for mapping of " + mapped)
+            logger.info("In component " + component)
+            
+            try:
+                test_value = jobcard[component][mapped]
+                logger.info("Key Exists [" + str(jobcard[component][mapped])+"]")
+                out_dir = jobcard[component][mapped]
+            except KeyError:
+                # Key is not present
+                logger.warning("Key is not set")
+                out_dir = my_dir 
+                
+           
             logger.info("Evaluation requirements for component " + part)
             logger.info("Target files = " + jobcard[part]['suffix'] )
-            if jobcard[part]['out_dir']:
-                src_dir = str(jobcard[part]['out_dir'])
-            else:
-                src_dir = ''    
-            file_dir = source + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/" + src_dir
-            out_dir =  jobcard[part]['out_dir']
+            logger.info("Source Directory = " + src_dir )
+            logger.info("Source Volume = " + file_dir )
+            logger.info("Output directory = " + out_dir )
+            logger.info("Destination directory = " + destination)
+            
+            
+            
+            
+            
             suffix = str(jobcard[part]['suffix'] )
             for filename in os.listdir(file_dir):
                 if filename.endswith(suffix) and not noexec:
@@ -128,24 +169,27 @@ def produce(source, output,  component, jobcard, config, noexec):
                     logger.info("copy filename=" + filename)
                     logger.info("to " + destination + "/" + out_dir) 
         else:
-            logger.critical("Ignoring component" + part) 
+            logger.critical("Ignoring component [" + part + "]") 
     
-    logger.info("Creating DVD Image")
+    if component == 'ebay' :
+        logger.info("Creating DVD Image")
     
-    CMD = MKISOFS + " -J -r -o " + destination + "/" + edgeid + "_ROM.iso -V " + edgeid + "_ROM -uid 500 -find " + destination
+        CMD = MKISOFS + " -J -r -o " + destination + "/" + edgeid + "_ROM.iso -V " + edgeid + "_ROM -uid 500 -find " + destination
     
-    logger.info("DVD Creation Command \n\t" + CMD)
+        logger.info("DVD Creation Command \n\t" + CMD)
     
-    if not noexec:                
-        result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdoutdata, stderrdata = result.communicate()
-        status = result.returncode 
-        if status == 0:
-            logger.info("\t\t DVD Creation returned Status: " + str(status))
-        else:
-            logger.warning("\t\t DVD Creation failed with Status:"+ str(status))
-            Error = True 
-                
+        if not noexec:                
+            result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            stdoutdata, stderrdata = result.communicate()
+            status = result.returncode 
+            if status == 0:
+                logger.info("\t\t DVD Creation returned Status: " + str(status))
+            else:
+                logger.warning("\t\t DVD Creation failed with Status:"+ str(status))
+                Error = True 
+    
+    else:       
+        logger.info("Product specific action goes here -->" + component)
             
             
         

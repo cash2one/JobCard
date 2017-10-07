@@ -112,7 +112,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     if alignment == 'left':
         title = " " + title
         star = " " + star
-        support = "  " + supporting
+        supporting = "  " + supporting
         gravity='Northwest'
     if alignment == 'center':
         gravity = 'North'
@@ -120,7 +120,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         gravity='NorthEast'       
         title = title + " "
         star = star + " "
-        support =  supporting + "  "
+        supporting =  supporting + "  "
         
         
     RESIZE_CMD = CONVERT + " -size 3724x5616 canvas:black '" + str(sourceimg) + "' -gravity center -resize " + str(width) +"x" + str(height) + "  -flatten '" + destination +  "/" + str(edgeid) + "_" + str(width) +"x" + str(height) + ".jpg'"
@@ -191,7 +191,7 @@ def exists(source, output,  component, jobcard, config, noexec):
     
     if not os.path.isfile(destination + "/" + image):
         if not noexec:
-            file_results = shutil.copy(sourceimg, destination + "/" + image)
+            shutil.copy(sourceimg, destination + "/" + image)
             logger.info("File Copied: " + image)
     else:
         logger.warning("File Already exists, not overwritten")    
