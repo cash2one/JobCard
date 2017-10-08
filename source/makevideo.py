@@ -123,7 +123,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     CMD = CMD +  ",drawtext=enable='between(t,00,10)':fontfile=" + font + ":text=\'Production Date [" + jobcard['clipinfo']['productiondate'] + "]\':x=(w-text_w)/2:y=" + str(y+500) +":fontcolor=" + font_color + ":fontsize=" + str(font_size/2)
 
     # Wrap end of command
-    CMD = CMD + "\" -c:v " + codec_t + " -b:v " + str(kbps) + "k -pix_fmt yuv420p -video_track_timescale 15360 -c:a aac -ar 48000 -ac 2 -sample_fmt fltp -t 12 '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "_" + "preview" + ".mp4'" 
+    CMD = CMD + "\" -c:v " + codec_t + " -b:v " + str(kbps) + "k -pix_fmt yuv420p -video_track_timescale 15360 -c:a aac -ar 48000 -ac 2 -sample_fmt fltp -t 12 '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_" + "preview" + ".mp4'" 
 
     logger.warning("Preview Command for "+ component + "\n\t" + CMD)
     
@@ -148,7 +148,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     description.produce(source, output, 'compliance_txt', jobcard, config, noexec)
     text_suffix = jobcard['compliance_txt']['suffix']
     
-    CMD = FFMPEG + " -y -f lavfi -r 60 -i color=" + back_color + ":" +str(width) + "x" + str(height) + " -f lavfi -i anullsrc -vf drawtext=\"fontfile=" + font_compliance + ":fontcolor=" + font_color + ": fontsize=" + str(font_size) + ":textfile='" + destination +"/" + edgeid  + text_suffix +"'" + ":x=50:y=50,fade=t=in:st=00:d=2,fade=t=out:st=28:d=2\" -c:v mpeg4 -b:v " + str(kbps) + "k  -pix_fmt yuv420p -video_track_timescale 15360 -c:a aac -ar 48000 -ac 2 -sample_fmt fltp -t 30 '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) +  "_compliance.mp4'"
+    CMD = FFMPEG + " -y -f lavfi -r 60 -i color=" + back_color + ":" +str(width) + "x" + str(height) + " -f lavfi -i anullsrc -vf drawtext=\"fontfile=" + font_compliance + ":fontcolor=" + font_color + ": fontsize=" + str(font_size) + ":textfile='" + destination +"/" + edgeid  + text_suffix +"'" + ":x=50:y=50,fade=t=in:st=00:d=2,fade=t=out:st=28:d=2\" -c:v mpeg4 -b:v " + str(kbps) + "k  -pix_fmt yuv420p -video_track_timescale 15360 -c:a aac -ar 48000 -ac 2 -sample_fmt fltp -t 30 '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) +  "_compliance.mp4'"
 
     logger.warning("Compliance Command\n\t" + CMD)
         
@@ -178,7 +178,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     
     logger.info("Putting it all together PREVIEW + TRANSCODE + COMPLIANCE")
     
-    CMD = FFMPEG + " -i '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "_preview.mp4'  -i '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_transcoded.mp4' -i '"  + destination + "/" + edgeid + "_" + str(width) + "x" + str(height)  + "_compliance.mp4' " 
+    CMD = FFMPEG + " -i '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_preview.mp4'  -i '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_transcoded.mp4' -i '"  + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps)  + "_compliance.mp4' " 
     CMD = CMD + "-filter_complex 'concat=n=3:v=1:a=1'  -c:v h264_videotoolbox -b:v " + str(kbps) +"k -bufsize 1500000 -nal-hrd cbr -c:a aac -strict -2 '"   + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_assembled.mp4'"
  
     logger.warning("Concat Command\n\t" + CMD)

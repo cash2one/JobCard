@@ -121,7 +121,7 @@ logger.info('Starting Job Processing for ' + jobcard['clipinfo']['edgeid'])
 
 # For debugging (Select only these and in order)
 products = ['capture','videoinfo','promoimg','photoset1','description_txt','boxcover','video1', 'video2']
-productZ = ['video1']
+productZ = ['scenethumb']
 
 
 if not validate.produce(source, output, component, jobcard, config, noexec):
@@ -130,7 +130,8 @@ if not validate.produce(source, output, component, jobcard, config, noexec):
 
 # If Job Card is Good Code Goes Here
     logger.info('Creating Components')
-    for component in jobcard['component']:
+    #for component in jobcard['component']:
+    for component in productZ:
         # Get Processing Module
         logger.warning("Processing Component " + str(component))
         run_module = jobcard[component]['module']

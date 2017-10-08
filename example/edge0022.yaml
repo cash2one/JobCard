@@ -57,7 +57,7 @@ component:
      video2: produce
      description_txt: produce
      compliance_txt: produce
-     scenethumb: validate
+     scenethumb: produce
      thumbnails: validate
      2257: validate
 
@@ -162,9 +162,10 @@ thumbnails:
 scenethumb: 
      src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/scenethumb/GMCZ0022_DONNA_BELL__CHOKY_ICE_32.jpg
      size: 96
-     out_dir: thumbs
-     suffix: _TT.jpg
-     module: noaction
+     out_dir: promo
+     suffix: _scene_T
+     module: thumbnail
+     prefix: edge0022
 
 description_txt: 
      src: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/example/description_template.txt
