@@ -1,3 +1,0 @@
-2017-09-30 18:43:45,261 [INFO] __main__: Starting Job Processing for GMCZ0022
-2017-09-30 18:43:45,268 [INFO] getvideosize: GetVideoSize
-2017-09-30 18:43:46,063 [ERROR] __main__: Error Message = 1
