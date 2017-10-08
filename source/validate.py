@@ -94,10 +94,10 @@ def produce(source, output, component, jobcard, config, noexec):
                     #Determine Absolute or Relative Path/File Descriptor               
                     
                     if test_desc[0] != "/":                       
-                        logger.debug("Relative Path")    
+                        logger.debug("\tRelative Path")    
                         file_desc = str(config['default']['source']) + "/" +  str(jobcard[component][value])
                     else:
-                        logger.debug("Absolute Path")
+                        logger.debug("\tAbsolute Path")
                         file_desc = str(jobcard[component][value])
                     
                     logger.debug("\tFILE_DESC = " + file_desc) 
@@ -114,7 +114,7 @@ def produce(source, output, component, jobcard, config, noexec):
         
         
         elif jobcard['component'][component] == 'exists':
-            logger.info(component + " will be copied from existing files")
+            logger.info(str(component) + " will be copied from existing files")
             for value in jobcard[component]:
                 logger.info('\t' + value + ":" + str(jobcard[component][value]))
                 if value == 'src': 
@@ -140,7 +140,7 @@ def produce(source, output, component, jobcard, config, noexec):
                         logger.error('\t\tfailed[' + file_desc + "]")   
                         Error = True 
         else:        
-            logger.info(component +" is ignored")
+            logger.info(str(component) +" is ignored")
      
              
     # Validate all products

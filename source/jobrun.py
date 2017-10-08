@@ -13,7 +13,6 @@ import importlib
 # Import Local Modules
 import validate
 
-
 # Parse the Command Line
 
 parser = argparse.ArgumentParser()
@@ -59,7 +58,7 @@ import logging.config
 
 logger = logging.getLogger(__name__)
 
-logging.basicConfig(filename=args.logfile, disable_existing_loggers=False,format='%(asctime)s %(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
+logging.basicConfig(filename=args.logfile, disable_existing_loggers=False,format='%(asctime)s %(name)s:%(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
 
 
 
@@ -121,8 +120,8 @@ logger.info('Starting Job Processing for ' + jobcard['clipinfo']['edgeid'])
 
 
 # For debugging (Select only these and in order)
-products = ['capture','videoinfo','promoimg','photoset1','description','box_cover','video1', 'video2']
-productZ = ['ebay_text']
+products = ['capture','videoinfo','promoimg','photoset1','description_txt','boxcover','video1', 'video2']
+productZ = ['video1']
 
 
 if not validate.produce(source, output, component, jobcard, config, noexec):
@@ -131,8 +130,9 @@ if not validate.produce(source, output, component, jobcard, config, noexec):
 
 # If Job Card is Good Code Goes Here
     logger.info('Creating Components')
-    for component in productZ:
+    for component in jobcard['component']:
         # Get Processing Module
+        logger.warning("Processing Component " + str(component))
         run_module = jobcard[component]['module']
         myModule = importlib.import_module(run_module)
         jobflag = jobcard['component'][component]
@@ -147,23 +147,7 @@ if not validate.produce(source, output, component, jobcard, config, noexec):
     
     logger.info("Creating Products")
     
-    for product in jobcard['product']:
-        logger.info("Make " + product)
-                # Get Processing Module
-        run_module = jobcard[product]['module']
-        myModule = importlib.import_module(run_module)
-        jobflag = jobcard['product'][product]
-        output = config['default']['scratch']
-        source = config['default']['assembly']
-        component = product
-        
-        if jobflag == 'produce':
-            myModule.produce(source, output,  component, jobcard, config, noexec)
-        elif jobflag == 'exists':
-            myModule.exists(finish, output,  component, jobcard, config, noexec)
-        else:
-            #myModule.ignore(source, output,  component, jobcard, config, noexec)  
-            logger.warning("Ignoring product " + product)  
+
             
         
  

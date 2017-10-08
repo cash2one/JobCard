@@ -22,7 +22,7 @@ clipinfo:
      skin: Caucasian
      birthplace: Constanta, Romania
      comment: Combat Zone, acquired 2015 GMI License. Stats trimmed from Iafd 38D-27-38 to 36C-27-37
-     2257: Finished/C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_2257/
+
 
 # All Products that can be created/produced go here
 product: 
@@ -31,13 +31,17 @@ product:
      flickrocket: ignore
      dvd: ignore
      picticon: ignore
-     aben: ignore
+     aebn: ignore
      hotmovies: ignore
      book: ignore
 
 # All components go here.
 # Choose [produce|validate|exists|ignore]
 # Validate runs through the validation module only and allows the component to be called
+# Exist = path starts with Finished
+# Produce = path starts with EdgeSource??
+# Thumbnails = Only valid option is Produce or Ignore (inherits Produce/Exist from source photo location)
+# Use validate if it is just part of some products.
 
 component: 
      boxcover: produce
@@ -51,11 +55,11 @@ component:
      book: ignore
      video1: produce
      video2: produce
-     description_text: exists
-     compliance_text: produce
-     scenethumb: produce
-     thumbnails: produce
-     2257: exists
+     description_txt: produce
+     compliance_txt: produce
+     scenethumb: validate
+     thumbnails: validate
+     2257: validate
 
 # Components Go here
 # out_dir is relative unless it starts with a "/" then it is absolute
@@ -77,6 +81,7 @@ video2:
 
 video: 
      src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4
+     duration: '28:00 minutes'
      
 capture: 
      frame_every: 30
@@ -85,15 +90,19 @@ capture:
      suffix: .jpg
      
 boxcover: 
-     source: C16F01-C16G00/C16F98_Finished_B70824-B70828_/GMCZ_SomeCovers_JPG/GMCZ0022_DONNA_BELL__CHOKY_ICE_32_BoxCover.JPG
-     alt_src: C1E253-C1E258/C1E260_COMBAT_ZONE-682/HCPC022/GMCZ0022_DONNA_BELL__CHOKY_ICE_32_BoxCover.JPG
+     src_exist: C1E253-C1E258/C1E255_COMBAT_ZONE-682/BoxCovers/GMCZ0022_cover_3724x5296.jpg
+     src_produce: C1E253-C1E258/C1E255_COMBAT_ZONE-682/BoxCovers/GMCZ0022_DONNA_BELL__CHOKY_ICE_22.jpg
+     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/BoxCovers/GMCZ0022_DONNA_BELL__CHOKY_ICE_22.jpg
      alignment: right
      out_dir: promo
      module: boxcover
      suffix: _BoxCover.jpg
 
+# If set_width/set_height are defined; then images will be resized to the height/width
+# If they don't resize 100% then there will be a black background added.
+
 promoimg: 
-     src: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_Samples/
+     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/Promos/GMCZ0022_Samples
      set_width: 3782
      set_height: 2592
      timed: true
@@ -109,6 +118,7 @@ photoset1:
      out_dir: photoset/primary
      module: photoset
      suffix: .jpg
+     count: 36
 
 photoset2: 
      src: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_1920CP_CAP_JPG/
@@ -119,38 +129,79 @@ photoset2:
      module: photoset
      suffix: .jpg
 
+photoset3:
+     src: 
+     set_width: 1920
+     set_height: 1080
+     timed: true
+     out_dir: photoset/third
+     module: photoset
+     suffix: .jpg
+
+
+photoset4:
+     src: 
+     set_width: 1920
+     set_height: 1080
+     timed: true
+     out_dir: photoset/fourth
+     module: photoset
+     suffix: .jpg
+
+
 videoinfo: 
      out_dir: promo
      module: videoinfo
 
 thumbnails: 
-     size: 96
+     size: 96x96
      out_dir: thumbs
-     suffix: _T.jpg
+     suffix: _T
+     module: noaction
 
 scenethumb: 
-     src: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_3872P_JPG/DONNA_BELL__CHOKY_ICE_32.JPG
+     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/scenethumb/GMCZ0022_DONNA_BELL__CHOKY_ICE_32.jpg
      size: 96
      out_dir: thumbs
-     module: validate
+     suffix: _TT.jpg
+     module: noaction
 
-description_text: 
-     src: description_template.txt
+description_txt: 
+     src: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/example/description_template.txt
      suffix: _description.txt
      out_dir: ./
      module: description
 
 ebay_txt: 
-     --src: ebay_template.txt
-     --suffix: _ebay.txt
-     --out_dir: promo
-     --module: description
+     src: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/example/ebay_template.txt
+     suffix: _ebay.txt
+     out_dir: promo
+     module: description
 
 compliance_txt: 
-     src: compliance_template.txt
+     src: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/example/compliance_template.txt
      suffix: _compliance.txt
      out_dir: video
      module: description
+
+clips4sale_txt:
+     src: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/example/clips4sale_template.txt
+     suffix: _clips4sale.txt
+     out_dir: promo
+     module: description
+ 
+
+# This is moved to its own component.     
+2257:
+    src: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_2257/
+    out_dir: compliance_2257
+    module: copyfiles      
+
+
+# Product parts and componets go here.
+# Module is the python module to create the component
+# Values are [True/False] or specific Caps matter on the True/False
+# True is implied; False is not needed at this time. IF the part is there; it is True
 
 clips4sale: 
      account: edgeinter11
@@ -167,7 +218,7 @@ ebay:
      promoimg: true
      boxcover: true
      description: true
-     ebay_text: true
+     ebay_txt: true
      out_dir: ebay
      module: validate
 
@@ -176,7 +227,7 @@ dvd:
      video1: true
      capture: true
      boxcover: true
-     compliance_text: true
+     compliance_txt: true
      out_dir: dvd
      module: validate
 
@@ -185,7 +236,7 @@ picticon:
      video1: true
      thumbnails: true
      scenethumb: true
-     description_text: exists
+     description_txt: exists
      out_dir: tofinished/web
      module: validate
 
@@ -211,7 +262,7 @@ flickrocket:
      module: validate
 
 book: 
-     out_dir: tofinished/book
+     out_dir: book
      book: true
      pict1: true
      pict2: true

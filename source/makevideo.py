@@ -120,7 +120,8 @@ def produce(source, output,  component, jobcard, config, noexec):
     CMD = CMD +  ",drawtext=enable='between(t,00,10)':fontfile=" + font + ":text=\'" + shorttitle + "\':x=(w-text_w)/2:y=" + str(y+400) +":fontcolor=" + font_color + ":fontsize=" + str(font_size)
     
     CMD = CMD +  ",drawtext=enable='between(t,00,10)':fontfile=" + font + ":text=\'Release Date [" + jobcard['clipinfo']['releasedate'] + "]\':x=(w-text_w)/2:y=" + str(y+500) +":fontcolor=" + font_color + ":fontsize=" + str(font_size/2)
-    
+    CMD = CMD +  ",drawtext=enable='between(t,00,10)':fontfile=" + font + ":text=\'Production Date [" + jobcard['clipinfo']['productiondate'] + "]\':x=(w-text_w)/2:y=" + str(y+500) +":fontcolor=" + font_color + ":fontsize=" + str(font_size/2)
+
     # Wrap end of command
     CMD = CMD + "\" -c:v " + codec_t + " -b:v " + str(kbps) + "k -pix_fmt yuv420p -video_track_timescale 15360 -c:a aac -ar 48000 -ac 2 -sample_fmt fltp -t 12 '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "_" + "preview" + ".mp4'" 
 
@@ -144,10 +145,10 @@ def produce(source, output,  component, jobcard, config, noexec):
     font_color = config['compliance']['compliance_text_color']
     font_compliance = config['compliance']['compliance_font']
     
-    description.produce(source, output, 'video_text', jobcard, config, noexec)
-    text_suffix = jobcard['video_text']['suffix']
+    description.produce(source, output, 'compliance_txt', jobcard, config, noexec)
+    text_suffix = jobcard['compliance_txt']['suffix']
     
-    CMD = FFMPEG + " -y -f lavfi -r 30 -i color=" + back_color + ":" +str(width) + "x" + str(height) + " -f lavfi -i anullsrc -vf drawtext=\"fontfile=" + font_compliance + ":fontcolor=" + font_color + ": fontsize=" + str(font_size) + ":textfile='" + destination +"/" + edgeid  + text_suffix +"'" + ":x=50:y=50,fade=t=in:st=00:d=2,fade=t=out:st=28:d=2\" -c:v mpeg4 -b:v " + str(kbps) + "k  -pix_fmt yuv420p -video_track_timescale 15360 -c:a aac -ar 48000 -ac 2 -sample_fmt fltp -t 30 '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) +  "_compliance.mp4'"
+    CMD = FFMPEG + " -y -f lavfi -r 60 -i color=" + back_color + ":" +str(width) + "x" + str(height) + " -f lavfi -i anullsrc -vf drawtext=\"fontfile=" + font_compliance + ":fontcolor=" + font_color + ": fontsize=" + str(font_size) + ":textfile='" + destination +"/" + edgeid  + text_suffix +"'" + ":x=50:y=50,fade=t=in:st=00:d=2,fade=t=out:st=28:d=2\" -c:v mpeg4 -b:v " + str(kbps) + "k  -pix_fmt yuv420p -video_track_timescale 15360 -c:a aac -ar 48000 -ac 2 -sample_fmt fltp -t 30 '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) +  "_compliance.mp4'"
 
     logger.warning("Compliance Command\n\t" + CMD)
         

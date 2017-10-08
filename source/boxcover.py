@@ -70,7 +70,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     edgeid = jobcard['clipinfo']['edgeid']
     prime_dubya = jobcard['clipinfo']['prime_dubya']
 
-    image=jobcard['box_cover']['src']
+    image=jobcard['boxcover']['src']
     title=jobcard['clipinfo']['title'] + " " + edgeid 
     star=jobcard['clipinfo']['star'] 
     supporting = jobcard['clipinfo']['supporting']
@@ -83,7 +83,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     FONT = config['boxcover']['font']
     width = config['boxcover']['box_width']
     height = config['boxcover']['box_height']
-    alignment= jobcard['box_cover']['alignment']
+    alignment= jobcard['boxcover']['alignment']
     color= config['boxcover']['font_color']
     Error = False
 
