@@ -74,6 +74,12 @@ def produce(source, output,  component, jobcard, config, noexec):
     pathName = os.path.dirname( source + "/" + video)
     destination = output + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/" + jobcard[component]['out_dir']
     
+    # Setup Codecs from Config File
+    # To Deal with hardware based codecs later and machine differences.
+    
+    mp4_encoder = config['codec']['mp4_encode']
+    mp4_decoder = config['codec']['mp4_decode']
+    mp4_simple = config['codec']['mp4_simple']
         
     # Fix the title for any apostrophe
     
@@ -93,8 +99,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     font_size = config['compliance']['preview_font_size']
     font = config['compliance']['compliance_font']
     
-    codec_t = 'mpeg4'
-    codec_e = 'h264_videotoolbox'
+    
     
     if not os.path.isdir(destination ) and not noexec:
         os.makedirs(destination,0777)
@@ -123,7 +128,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     CMD = CMD +  ",drawtext=enable='between(t,00,10)':fontfile=" + font + ":text=\'Production Date [" + jobcard['clipinfo']['productiondate'] + "]\':x=(w-text_w)/2:y=" + str(y+500) +":fontcolor=" + font_color + ":fontsize=" + str(font_size/2)
 
     # Wrap end of command
-    CMD = CMD + "\" -c:v " + codec_t + " -b:v " + str(kbps) + "k -pix_fmt yuv420p -video_track_timescale 15360 -c:a aac -ar 48000 -ac 2 -sample_fmt fltp -t 12 '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_" + "preview" + ".mp4'" 
+    CMD = CMD + "\" -c:v " + mp4_simple + " -b:v " + str(kbps) + "k -pix_fmt yuv420p -video_track_timescale 15360 -c:a aac -strict -2 -ar 48000 -ac 2 -sample_fmt fltp -t 12 '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_" + "preview" + ".mp4'" 
 
     logger.warning("Preview Command for "+ component + "\n\t" + CMD)
     
@@ -148,7 +153,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     description.produce(source, output, 'compliance_txt', jobcard, config, noexec)
     text_suffix = jobcard['compliance_txt']['suffix']
     
-    CMD = FFMPEG + " -y -f lavfi -r 60 -i color=" + back_color + ":" +str(width) + "x" + str(height) + " -f lavfi -i anullsrc -vf drawtext=\"fontfile=" + font_compliance + ":fontcolor=" + font_color + ": fontsize=" + str(font_size) + ":textfile='" + destination +"/" + edgeid  + text_suffix +"'" + ":x=50:y=50,fade=t=in:st=00:d=2,fade=t=out:st=28:d=2\" -c:v mpeg4 -b:v " + str(kbps) + "k  -pix_fmt yuv420p -video_track_timescale 15360 -c:a aac -ar 48000 -ac 2 -sample_fmt fltp -t 30 '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) +  "_compliance.mp4'"
+    CMD = FFMPEG + " -y -f lavfi -r 60 -i color=" + back_color + ":" +str(width) + "x" + str(height) + " -f lavfi -i anullsrc -vf drawtext=\"fontfile=" + font_compliance + ":fontcolor=" + font_color + ": fontsize=" + str(font_size) + ":textfile='" + destination +"/" + edgeid  + text_suffix +"'" + ":x=50:y=50,fade=t=in:st=00:d=2,fade=t=out:st=28:d=2\" -c:v mpeg4 -b:v " + str(kbps) + "k  -pix_fmt yuv420p -video_track_timescale 15360 -c:a aac -strict -2 -ar 48000 -ac 2 -sample_fmt fltp -t 30 '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) +  "_compliance.mp4'"
 
     logger.warning("Compliance Command\n\t" + CMD)
         
@@ -162,7 +167,7 @@ def produce(source, output,  component, jobcard, config, noexec):
             logger.warning("\t\t Compliance failed with Status:"+ str(status))
             Error = True
     
-    CMD = FFMPEG + " -y -i '" + video + "' -threads 8 -hide_banner -vf scale=" + str(width) + "x" + str(height) + " -c:v h264_videotoolbox -b:v " + str(kbps) + "k -bufsize " + str(kbps*1000) +" -nal-hrd cbr -c:a aac -strict -2 '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_transcoded.mp4'"
+    CMD = FFMPEG + " -y -i '" + video + "' -threads 8 -hide_banner -vf scale=" + str(width) + "x" + str(height) + " -c:v "+ mp4_encoder +" -b:v " + str(kbps) + "k -bufsize " + str(kbps*1000) +" -nal-hrd cbr -c:a aac -strict -2 '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_transcoded.mp4'"
 
     logger.warning("Transcode Command\n\t" + CMD)
     if not noexec:
@@ -179,7 +184,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     logger.info("Putting it all together PREVIEW + TRANSCODE + COMPLIANCE")
     
     CMD = FFMPEG + " -i '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_preview.mp4'  -i '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_transcoded.mp4' -i '"  + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps)  + "_compliance.mp4' " 
-    CMD = CMD + "-filter_complex 'concat=n=3:v=1:a=1'  -c:v h264_videotoolbox -b:v " + str(kbps) +"k -bufsize 1500000 -nal-hrd cbr -c:a aac -strict -2 '"   + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_assembled.mp4'"
+    CMD = CMD + "-filter_complex 'concat=n=3:v=1:a=1'  -c:v " + mp4_encoder +" -b:v " + str(kbps) +"k -bufsize 1500000 -nal-hrd cbr -c:a aac -strict -2 '"   + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_assembled.mp4'"
  
     logger.warning("Concat Command\n\t" + CMD)
     if not noexec:
@@ -218,7 +223,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     
     CMD = FFMPEG + " -i '" + invideo + "' -metadata title=" + title + " -metadata author=" + author + " -metadata composer=" + composer + " -metadata album=" + album + " -metadata date=" + proddate + " -metadata purchase_date=" + release
     CMD = CMD + " -metadata track=" + track + " -metadata artist=" + actors +" -metadata comment=" + comment + " -metadata genre=" + genre + " -metadata copyright=" + copyright_t + " -metadata description=" + mydescription + " -metadata synopsis=" + synopsis
-    CMD = CMD + " -metadata show=" + show + " -metadata episode_id=" + episode_id + " -metadata network=" + network + " -metadata media_type=9 -y -c:v h264_videotoolbox -b:v " + str(kbps) +"k '" + destination + "/" + outvideo + "'"
+    CMD = CMD + " -metadata show=" + show + " -metadata episode_id=" + episode_id + " -metadata network=" + network + " -metadata media_type=9 -y -c:v "+ mp4_encoder +" -b:v " + str(kbps) +"k '" + destination + "/" + outvideo + "'"
 
     logger.warning("Metadata Command\n\t" + CMD)
     if not noexec:

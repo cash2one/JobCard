@@ -123,8 +123,8 @@ def produce(source, output,  component, jobcard, config, noexec):
         supporting =  supporting + "  "
         
         
-    RESIZE_CMD = CONVERT + " -size 3724x5616 canvas:black '" + str(sourceimg) + "' -gravity center -resize " + str(width) +"x" + str(height) + "  -flatten '" + destination +  "/" + str(edgeid) + "_" + str(width) +"x" + str(height) + ".jpg'"
-    resizeimg =   destination +  "/" + str(edgeid) + "_" + str(width) +"x" + str(height) + ".jpg"
+    RESIZE_CMD = CONVERT + " -size 3724x5616 canvas:black '" + str(sourceimg) + "' -gravity center -resize " + str(width) +"x" + str(height) + "  -flatten '" + destination +  "/" + str(edgeid)  + config['boxcover']['suffix'] + "_source" + ".jpg'"
+    resizeimg =   destination +  "/" + str(edgeid)  + config['boxcover']['suffix'] + "_source" + ".jpg"
     logger.warning("Resize Image Command\n\t" + RESIZE_CMD)
     
         #Make keywords split by line

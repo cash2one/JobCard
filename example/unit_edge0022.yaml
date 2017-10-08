@@ -1,6 +1,6 @@
 # All Clip Related Variables go here
 clipinfo: 
-     projectno: Test01
+     projectno: UNIT
      prime_dubya: GMCZ_Scenes
      edgeid: GMCZ0022
      star: Donna Bell
@@ -96,7 +96,7 @@ boxcover:
      alignment: right
      out_dir: promo
      module: boxcover
-     suffix: _boxcover
+     suffix: _BoxCover.jpg
 
 # If set_width/set_height are defined; then images will be resized to the height/width
 # If they don't resize 100% then there will be a black background added.

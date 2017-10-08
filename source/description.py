@@ -122,7 +122,16 @@ def produce(source, output,  component, jobcard, config, noexec):
     photoset1_width = jobcard['photoset1']['set_width']
     photoset1_height = jobcard['photoset1']['set_height']
     
-    template = jobcard[component]['src']
+    
+    test_source = str(jobcard[component]['src'])
+    if test_source[0] != "/":                       
+        logger.debug("Relative Path")    
+        template = source + "/" + jobcard[component]['src']
+    else:
+        logger.debug("Absolute Path")
+        template = jobcard[component]['src']
+    
+   
     TEXT = ''
     Error = False
     

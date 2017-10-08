@@ -1,26 +1,26 @@
 locations:
-  convert: /opt/local/bin/convert
-  ffmpeg: /opt/local/bin/ffmpeg
-  curl: /opt/local/bin/curl
+  convert: /usr/bin/convert
+  ffmpeg: /usr/bin/ffmpeg
+  curl: /usr/bin/curl
   flickrocket: /bin/echo
-  ffprobe: /opt/local/bin/ffprobe
-  mogrify: /opt/local/bin/mogrify
-  mkisofs: /opt/local/bin/mkisofs
-  dvdauthor: /opt/local/bin/dvdauthor
+  ffprobe: /usr/bin/ffprobe
+  mogrify: /usr/bin/mogrify
+  mkisofs: /usr/bin/mkisofs
+  dvdauthor: /usr/bin/dvdauthor
   
 codec:
   mp4_decode: h264_vdpau
-  mp4_encode: h264_videotoolbox
+  mp4_encode: libx264
   mp4_simple: mpeg4
     
   
 
 default:
-  assembly: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/Assembly
-  finish: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/Finished
-  scratch: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/Scratch
-  source: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/EdgeSource01
-  deliveries: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/
+  assembly: /mnt/hgfs/JobCard/Assembly
+  finish: /mnt/hgfs/JobCard//Finished
+  scratch: /mnt/hgfs/JobCard/Scratch
+  source: /mnt/hgfs/JobCard/EdgeSource01
+  deliveries: /mnt/hgfs/JobCard/Delivery
 
 
 functions:
@@ -39,14 +39,14 @@ functions:
 
 compliance:
   licensedefault: Edge Interactive  
-  template: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/example/compliance_template.txt
+  template: templates/compliance_template.txt
   preview_color: blue
   preview_font_color: yellow
   preview_font_size: 48
   preview_x: 100
   preview_y: 100
   compliance_color: green
-  compliance_font: /Library/Fonts/Arial.ttf
+  compliance_font: /home/jobber/jobber/Arial.ttf
   compliance_text_color: FFFFFF
   compliance_text_size: 20
 
@@ -62,7 +62,7 @@ flickrocket:
   password: password
     
 boxcover:
-  font: /Library/Fonts/Skia.ttf
+  font: /home/jobber/jobber/Skia.ttf
   star_size: 150
   support_size: 120
   keyword_size: 150
