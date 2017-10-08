@@ -149,7 +149,23 @@ if not validate.produce(source, output, component, jobcard, config, noexec):
     logger.info("Creating Products")
     
 
-            
+    for product in jobcard['product']:
+        logger.info("Make " + product)
+        # Get Processing Module
+        run_module = jobcard[product]['module']
+        myModule = importlib.import_module(run_module)
+        jobflag = jobcard['product'][product]
+        output = config['default']['scratch']
+        source = config['default']['assembly']
+        component = product
+        
+        if jobflag == 'produce':
+            myModule.produce(source, output,  component, jobcard, config, noexec)
+        elif jobflag == 'exists':
+            myModule.exists(finish, output,  component, jobcard, config, noexec)
+        else:
+            #myModule.ignore(source, output,  component, jobcard, config, noexec)  
+            logger.warning("Ignoring product " + product)          
         
  
 
