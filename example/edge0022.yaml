@@ -26,7 +26,7 @@ clipinfo:
 
 # All Products that can be created/produced go here
 product: 
-     clips4sale: ignore
+     clips4sale: produce
      ebay: produce
      flickrocket: ignore
      dvd: ignore
@@ -60,7 +60,7 @@ component:
      ebay_txt: produce
      scenethumb: produce
      thumbnails: validate
-     2257: validate
+     2257: exists
 
 # Components Go here
 # out_dir is relative unless it starts with a "/" then it is absolute
@@ -210,8 +210,14 @@ clips4sale:
      boxcover: true
      promoimg: true
      video1: true
-     out_dir: ftp
+     out_dir: clips4sale
+     clips4sale_txt: true
      module: makeproduct
+     map_video1: clips
+     map_promoimg: clips_images
+     map_boxcover: clips_images
+     map_scenethumb: clips_images
+     
 
 ebay: 
      photoset1: true
@@ -224,6 +230,11 @@ ebay:
      ebay_txt: true
      out_dir: ebay
      module: makeproduct
+     map_photoset: photos
+     map_promoimg: promo
+     map_photoset1: photos/set1
+     map_capture: photos/set2
+     map_ebay_txt: ./
 
 dvd: 
      photoset1: true
@@ -248,21 +259,34 @@ aebn:
      video1: true
      boxcover: true
      2257: true
-     module: noaction
+     module: makeproduct
+     map_video1: video
+     map_promoimg: video_images
+     map_boxcover: video_images
+     map_scenethumb: video_images
+     
 
 hotmovies: 
      out_dir: hotmovies
      video1: true
      boxcover: true
      2257: true
-     module: noaction
+     module: makeproduct
+     map_video1: video
+     map_promoimg: video_images
+     map_boxcover: video_images
+     map_scenethumb: video_images
 
 flickrocket: 
      out_dir: flickrocket
      video1: true
      boxcover: true
      promo: true
-     module: noaction
+     module: makeproduct
+     map_video1: video
+     map_promoimg: video_images
+     map_boxcover: video_images
+     map_scenethumb: video_images
 
 book: 
      out_dir: book
