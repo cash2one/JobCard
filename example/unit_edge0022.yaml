@@ -57,6 +57,7 @@ component:
      video2: produce
      description_txt: produce
      compliance_txt: produce
+     ebay_txt: produce
      scenethumb: produce
      thumbnails: validate
      2257: validate
@@ -96,7 +97,7 @@ boxcover:
      alignment: right
      out_dir: promo
      module: boxcover
-     suffix: _BoxCover.jpg
+     suffix: _boxcover.jpg
 
 # If set_width/set_height are defined; then images will be resized to the height/width
 # If they don't resize 100% then there will be a black background added.
@@ -210,18 +211,18 @@ clips4sale:
      promoimg: true
      video1: true
      out_dir: ftp
-     module: validate
+     module: makeproduct
 
 ebay: 
      photoset1: true
      video1: true
-     capture1: true
+     capture: true
      promoimg: true
      boxcover: true
-     description: true
+     description_txt: true
      ebay_txt: true
      out_dir: ebay
-     module: validate
+     module: makeproduct
 
 dvd: 
      photoset1: true
@@ -230,7 +231,7 @@ dvd:
      boxcover: true
      compliance_txt: true
      out_dir: dvd
-     module: validate
+     module: noaction
 
 picticon: 
      photoset1: true
@@ -238,29 +239,28 @@ picticon:
      thumbnails: true
      scenethumb: true
      description_txt: exists
-     out_dir: tofinished/web
-     module: validate
+     out_dir: web
+     module: noaction
 
 aebn: 
-     out_dir: tofinished/aebn
+     out_dir: aebn
      video1: true
      boxcover: true
      2257: true
-     module: validate
+     module: noaction
 
 hotmovies: 
-     out_dir: tofinished/hotmovies
      video1: true
      boxcover: true
      2257: true
-     module: validate
+     module: noaction
 
 flickrocket: 
      out_dir: flickrocket
      video1: true
      boxcover: true
      promo: true
-     module: validate
+     module: noaction
 
 book: 
      out_dir: book
@@ -268,4 +268,4 @@ book:
      pict1: true
      pict2: true
      description: true
-     module: validate
+     module: noaction

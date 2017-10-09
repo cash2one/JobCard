@@ -130,8 +130,8 @@ if not validate.produce(source, output, component, jobcard, config, noexec):
 
 # If Job Card is Good Code Goes Here
     logger.info('Creating Components')
-    #for component in jobcard['component']:
-    for component in productZ:
+    for component in jobcard['component']:
+    #for component in productZ:
         # Get Processing Module
         logger.warning("Processing Component " + str(component))
         run_module = jobcard[component]['module']
