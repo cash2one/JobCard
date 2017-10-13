@@ -121,13 +121,15 @@ logger.info('Starting Job Processing for ' + jobcard['clipinfo']['edgeid'])
 
 # For debugging (Select only these and in order)
 products = ['capture','videoinfo','promoimg','photoset1','description_txt','boxcover','video1', 'video2']
-productZ = ['video1']
+productZ = ['promoimg']
 
 
 if not validate.produce(source, output, component, jobcard, config, noexec):
     logger.info("JobCard is valid")
 
+debug = 2
 
+if debug == 2:
 # If Job Card is Good Code Goes Here
     logger.info('Creating Components')
     for component in jobcard['component']:
@@ -147,25 +149,26 @@ if not validate.produce(source, output, component, jobcard, config, noexec):
 
     
     logger.info("Creating Products")
-    
 
-    for product in jobcard['product']:
-        logger.info("Make " + product)
-        # Get Processing Module
-        run_module = jobcard[product]['module']
-        myModule = importlib.import_module(run_module)
-        jobflag = jobcard['product'][product]
-        output = config['default']['scratch']
-        source = config['default']['assembly']
-        component = product
-        
-        if jobflag == 'produce':
-            myModule.produce(source, output,  component, jobcard, config, noexec)
-        elif jobflag == 'exists':
-            myModule.exists(finish, output,  component, jobcard, config, noexec)
-        else:
-            #myModule.ignore(source, output,  component, jobcard, config, noexec)  
-            logger.warning("Ignoring product " + product)          
+    if debug >= 3:    
+
+        for product in jobcard['product']:
+            logger.info("Make " + product)
+            # Get Processing Module
+            run_module = jobcard[product]['module']
+            myModule = importlib.import_module(run_module)
+            jobflag = jobcard['product'][product]
+            output = config['default']['scratch']
+            source = config['default']['assembly']
+            component = product
+            
+            if jobflag == 'produce':
+                myModule.produce(source, output,  component, jobcard, config, noexec)
+            elif jobflag == 'exists':
+                myModule.exists(finish, output,  component, jobcard, config, noexec)
+            else:
+                #myModule.ignore(source, output,  component, jobcard, config, noexec)  
+                logger.warning("Ignoring product " + product)          
         
  
 

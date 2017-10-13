@@ -92,6 +92,20 @@ def produce(source, output,  component, jobcard, config, noexec):
     edgeid = jobcard['clipinfo']['edgeid']
     prime_dubya = jobcard['clipinfo']['prime_dubya']
     
+    
+    if jobcard['component']['thumbnails'] == 'produce' or jobcard['component']['thumbnails'] == 'validate':
+        make_thumbnail = True
+        logger.info("\Using Thumbnails")
+    else:   
+        make_thumbnail = False
+        
+    if jobcard['component']['watermark'] == 'produce' or jobcard['component']['thumbnails'] == 'validate':
+        make_watermark = True
+        logger.info("\tUsing Watermarks")
+    else:   
+        make_watermark = False      
+        
+    
     myout_dir = jobcard[component]['out_dir']
     if not myout_dir[0] =='/':
         destination = output + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/" + jobcard[component]['out_dir']
@@ -107,7 +121,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         
     logger.info("Creating Product Files for ->" + component)
     for part in jobcard[component]:
-        logger.info("component = " + part)
+        logger.info("component = " + str(part))
         
         # destination = product out_dir
         # srcdir = component out_dir
@@ -146,28 +160,44 @@ def produce(source, output,  component, jobcard, config, noexec):
                 logger.warning("Key is not set")
                 out_dir = my_dir 
                 
-           
+            # Some error logic for suffix (it is optional)
+            #
+            if  jobcard[part]['suffix'] == None:
+                suffix = ""
+            else:   
+                suffix = jobcard[part]['suffix']   
+                      
             logger.info("Evaluation requirements for component " + part)
-            logger.info("Target files = " + jobcard[part]['suffix'] )
+            logger.info("Target files = *" + suffix + str(jobcard[part]['ext']) )
             logger.info("Source Directory = " + src_dir )
             logger.info("Source Volume = " + file_dir )
             logger.info("Output directory = " + out_dir )
             logger.info("Destination directory = " + destination)
             
             
+            ext = str(jobcard[part]['ext'] )
             
             
+            logger.warning("Part = " + str(part))
+            #
             
-            suffix = str(jobcard[part]['suffix'] )
-            for filename in os.listdir(file_dir):
-                if filename.endswith(suffix) and not noexec:
-                    logger.info("copy filename=" + filename)
-                    if not os.path.isdir(destination + "/" + out_dir ) and not noexec:
-                        os.makedirs(destination + "/" + out_dir ,0777)
-                    shutil.copy(file_dir + "/" + filename, destination + "/" + out_dir) 
-                elif  filename.endswith(suffix):
-                    logger.info("copy filename=" + filename)
-                    logger.info("to " + destination + "/" + out_dir) 
+            # Case MP4 (Video) only take finished video for product
+            
+            if ext == '.mp4':
+                logger.info("\tMP4 Video")
+                logger("Copy File" + edgeid + "_" + str(jobcard[part]['size_width']) + "x" + str(jobcard[part]['size_height']) + "x" + str(jobcard[part]['size_size_kbps']) + ext)
+            
+            elif ext == '.jpg':
+                logger.info("\tJPEG Images")
+                for filename in os.listdir(file_dir + "/" + str(jobcard[part]['name'])):
+                    if filename.endswith(ext) and not noexec:
+                        if make_watermark:
+                            logger("Copy File" + edgeid + "_" + str(jobcard[part]['set_width']) + "x" + str(jobcard[part]['set_height'])  + ext)
+                        else:
+                            logger("Copy File" + edgeid + "_" + str(jobcard[part]['set_width']) + "x" + str(jobcard[part]['set_height'])  + ext)
+                    
+            
+            
         else:
             logger.critical("Ignoring component [" + part + "]") 
     

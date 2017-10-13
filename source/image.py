@@ -9,12 +9,9 @@ Created on Sep 30, 2017
 #===============================================================================
 
 import os
+import subprocess
 from string import Template
 import logging
-import subprocess
-import getvideosize
-from os.path import basename
-
 logger = logging.getLogger(__name__)
 
 #===============================================================================
@@ -58,46 +55,32 @@ def main (source, output,  component, jobcard, config, noexec):
     logger.info("Produce - Module Main - Start")
     # Start Code here
     
-    
-    logger.info("Produce - Module Main - Start")
-    
-    return(Error)
 
-def produce(source, output,  component, jobcard, config, noexec):
-    logger.info("Produce - Start")
-    
-        
-
-    FFMPEG=config['locations']['ffmpeg']
-    MOGRIFY=config['locations']['mogrify']
-    CONVERT=config['locations']['convert']
-
-    
-    MESSAGE = ''
     ERROR = ''
-    NEWLINE = '\n'
     WORK = ''
+    NEWLINE = '\n'
     Error = False
+    WorkMatrix = {}
     
-    # Define Parameters
-    video =  source + "/" +jobcard['video']['src']
-    seconds = jobcard['capture']['frame_every']
+    CONVERT=config['locations']['convert']
+    MOGRIFY=config['locations']['mogrify']
+    
     projectno = jobcard['clipinfo']['projectno']
     edgeid = jobcard['clipinfo']['edgeid']
     prime_dubya = jobcard['clipinfo']['prime_dubya']
-    videoName = os.path.basename(video)
-    pathName = os.path.dirname( source + "/" + video)
     star = jobcard['clipinfo']['star']
     
-    
+    set_src = source + "/" + jobcard[component]['src']
     set_dir = jobcard[component]['out_dir']
+    set_width = jobcard[component]['set_width']
+    set_height = jobcard[component]['set_height']
     if jobcard[component]['suffix'] == None:
         set_suffix = "__"
     else:    
         set_suffix =  jobcard[component]['suffix']
     set_ext =  jobcard[component]['ext']
+    set_timed =  jobcard[component]['timed']
     set_name = jobcard[component]['name']
-    
     
     
     thumb_size = jobcard['thumbnails']['size']
@@ -113,10 +96,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     watermark_ext = jobcard['watermark']['ext']
     watermark_suffix = jobcard['watermark']['suffix']
     watermark_color = jobcard['watermark']['color']
-    
-    
     watermark_text = Template(watermark_template).safe_substitute(STAR=star)
-    WorkMatrix = {}
     
     font = config['boxcover']['font']
     
@@ -133,17 +113,9 @@ def produce(source, output,  component, jobcard, config, noexec):
         make_watermark = False          
    
     
-    # Get video Size 
-    Error, SizeOfVideo, Duration, Bitrate  = getvideosize.produce(source, output, component, jobcard, config, noexec)
+    destination = output + "/" + projectno + "/" + prime_dubya + "/" + edgeid
     
-    # We need the size to name the capture directory
-    
-    destination = output + "/" + projectno + "/" +  prime_dubya +"/" + edgeid 
-    
-    set_src = destination + "/" + jobcard[component]['name'] + "/" + jobcard[component]['out_dir']
-    
-    
-       # Create Directories if needed
+    # Create Directories if needed
     if not os.path.isdir(destination + "/" + set_name + "/" + set_dir) and not noexec:
         os.makedirs(destination + "/" + set_name + "/" + set_dir,0777)
         logger.info("Creating Directory: " + destination + "/" + set_name + "/" + set_dir)
@@ -162,46 +134,11 @@ def produce(source, output,  component, jobcard, config, noexec):
     else:
         logger.info("Creating Watermark Directory: " + destination + "/" + set_name + "/" + watermark_dir)
                       
-        
-        
-        
-    logger.info("Make Stills for Video: " + videoName )
-    logger.info("Source Dir:"  + pathName )
-    logger.info("Put Stills in Destination:\n  " )
-    logger.info("\t\t"+destination)
-    
-
-    
-    
-    
-           
    
-    CMD = FFMPEG + " -c:v h264_vda -i '"  + video + "' -thread_type slice -hide_banner -vf fps=1/" + str(seconds) + "  -c:v mjpeg '" + destination + "/" + jobcard[component]['name'] +"/" + jobcard[component]['out_dir'] + "/" + edgeid  + "_capture_%03d.jpg'" 
+    logger.info("Creating Image files from:")
+    logger.info("\tSource Directory:" + set_src)
+    logger.info("\tWriting them to:" + destination)
     
-    logger.info("Making stills from video:" + video + " Size:" + str(SizeOfVideo) + " Duration:" + str(Duration) + " seconds @ bitrate:" + str(Bitrate) )
-    logger.warning("StillCommand:\n  " + CMD )
-    
-    if noexec:
-        logger.info( "No Execute" )
-        result=subprocess.Popen("echo", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    else:
-        logger.warning("Running Command" )  
-        
-        result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdoutdata, stderrdata = result.communicate()
-        status = result.returncode 
-        if status == 0:
-            logger.info("\t\t Capture returned Status: " + str(status))
-        else:
-            logger.warning("\t\t Capture failed with Status:"+ str(status))
-            Error = True 
-    
-     
-    logger.info( "Capture on " + videoName + " Completed" )
-        
- 
- 
-    #Alternate Method for thumbnails & Larger Images
     
     count = 0
     work = 0
@@ -209,12 +146,17 @@ def produce(source, output,  component, jobcard, config, noexec):
     # Start with image 0
     for filename in os.listdir(set_src):
         if filename.endswith(".tif") or filename.endswith(".jpg"):
-            myfilename = basename(filename)
-            myfile = os.path.splitext(myfilename)[0]
+            logger.info("Converting image " + filename)
+            CMD = CONVERT +" '" + set_src + "/" + filename + "' -resize " + str(set_width) + "x" + str(set_height) + " -set filename:mysize '%wx%h' '" + destination + "/" + set_name +"/"+ set_dir +"/" + edgeid + "_" + str(count).zfill(3) + "_" + str(set_width) + "x" + str(set_height) + set_suffix + set_ext +"'"           
+            logger.warning ( "\tmakePhotoSetCMD\n  " + CMD  )
+            if not noexec:    
+                WorkMatrix[work] = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            # Convert source image to destination image with proper name, suffix and ext.
+            work = work + 1
             
             if make_thumbnail:
                 logger.info("Making Thumbnail for " + filename)
-                CMD = CONVERT + " " + set_src + "/" + filename +" -thumbnail " + str(thumb_size) + " '" + destination +  "/" + jobcard[component]['name'] + "/" + thumb_dir + "/" + myfile +  thumb_suffix + thumb_ext +"'"                  
+                CMD = CONVERT + " " + set_src + "/" + filename +" -thumbnail " + str(thumb_size) + " '" + destination + "/" + set_name + "/" + thumb_dir + "/" + edgeid + "_" + str(count).zfill(3) + "_" + str(set_width) + "x" + str(set_height) + set_suffix +  thumb_suffix + thumb_ext +"'"                  
                 logger.warning ( "\tThumbnailCMD\n  " + CMD  )
                 if not noexec:    
                     WorkMatrix[work] = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -222,9 +164,7 @@ def produce(source, output,  component, jobcard, config, noexec):
                 
             if make_watermark:
                 logger.info("Making Watermark for " + filename )
-                logger.info("Name is " + myfile)
-                CMD = CONVERT +" '" + set_src + "/" + filename + "'" + " -background none -font " + str(font) + " -fill " + watermark_color +" -gravity " + watermark_location + " -pointsize " + str(watermark_size) +" -annotate 0 '" + watermark_text + "'" + " -flatten '" + destination + "/" + jobcard[component]['name'] +"/" + watermark_dir + "/" + myfile +  watermark_suffix + watermark_ext +"'"           
-                
+                CMD = CONVERT +" '" + set_src + "/" + filename + "' -resize " + str(set_width) + "x" + str(set_height) +" -background none -font " + str(font) + " -fill " + watermark_color + " -gravity " + watermark_location +" -pointsize " + str(watermark_size) +" -annotate 0 '" + watermark_text + "'" + " -flatten '" + destination + "/" + set_name + "/" + watermark_dir + "/" + edgeid + "_" + str(count).zfill(3) + "_" + str(set_width) + "x" + str(set_height) + set_suffix + watermark_suffix + watermark_ext +"'"           
                 logger.warning ( "\tWatermarkCMD\n  " + CMD  )
                 if not noexec:    
                     WorkMatrix[work] = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -245,17 +185,29 @@ def produce(source, output,  component, jobcard, config, noexec):
     else:
         logger.info("No run")
         logger.info("Check on Work to see if it finished")
-        
-        
-        
- 
+  
+    
+    logger.info("Produce - Module Main - Start")
+    
+    return(Error)
+
+def produce(source, output,  component, jobcard, config, noexec):
+    logger.info("Produce - Start")
+
+    
+    main(source, output,  component, jobcard, config, noexec)
+
+    
+    
+    logger.info("Produce - End")
     return(Error)
 
 
 def exists(source, output,  component, jobcard, config, noexec):
     logger.info("Exists - Start")
     
-    logger.warning("Not Valid")
+    main(source, output,  component, jobcard, config, noexec)
+    
     
     logger.info("Exists - End")
     return(Error)

@@ -157,7 +157,7 @@ def produce(source, output, component, jobcard, config, noexec):
                     logger.info("\t: " + config['default']['scratch'])
                     logger.info("\t: out_dir:" + str(jobcard[product][component]))
                 else:
-                    logger.info("including component " + component)
+                    logger.info("including component " + str(component))
                     
         elif jobcard['product'][product] == 'exists':   
             logger.info(product + " will be copied from existing files")

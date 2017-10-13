@@ -26,7 +26,7 @@ clipinfo:
 
 # All Products that can be created/produced go here
 product: 
-     clips4sale: produce
+     clips4sale: ignore
      ebay: produce
      flickrocket: ignore
      dvd: ignore
@@ -60,6 +60,7 @@ component:
      ebay_txt: produce
      scenethumb: produce
      thumbnails: validate
+     watermark: validate
      2257: exists
 
 # Components Go here
@@ -70,7 +71,8 @@ video1:
      size_kbps: 6000
      out_dir: video
      module: makevideo
-     suffix: .mp4
+     suffix: 
+     ext: .mp4
      
 video2: 
      size_width: 1280
@@ -78,7 +80,8 @@ video2:
      size_kbps: 1500
      out_dir: video
      module: makevideo
-     suffix: .mp4
+     suffix: 
+     ext: .mp4
 
 video: 
      src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4
@@ -86,9 +89,11 @@ video:
      
 capture: 
      frame_every: 30
-     out_dir: photoset/capture
+     out_dir: images
      module: capture
-     suffix: .jpg
+     suffix: _capture
+     name: capture
+     ext: .jpg
      
 boxcover: 
      src_exist: C1E253-C1E258/C1E255_COMBAT_ZONE-682/BoxCovers/GMCZ0022_cover_3724x5296.jpg
@@ -98,6 +103,7 @@ boxcover:
      out_dir: promo
      module: boxcover
      suffix: _boxcover
+     ext: .jpg
 
 # If set_width/set_height are defined; then images will be resized to the height/width
 # If they don't resize 100% then there will be a black background added.
@@ -107,19 +113,23 @@ promoimg:
      set_width: 3782
      set_height: 2592
      timed: true
-     out_dir: promo/images
-     module: photoset
-     suffix: .jpg
+     out_dir: images
+     module: image 
+     name: promo
+     suffix: 
+     ext: .jpg
 
 photoset1: 
      src: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_3872P_JPG/
      set_width: 3872
      set_height: 2592
      timed: true
-     out_dir: photoset/primary
-     module: photoset
-     suffix: .jpg
+     out_dir: photoset
+     module: image
+     suffix: _set1
      count: 36
+     ext: .jpg
+     name: set1
 
 photoset2: 
      src: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_1920CP_CAP_JPG/
@@ -128,7 +138,9 @@ photoset2:
      timed: true
      out_dir: photoset/secondary
      module: photoset
-     suffix: .jpg
+     suffix: _set2
+     ext: .jpg
+     name: set2
 
 photoset3:
      src: 
@@ -137,7 +149,9 @@ photoset3:
      timed: true
      out_dir: photoset/third
      module: photoset
-     suffix: .jpg
+     suffix: _set3
+     ext: .jpg
+     name: set3
 
 
 photoset4:
@@ -147,17 +161,30 @@ photoset4:
      timed: true
      out_dir: photoset/fourth
      module: photoset
-     suffix: .jpg
+     suffix: set_4
+     ext: .jpg
+     name: set4
 
 
 videoinfo: 
-     out_dir: promo
+     out_dir: promo/info
      module: videoinfo
 
 thumbnails: 
      size: 96x96
      out_dir: thumbs
      suffix: _T
+     module: noaction
+     ext: .jpg
+     
+watermark:
+     fontsize: 100
+     template: '$STAR © EDGE'
+     location: SouthEast
+     out_dir: watermark
+     color: purple
+     suffix: _W  
+     ext: .jpg   
      module: noaction
 
 scenethumb: 
@@ -167,22 +194,28 @@ scenethumb:
      suffix: _scene_T
      module: thumbnail
      prefix: edge0022
+     ext: .jpg
+     name: promo
+     
 
 description_txt: 
      src: templates/description_template.txt
-     suffix: _description.txt
+     suffix: _description
+     ext: .txt
      out_dir: ./
      module: description
 
 ebay_txt: 
      src: templates/ebay_template.txt
-     suffix: _ebay.txt
+     suffix: _ebay
      out_dir: promo
      module: description
+     ext: .txt
 
 compliance_txt: 
      src: templates/compliance_template.txt
-     suffix: _compliance.txt
+     suffix: _compliance
+     ext: .txt
      out_dir: video
      module: description
 

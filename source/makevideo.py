@@ -125,7 +125,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     CMD = CMD +  ",drawtext=enable='between(t,00,10)':fontfile=" + font + ":text=\'" + shorttitle + "\':x=(w-text_w)/2:y=" + str(y+400) +":fontcolor=" + font_color + ":fontsize=" + str(font_size)
     
     CMD = CMD +  ",drawtext=enable='between(t,00,10)':fontfile=" + font + ":text=\'Release Date [" + jobcard['clipinfo']['releasedate'] + "]\':x=(w-text_w)/2:y=" + str(y+500) +":fontcolor=" + font_color + ":fontsize=" + str(font_size/2)
-    CMD = CMD +  ",drawtext=enable='between(t,00,10)':fontfile=" + font + ":text=\'Production Date [" + jobcard['clipinfo']['productiondate'] + "]\':x=(w-text_w)/2:y=" + str(y+500) +":fontcolor=" + font_color + ":fontsize=" + str(font_size/2)
+    CMD = CMD +  ",drawtext=enable='between(t,00,10)':fontfile=" + font + ":text=\'Production Date [" + jobcard['clipinfo']['productiondate'] + "]\':x=(w-text_w)/2:y=" + str(y+600) +":fontcolor=" + font_color + ":fontsize=" + str(font_size/2)
 
     # Wrap end of command
     CMD = CMD + "\" -c:v " + mp4_simple + " -b:v " + str(kbps) + "k -pix_fmt yuv420p -video_track_timescale 15360 -c:a aac -strict -2 -ar 48000 -ac 2 -sample_fmt fltp -t 12 '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_" + "preview" + ".mp4'" 
