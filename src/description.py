@@ -155,7 +155,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     for line in desc_template:
         
         replaced_line = Template(line).safe_substitute(STAR=star, EDGEID=edgeid, SUPPORTING=supporting,SHORTTITLE=shorttitle, KEYWORDS=keywords, PRODUCTIONDATE=productiondate, RELEASEDATE=releasedate, LICENSOR=licensor, PROJECTNO=projectno, DESCRIPTION=description, TITLE=title, PRIME_DUBYA=prime_dubya, BIRTHDATE=birthdate, AGE=age, HEIGHT=height, WEIGHT=weight, MEASUREMENTS=measurements, HAIR=hair, EYES=eyes, SKIN=skin, BIRTHPLACE=birthplace, DURATION=duration, VHEIGHT=vheight, VWIDTH=vwidth, VKBPS=vkbps, PHOTOSET1_COUNT=photoset1_count, PHOTOSET1_WIDTH=photoset1_width, PHOTOSET1_HEIGHT=photoset1_height)
-        formatted_line = word_wrap(replaced_line, width=80, ind1=0, ind2=11, prefix='')
+        formatted_line = word_wrap(replaced_line, width=120, ind1=0, ind2=11, prefix='')
         TEXT = TEXT + formatted_line
     
 
