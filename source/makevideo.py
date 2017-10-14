@@ -184,7 +184,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     logger.info("Putting it all together PREVIEW + TRANSCODE + COMPLIANCE")
     
     CMD = FFMPEG + " -i '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_preview.mp4'  -i '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_transcoded.mp4' -i '"  + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps)  + "_compliance.mp4' " 
-    CMD = CMD + "-filter_complex 'concat=n=3:v=1:a=1'  -c:v " + mp4_encoder +" -b:v " + str(kbps) +"k -bufsize 1500000 -nal-hrd cbr -c:a aac -strict -2 '"   + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_assembled.mp4'"
+    CMD = CMD + "-filter_complex 'concat=n=3:v=1:a=1'  -c:v " + mp4_encoder +" -b:v " + str(kbps) +"k -bufsize 1500000  -c:a aac -strict -2  -y '"   + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) + "_assembled.mp4'"
  
     logger.warning("Concat Command\n\t" + CMD)
     if not noexec:
