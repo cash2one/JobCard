@@ -100,7 +100,7 @@ boxcover:
      src_produce: C1E253-C1E258/C1E255_COMBAT_ZONE-682/BoxCovers/GMCZ0022_DONNA_BELL__CHOKY_ICE_22.jpg
      src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/BoxCovers/GMCZ0022_DONNA_BELL__CHOKY_ICE_22.jpg
      alignment: right
-     out_dir: promo
+     out_dir: cover
      module: boxcover
      suffix: _boxcover
      ext: .jpg
@@ -136,7 +136,7 @@ photoset2:
      set_width: 1920
      set_height: 1080
      timed: true
-     out_dir: photoset/secondary
+     out_dir: image2
      module: photoset
      suffix: _set2
      ext: .jpg
@@ -147,7 +147,7 @@ photoset3:
      set_width: 1920
      set_height: 1080
      timed: true
-     out_dir: photoset/third
+     out_dir: image3
      module: photoset
      suffix: _set3
      ext: .jpg
@@ -159,7 +159,7 @@ photoset4:
      set_width: 1920
      set_height: 1080
      timed: true
-     out_dir: photoset/fourth
+     out_dir: image4
      module: photoset
      suffix: set_4
      ext: .jpg
@@ -262,7 +262,8 @@ ebay:
      description_txt: true
      ebay_txt: true
      out_dir: ebay
-     module: makeproduct
+     module: product
+     watermark: True
      map_photoset: photos
      map_promoimg: promo
      map_photoset1: photos/set1

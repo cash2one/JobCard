@@ -96,9 +96,16 @@ def produce(source, output,  component, jobcard, config, noexec):
     x = config['compliance']['preview_x']
     y = config['compliance']['preview_y']
     font_color = config['compliance']['preview_font_color']
-    font_size = config['compliance']['preview_font_size']
+    
     font = config['compliance']['compliance_font']
     
+    if height >= 1080:
+        font_size = config['compliance']['preview_font_size']
+        logger.info("Set Font Size for preview to " + str(font_size))
+    else:
+        scale_percent = float(height) / float(1080)
+        font_size = int(round(float(config['compliance']['preview_font_size']) * scale_percent))    
+        logger.info("Set Font Size for preview to " + str(font_size))
     
     
     if not os.path.isdir(destination ) and not noexec:
@@ -146,14 +153,25 @@ def produce(source, output,  component, jobcard, config, noexec):
      # Use the template for description but put it in the video directory.
      # Using video_text component
     back_color = config['compliance']['compliance_color']
-    font_size = config['compliance']['compliance_text_size']
+    
+    
+    if height >= 1080:
+        font_size = config['compliance']['compliance_text_size']
+        logger.info("Set Font Size for compliance to " + str(font_size))
+    else:
+        scale_percent = float(height) / float(1080)
+        font_size = int(round(float(config['compliance']['compliance_text_size']) * scale_percent))    
+        logger.info("Set Font Size for compliance to " + str(font_size))
+
+    
     font_color = config['compliance']['compliance_text_color']
     font_compliance = config['compliance']['compliance_font']
     
     description.produce(source, output, 'compliance_txt', jobcard, config, noexec)
     text_suffix = jobcard['compliance_txt']['suffix']
+    text_ext = jobcard['compliance_txt']['ext']
     
-    CMD = FFMPEG + " -y -f lavfi -r 60 -i color=" + back_color + ":" +str(width) + "x" + str(height) + " -f lavfi -i anullsrc -vf drawtext=\"fontfile=" + font_compliance + ":fontcolor=" + font_color + ": fontsize=" + str(font_size) + ":textfile='" + destination +"/" + edgeid  + text_suffix +"'" + ":x=50:y=50,fade=t=in:st=00:d=2,fade=t=out:st=58:d=2\" -c:v mpeg4 -b:v " + str(kbps) + "k  -pix_fmt yuv420p -video_track_timescale 15360 -c:a aac -strict -2 -ar 48000 -ac 2 -sample_fmt fltp -t 60 '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) +  "_compliance.mp4'"
+    CMD = FFMPEG + " -y -f lavfi -r 60 -i color=" + back_color + ":" +str(width) + "x" + str(height) + " -f lavfi -i anullsrc -vf drawtext=\"fontfile=" + font_compliance + ":fontcolor=" + font_color + ": fontsize=" + str(font_size) + ":textfile='" + destination +"/" + edgeid  + text_suffix + text_ext +"'" + ":x=50:y=50,fade=t=in:st=00:d=2,fade=t=out:st=58:d=2\" -c:v mpeg4 -b:v " + str(kbps) + "k  -pix_fmt yuv420p -video_track_timescale 15360 -c:a aac -strict -2 -ar 48000 -ac 2 -sample_fmt fltp -t 60 '" + destination + "/" + edgeid + "_" + str(width) + "x" + str(height) + "x" + str(kbps) +  "_compliance.mp4'"
 
     logger.warning("Compliance Command\n\t" + CMD)
         

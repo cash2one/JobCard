@@ -48,7 +48,8 @@ compliance:
   compliance_color: green
   compliance_font: /Library/Fonts/Arial.ttf
   compliance_text_color: FFFFFF
-  compliance_text_size: 20
+  # Text Size Based on 1920x1080; automatically scaled
+  compliance_text_size: 30
 
  
 clips4sale:
@@ -67,10 +68,10 @@ boxcover:
   support_size: 120
   keyword_size: 150
   partno_size: 150
-  title_size: 150
+  title_size: 160
   title_location: right 
   font_color: white
-  suffix: _box_cover
+  suffix: _boxcover
   box_width: 3724
   box_height: 5616
   

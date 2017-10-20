@@ -88,7 +88,7 @@ def main (source, output,  component, jobcard, config, noexec):
 def produce(source, output,  component, jobcard, config, noexec):
     logger.info("Produce - Start")
     
-    name = jobcard['clipinfo']['edgeid'] + jobcard[component]['suffix']
+    name = jobcard['clipinfo']['edgeid'] + jobcard[component]['suffix'] + jobcard[component]['ext']
     projectno = jobcard['clipinfo']['projectno']
     edgeid = jobcard['clipinfo']['edgeid']
     prime_dubya = jobcard['clipinfo']['prime_dubya']

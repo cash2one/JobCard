@@ -127,9 +127,9 @@ productZ = ['promoimg']
 if not validate.produce(source, output, component, jobcard, config, noexec):
     logger.info("JobCard is valid")
 
-debug = 2
+debug = True
 
-if debug == 2:
+if debug == True:
 # If Job Card is Good Code Goes Here
     logger.info('Creating Components')
     for component in jobcard['component']:
@@ -150,7 +150,7 @@ if debug == 2:
     
     logger.info("Creating Products")
 
-    if debug >= 3:    
+    if debug == True:    
 
         for product in jobcard['product']:
             logger.info("Make " + product)

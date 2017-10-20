@@ -107,6 +107,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         
     
     myout_dir = jobcard[component]['out_dir']
+    
     if not myout_dir[0] =='/':
         destination = output + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/" + jobcard[component]['out_dir']
     else:
@@ -130,8 +131,12 @@ def produce(source, output,  component, jobcard, config, noexec):
             
         
         if (not part == 'out_dir') and (not part == 'module') and (not part == 'account') and (not part[0:3] == 'map'):
+    
             if jobcard[part]['out_dir']:
-                src_dir = jobcard[part]['out_dir']
+                if not jobcard[part]['name']:
+                    src_dir = jobcard[part]['name'] + "/" + jobcard[part]['out_dir']
+                else:
+                    src_dir = jobcard[part]['out_dir']   
                 
             else:
                 src_dir =  source + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/"
@@ -189,7 +194,7 @@ def produce(source, output,  component, jobcard, config, noexec):
             
             elif ext == '.jpg':
                 logger.info("\tJPEG Images")
-                for filename in os.listdir(file_dir + "/" + str(jobcard[part]['name'])):
+                for filename in os.listdir(file_dir):
                     if filename.endswith(ext) and not noexec:
                         if make_watermark:
                             logger("Copy File" + edgeid + "_" + str(jobcard[part]['set_width']) + "x" + str(jobcard[part]['set_height'])  + ext)
