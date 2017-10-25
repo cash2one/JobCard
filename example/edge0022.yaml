@@ -111,12 +111,12 @@ boxcover:
 promoimg: 
      src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/Promos/GMCZ0022_Samples
      set_width: 3782
-     set_height: 2592
+     set_height: 
      timed: true
      out_dir: images
      module: image 
      name: promo
-     suffix: 
+     suffix: promo 
      ext: .jpg
 
 photoset1: 

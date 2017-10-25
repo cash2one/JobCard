@@ -16,11 +16,11 @@ codec:
   
 
 default:
-  assembly: /mnt/hgfs/JobCard/Assembly
-  finish: /mnt/hgfs/JobCard//Finished
-  scratch: /mnt/hgfs/JobCard/Scratch
-  source: /mnt/hgfs/JobCard/EdgeSource01
-  deliveries: /mnt/hgfs/JobCard/Delivery
+  assembly: /edge/Assembly
+  finish: /edge/Finished
+  scratch: /edge/Scratch
+  source: /edge/EdgeSource01
+  deliveries: /edge/Delivery
 
 
 functions:
@@ -46,7 +46,7 @@ compliance:
   preview_x: 100
   preview_y: 100
   compliance_color: green
-  compliance_font: /home/jobber/jobber/Arial.ttf
+  compliance_font: /usr/local/font/Arial.ttf
   compliance_text_color: FFFFFF
   compliance_text_size: 20
 
@@ -62,7 +62,7 @@ flickrocket:
   password: password
     
 boxcover:
-  font: /home/jobber/jobber/Skia.ttf
+  font: /usr/local/font/Skia.ttf
   star_size: 150
   support_size: 120
   keyword_size: 150
