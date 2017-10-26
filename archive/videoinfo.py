@@ -68,18 +68,36 @@ def produce(source, output,  component, jobcard, config, noexec):
     projectno = jobcard['clipinfo']['projectno']
     edgeid = jobcard['clipinfo']['edgeid']
     prime_dubya = jobcard['clipinfo']['prime_dubya']
-    destination = output + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/" + jobcard[component]['out_dir']
     video = source + "/" + jobcard['video']['src']
     videoName = os.path.basename(video)
     pathName = os.path.dirname( source + "/" + video)
+    
+    set_src = source + "/" + jobcard[component]['src']
+    set_dir = jobcard[component]['out_dir']
+    set_width = jobcard[component]['set_width']
+    set_height = jobcard[component]['set_height']
+    if jobcard[component]['suffix'] == None:
+        set_suffix = "__"
+    else:    
+        set_suffix =  jobcard[component]['suffix']
+    set_ext =  jobcard[component]['ext']
+    set_timed =  jobcard[component]['timed']
+    set_name = jobcard[component]['name']
+
+    
     Error = False
     
     logger.info("\tGetting Information about video:" + video )
     logger.info("\tDestination: "+ destination)
     
-    if not os.path.isdir(destination) and not noexec:
-        os.makedirs(destination,0777)
-        logger.info("Creating Directory: " + destination)
+   destination = output + "/" + projectno + "/" + prime_dubya + "/" + edgeid
+    
+    # Create Directories if needed
+    if not os.path.isdir(destination + "/" + set_name + "/" + set_dir) and not noexec:
+        os.makedirs(destination + "/" + set_name + "/" + set_dir,0777)
+        logger.info("Creating Directory: " + destination + "/" + set_name + "/" + set_dir)
+    else:
+        logger.info("Creating Directory: " + destination + "/" + set_name + "/" + set_dir)   
     
     for format in ['csv', 'json', 'xml']:
             logger.info("Output Video Information in " + format )

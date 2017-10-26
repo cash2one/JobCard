@@ -121,7 +121,7 @@ logger.info('Starting Job Processing for ' + jobcard['clipinfo']['edgeid'])
 
 # For debugging (Select only these and in order)
 products = ['capture','videoinfo','promoimg','photoset1','description_txt','boxcover','video1', 'video2']
-productZ = ['promoimg']
+productZ = ['photoset1']
 
 
 if not validate.produce(source, output, component, jobcard, config, noexec):
@@ -139,6 +139,7 @@ if debug == True:
         run_module = jobcard[component]['module']
         myModule = importlib.import_module(run_module)
         jobflag = jobcard['component'][component]
+        logger.warning("Job Flag: " + jobflag)
         
         if jobflag == 'produce':
             myModule.produce(source, output,  component, jobcard, config, noexec)

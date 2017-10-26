@@ -1,5 +1,3 @@
 eclipse.preferences.version=1
-encoding//archive/processcard.py=utf-8
-encoding//archive/test2.py=utf-8
-encoding//source/bulkvideosize.py=utf-8
-encoding//source/recursivebulkvideosize.py=utf-8
+encoding//archive/bulkvideosize.py=utf-8
+encoding//utilities/recursivebulkvideosize.py=utf-8

@@ -27,7 +27,7 @@ clipinfo:
 # All Products that can be created/produced go here
 product: 
      clips4sale: ignore
-     ebay: ignore
+     ebay: produce
      flickrocket: ignore
      dvd: ignore
      picticon: ignore
@@ -44,56 +44,56 @@ product:
 # Use validate if it is just part of some products.
 
 component: 
-     boxcover: produce
-     photoset1: exists
+     boxcover: ignore
+     photoset1: ignore
      photoset2: ignore
      photoset3: ignore
      photoset4: ignore
-     capture: produce
-     promoimg: exists
-     videoinfo: produce
+     capture: ignore
+     promoimg: ignore
+     videoinfo: ignore
      book: ignore
-     video1: produce
-     video2: produce
-     description_txt: produce
-     compliance_txt: produce
-     ebay_txt: produce
-     scenethumb: produce
-     thumbnails: validate
-     watermark: validate
-     2257: exists
+     video1: ignore
+     video2: ignore
+     description_txt: ignore
+     compliance_txt: ignore
+     ebay_txt: ignore
+     scenethumb: ignore
+     thumbnails: ignore
+     watermark: ignore
+     2257: ignore
 
 # Components Go here
 # out_dir is relative unless it starts with a "/" then it is absolute
-video1: 
-     set_width: 1920
-     set_height: 1080
-     set_kbps: 6000
+video1:
+     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4 
+     size_width: 1920
+     size_height: 1080
+     size_kbps: 6000
      out_dir: video
-     module: makevideo
+     module: test_new_module
      suffix: 
      ext: .mp4
      
-video2: 
-     set_width: 1280
-     set_height: 720
-     set_kbps: 1500
+video2:
+     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4 
+     size_width: 1280
+     size_height: 720
+     size_kbps: 1500
      out_dir: video
-     module: makevideo
+     module: test_new_module
      suffix: 
      ext: .mp4
-
-video: 
-     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4
-     duration: '28:00 minutes'
      
 capture: 
      frame_every: 30
      out_dir: images
-     module: capture
+     module: test_new_module
      suffix: _capture
      name: capture
      ext: .jpg
+     thumbnail: true
+     watermark: true
      
 boxcover: 
      src_exist: C1E253-C1E258/C1E255_COMBAT_ZONE-682/BoxCovers/GMCZ0022_cover_3724x5296.jpg
@@ -101,7 +101,7 @@ boxcover:
      src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/BoxCovers/GMCZ0022_DONNA_BELL__CHOKY_ICE_22.jpg
      alignment: right
      out_dir: cover
-     module: boxcover
+     module: test_new_module
      suffix: _boxcover
      ext: .jpg
 
@@ -114,7 +114,7 @@ promoimg:
      set_height: 
      timed: true
      out_dir: images
-     module: image 
+     module: test_new_module 
      name: promoimg
      suffix: _promoimg 
      ext: .jpg
@@ -125,11 +125,14 @@ photoset1:
      set_height: 2592
      timed: true
      out_dir: photoset
-     module: image
+     module: test_new_module
      suffix: _set1
      count: 36
      ext: .jpg
      name: set1
+     thumbnail: true
+     watermark: true
+     
 
 photoset2: 
      src: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_1920CP_CAP_JPG/
@@ -137,10 +140,13 @@ photoset2:
      set_height: 1080
      timed: true
      out_dir: image2
-     module: photoset
+     module: test_new_module
      suffix: _set2
      ext: .jpg
      name: set2
+     thumbnail: true
+     watermark: true
+     
 
 photoset3:
      src: 
@@ -148,10 +154,12 @@ photoset3:
      set_height: 1080
      timed: true
      out_dir: image3
-     module: photoset
+     module: test_new_module
      suffix: _set3
      ext: .jpg
      name: set3
+     thumbnail: true
+     watermark: true
 
 
 photoset4:
@@ -160,16 +168,18 @@ photoset4:
      set_height: 1080
      timed: true
      out_dir: image4
-     module: photoset
+     module: test_new_module
      suffix: set_4
      ext: .jpg
      name: set4
+     thumbnail: true
+     watermark: true
 
 
 videoinfo:
      name: info 
      out_dir: video
-     module: videoinfo
+     module: test_new_module
 
 thumbnails: 
      size: 96x96
@@ -193,7 +203,7 @@ scenethumb:
      size: 96
      out_dir: promo2
      suffix: _scene_T
-     module: thumbnail
+     module: test_new_module
      prefix: edge0022
      ext: .jpg
      name: promo2
@@ -203,14 +213,14 @@ description_txt:
      src: templates/description_template.txt
      suffix: _description
      ext: .txt
-     out_dir: ./
-     module: description
+     module: test_new_module
+     out_dir: product
 
 ebay_txt: 
      src: templates/ebay_template.txt
      suffix: _ebay
-     out_dir: promo3
-     module: description
+     out_dir: product
+     module: test_new_module
      ext: .txt
 
 compliance_txt: 
@@ -218,20 +228,21 @@ compliance_txt:
      suffix: _compliance
      ext: .txt
      out_dir: video
-     module: description
+     module: test_new_module
 
 clips4sale_txt:
      src: templates/clips4sale_template.txt
      suffix: _clips4sale.txt
-     out_dir: promo4
-     module: description
- 
+     out_dir: product
+     module: test_new_module
+
+
 
 # This is moved to its own component.     
 2257:
     src: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_2257/
     out_dir: compliance_2257
-    module: copyfiles      
+    module: test_new_module      
 
 
 # Product parts and componets go here.
@@ -246,7 +257,7 @@ clips4sale:
      video1: true
      out_dir: clips4sale
      clips4sale_txt: true
-     module: makeproduct
+     module: noaction
      map_video1: clips
      map_promoimg: clips_images
      map_boxcover: clips_images
@@ -263,7 +274,7 @@ ebay:
      description_txt: true
      ebay_txt: true
      out_dir: ebay
-     module: product
+     module: noaction
      watermark: True
      map_photoset: photos
      map_promoimg: promo
@@ -294,7 +305,7 @@ aebn:
      video1: true
      boxcover: true
      2257: true
-     module: makeproduct
+     module: noaction
      map_video1: video
      map_promoimg: video_images
      map_boxcover: video_images
@@ -306,7 +317,7 @@ hotmovies:
      video1: true
      boxcover: true
      2257: true
-     module: makeproduct
+     module: noaction
      map_video1: video
      map_promoimg: video_images
      map_boxcover: video_images
@@ -317,7 +328,7 @@ flickrocket:
      video1: true
      boxcover: true
      promo: true
-     module: makeproduct
+     module: noaction
      map_video1: video
      map_promoimg: video_images
      map_boxcover: video_images

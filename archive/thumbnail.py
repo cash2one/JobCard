@@ -79,6 +79,19 @@ def produce(source, output,  component, jobcard, config, noexec):
     thumb_dir = jobcard[component]['out_dir']
     suffix = jobcard[component]['suffix']
     
+    set_src = source + "/" + jobcard[component]['src']
+    set_dir = jobcard[component]['out_dir']
+    set_width = jobcard[component]['set_width']
+    set_height = jobcard[component]['set_height']
+    if jobcard[component]['suffix'] == None:
+        set_suffix = "__"
+    else:    
+        set_suffix =  jobcard[component]['suffix']
+    set_ext =  jobcard[component]['ext']
+    set_timed =  jobcard[component]['timed']
+    set_name = jobcard[component]['name']
+
+    
     logger.info("Component:" + str(component))
     logger.info("\tSource Directory:" + sourcedir)
     
@@ -87,13 +100,14 @@ def produce(source, output,  component, jobcard, config, noexec):
     
     
         
-    destination = output + "/" + projectno + "/" +  prime_dubya +"/" + edgeid + "/" + jobcard[component]['out_dir'] 
-    logger.info("\tDestination Directory: " + destination)
+    destination = output + "/" + projectno + "/" + prime_dubya + "/" + edgeid
     
-    if not os.path.isdir(destination + "/" ) and not noexec :
-        os.makedirs(destination + "/" + thumb_dir,0777)
-        logger.info("Creating Destination Directory: " + destination)
-        
+    # Create Directories if needed
+    if not os.path.isdir(destination + "/" + set_name + "/" + set_dir) and not noexec:
+        os.makedirs(destination + "/" + set_name + "/" + set_dir,0777)
+        logger.info("Creating Directory: " + destination + "/" + set_name + "/" + set_dir)
+    else:
+        logger.info("Creating Directory: " + destination + "/" + set_name + "/" + set_dir)   
     
     
 
