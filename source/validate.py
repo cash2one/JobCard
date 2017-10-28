@@ -86,7 +86,7 @@ def produce(source, output, component, jobcard, config, noexec):
     for component in jobcard['component']:
     
         if jobcard['component'][component] == 'produce':
-            logger.info(component + " will be produced")
+            logger.info(str(component) + " will be produced")
             for value in jobcard[component]:
                 logger.info('\t' + value + ":" + str(jobcard[component][value]))
                 if value == 'src': 

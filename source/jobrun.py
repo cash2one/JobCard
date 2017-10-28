@@ -22,6 +22,7 @@ group.add_argument("-q", "--quiet", action="store_true")
 parser.add_argument("-j", "--jobcard", action="store", help="jobcard.yml file to process")
 parser.add_argument("-l","--logfile", action="store", help="Write Logfile if ommitted write to STDOUT")
 parser.add_argument("-c","--configfile", default="config.yml", help="use config file, default is config.yml in working dir")
+parser.add_argument("-f","--filelog", action="store", help="Write List of CSV files and information if ommitted write file named same as job card" )
 parser.add_argument("-n","--noexec", action="store_true", help="Do not run commands on the OS; echo the command on the OS only" )
 args = parser.parse_args()
 print args
@@ -36,9 +37,13 @@ if args.jobcard == None:
     exit(1)
     
 
+if args.filelog == None:
+    base = os.path.basename(args.jobcard)
+    filelog = os.path.splitext(base)[0] + ".csv"
+else:
+    filelog = args.filelog
 
-
-
+print filelog
 
 
 
@@ -75,6 +80,12 @@ else:
     logger.info("Job card invalid")
     exit(2)
 
+#------------------------------------------------------------------------------ 
+# Open a log of all files written
+try:
+    filelst = open(filelog,'w')
+except:
+    logger.error("Unable to open file for file list")    
 
     
 #Open Config File
@@ -106,11 +117,13 @@ FONT=config['boxcover']['font']
 JobMatrix = {}
 PartMatrix = {}
 ErrorMatrix = {}
+ImportantCounts = {}
 source = config['default']['source']
 output = config['default']['assembly']
 finish = config['default']['finish']
 component = 'validate'
 noexec = args.noexec
+Error = False
     
 #===============================================================================
 # Main Code
@@ -132,7 +145,7 @@ debug = True
 if debug == True:
 # If Job Card is Good Code Goes Here
     logger.info('Creating Components')
-    for component in jobcard['component']:
+    for component in sorted(jobcard['component']):
     #for component in productZ:
         # Get Processing Module
         logger.warning("Processing Component " + str(component))
@@ -142,18 +155,21 @@ if debug == True:
         logger.warning("Job Flag: " + jobflag)
         
         if jobflag == 'produce':
-            myModule.produce(source, output,  component, jobcard, config, noexec)
+            myError = myModule.produce(source, output,  component, jobcard, config, noexec)
         elif jobflag == 'exists':
-            myModule.exists(finish, output,  component, jobcard, config, noexec)
+            myError = myModule.exists(finish, output,  component, jobcard, config, noexec)
         else:
-            myModule.ignore(source, output,  component, jobcard, config, noexec)    
+            myError = myModule.ignore(source, output,  component, jobcard, config, noexec)    
 
+        Error = myError if Error is False else True
     
     logger.info("Creating Products")
 
     if debug == True:    
-
-        for product in jobcard['product']:
+        product_list = jobcard['product']
+       
+        
+        for product in sorted(product_list):
             logger.info("Make " + product)
             # Get Processing Module
             run_module = jobcard[product]['module']
@@ -176,5 +192,10 @@ if debug == True:
 # JobCard doesn't validate
 else:
     logger.error("Fix JobCard issues; then rerun")    
-
+    
+filelst.close()
 logger.info('[end program]')
+if Error == True:
+    logger.error("Program Completed with Errors")
+elif Error == False:
+    logger.info("Program Completed without Error")    

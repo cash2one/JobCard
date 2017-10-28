@@ -10,6 +10,7 @@ Created on Sep 30, 2017
 
 import os
 from string import Template
+import shutil
 import logging
 logger = logging.getLogger(__name__)
 
@@ -78,6 +79,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     prime_dubya = jobcard['clipinfo']['prime_dubya']
     destination = output + "/" + projectno + "/" + prime_dubya + "/" + edgeid
     
+    
     # Create Directories as needed
     try:
         item_src = jobcard[component]['src'] if "src" in jobcard[component] else None
@@ -93,18 +95,13 @@ def produce(source, output,  component, jobcard, config, noexec):
         item_count = jobcard[component]['count'] if "count" in jobcard[component] else None
         item_timed = jobcard[component]['timed'] if "timed" in jobcard[component] else None
         item_size = jobcard[component]['size'] if "size" in jobcard[component] else None
+                                        
+            
+    
     except:
-         logger.warning("Not all variables set properly")   
-    # Test Source for relative or absoulte path
-    
-    if item_src[0] != "/":                       
-        logger.debug("Relative Path")    
-        item_source = source + "/" + item_src
-    else:
-        logger.debug("Absolute Path")
-        item_source = jobcard[component]['src']  
-    
-        #setup final destination in complex situations
+         logger.warning("Not all variables set properly")
+     
+    #setup final destination in complex situations
     if not item_name == None and not item_outdir == None:
         finaldestination = destination + "/" + str(item_name) + "/" + str(item_outdir)
     elif not item_name == None and item_outdir == None:
@@ -113,7 +110,17 @@ def produce(source, output,  component, jobcard, config, noexec):
         finaldestination = destination + "/" + str(item_outdir)     
     else:
         finaldestination = destination
+ 
      
+    # Test Source for relative or absoulte path
+    
+    if item_src[0] != "/":                       
+        logger.debug("Relative Path")    
+        item_source = source + "/" + item_src
+    else:
+        logger.debug("Absolute Path")
+        item_source = jobcard[component]['src']  
+         
      
     logger.info("\tItem Src: " + str(item_src))
     logger.info("\tItem Source: " + str(item_source))
@@ -132,13 +139,20 @@ def produce(source, output,  component, jobcard, config, noexec):
     logger.info("\tItem Timed: " + str(item_timed))
     logger.info("\tItem Size: " + str(item_size))   
              
-    # Create Directories if needed
-    if not os.path.isdir(finaldestination) and not noexec:
-        os.makedirs(finaldestination,0777)
-        logger.info("Creating Directory: " + finaldestination)
-    else:
-        logger.info("Creating Directory: " + finaldestination)   
 
+    
+    if not noexec and not os.path.isdir(finaldestination) :
+        logger.info("Copying files")
+        copyerror = shutil.copytree(str(item_source), finaldestination, symlinks=False, ignore=None)
+        print copyerror
+        Error = False if copyerror is None else True
+    elif os.path.isdir(finaldestination):
+        Error = True
+        logger.error("Directory Exsisted")
+    else:
+        logger.warn("FILE COPY")   
+        Error = False 
+    
     
     
     logger.info("Produce - End")
@@ -148,8 +162,98 @@ def produce(source, output,  component, jobcard, config, noexec):
 def exists(source, output,  component, jobcard, config, noexec):
     logger.info("Exists - Start")
     
+    logger.info("Produce - Start")
+    logger.info("Source: " + str(source))
+    logger.info("Output: " + str(output))
+
+    
+    if noexec:
+        logger.info("Don't execute any commands for real, test mode only")
+    
+    # Set common variables for Components
+    # Relative to the component being passed. 
+    # If value is not present; prevent an error
+    
+    # Setup the Output Destination
+    projectno = jobcard['clipinfo']['projectno']
+    edgeid = jobcard['clipinfo']['edgeid']
+    prime_dubya = jobcard['clipinfo']['prime_dubya']
+    destination = output + "/" + projectno + "/" + prime_dubya + "/" + edgeid
     
     
+    # Create Directories as needed
+    try:
+        item_src = jobcard[component]['src'] if "src" in jobcard[component] else None
+        item_width = jobcard[component]['set_width'] if "set_width" in jobcard[component] else None
+        item_height = jobcard[component]['set_height'] if "set_height" in jobcard[component] else None
+        item_kbps =  jobcard[component]['set_kbps'] if "set_kbps" in jobcard[component] else None
+        item_outdir = jobcard[component]['out_dir'] if "out_dir" in jobcard[component] else None
+        item_suffix = jobcard[component]['suffix'] if "suffix" in jobcard[component] else None
+        item_ext = jobcard[component]['ext'] if "ext" in jobcard[component] else None
+        item_name = jobcard[component]['name'] if "name" in jobcard[component] else None
+        item_thumbnail = jobcard[component]['thumbail'] if "thumbail" in jobcard[component] else None
+        item_watermark = jobcard[component]['watermark'] if "watermark" in jobcard[component] else None
+        item_count = jobcard[component]['count'] if "count" in jobcard[component] else None
+        item_timed = jobcard[component]['timed'] if "timed" in jobcard[component] else None
+        item_size = jobcard[component]['size'] if "size" in jobcard[component] else None
+                                        
+            
+    
+    except:
+         logger.warning("Not all variables set properly")
+     
+    #setup final destination in complex situations
+    if not item_name == None and not item_outdir == None:
+        finaldestination = destination + "/" + str(item_name) + "/" + str(item_outdir)
+    elif not item_name == None and item_outdir == None:
+        finaldestination = destination + "/" + str(item_name)
+    elif item_name == None and not item_outdir == None:
+        finaldestination = destination + "/" + str(item_outdir)     
+    else:
+        finaldestination = destination
+ 
+     
+    # Test Source for relative or absoulte path
+    
+    if item_src[0] != "/":                       
+        logger.debug("Relative Path")    
+        item_source = source + "/" + item_src
+    else:
+        logger.debug("Absolute Path")
+        item_source = jobcard[component]['src']  
+         
+     
+    logger.info("\tItem Src: " + str(item_src))
+    logger.info("\tItem Source: " + str(item_source))
+    logger.info("\tDestination: " + str(destination))
+    logger.info("\tFinal Destination: " + str(finaldestination))
+    logger.info("\tItem Width: " + str(item_width))   
+    logger.info("\tItem Height: " + str(item_height))  
+    logger.info("\tItem Kbps: " + str(item_kbps))  
+    logger.info("\tItem Name: " + str(item_name))
+    logger.info("\tItem Outdir: " + str(item_outdir))
+    logger.info("\tItem Suffix: " + str(item_suffix))
+    logger.info("\tItem Ext: " + str(item_ext))
+    logger.info("\tItem Thumbnail: " + str(item_thumbnail))
+    logger.info("\tItem Watermark: " + str(item_watermark))
+    logger.info("\tItem Count: " + str(item_count))
+    logger.info("\tItem Timed: " + str(item_timed))
+    logger.info("\tItem Size: " + str(item_size))   
+             
+
+    
+    if not noexec and not os.path.isdir(finaldestination) :
+        logger.info("Copying files")
+        copyerror = shutil.copytree(str(item_source), finaldestination, symlinks=False, ignore=None)
+        print copyerror
+        Error = False if copyerror is None else True
+    elif os.path.isdir(finaldestination):
+        Error = True
+        logger.error("Directory Exsisted")
+    else:
+        logger.warn("FILE COPY")   
+        Error = False 
+        
     logger.info("Exists - End")
     return(Error)
 
@@ -159,6 +263,8 @@ def ignore(source, output,  component, jobcard, config, noexec):
     logger.info("Ignore - Start")
     
     logger.warn("Component: " + str(component) + "is being ignored")
+    
+    Error = False
     
     logger.info("Ignore - End")
     return(Error)
