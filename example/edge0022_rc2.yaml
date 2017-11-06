@@ -3,8 +3,6 @@ clipinfo:
      projectno: Test01
      prime_dubya: GMCZ_Scenes
      edgeid: GMCZ0022
-     star: Donna Bell
-     supporting: Choky Ice
      shorttitle: Suck Fuck Anal A2M Facial
      title: Edge Interactive Collector Scene
      description: Romanian Donna Bell started out shooting masturbation, toy and lesbo work but quickly graduated to sucking and fucking cocks. Here she is breaking through into in anal, A2M, and eventually DP roles. Today she runs with Choky Ice as the Spanish Maid with white hose and heels.
@@ -12,16 +10,27 @@ clipinfo:
      productiondate: June 1, 2010
      releasedate: October 6, 2017
      licensor: Global Media International. 
-     birthdate: August 11, 1988
-     age: 21
-     height: '5'' 7"'
-     weight: 105
-     measurements: 36C-27-37
-     hair: Blonde`
-     eyes: Blue
-     skin: Caucasian
-     birthplace: Constanta, Romania
+     star: 
+        name: Donna Bell
+        birthdate: August 11, 1988
+        age: 21
+        height: '5'' 7"'
+        weight: 105
+        measurements: 36C-27-37
+        hair: Blonde`
+        eyes: Blue
+        skin: Caucasian
+        birthplace: Constanta, Romania
+     star2: 
+        name: Silly Girl
+        age: 24
+     supporting:
+        name: Choky Ice   
      comment: Combat Zone, acquired 2015 GMI License. Stats trimmed from Iafd 38D-27-38 to 36C-27-37
+
+# Star(s) and Supporting actor/actress have the following possible options:
+# name, birthdate, age, height, weight, measurements, hair, eyes, skin, birthplace 
+# There is support for 2 stars and 1 supporting cast.
 
 
 # All Products that can be created/produced go here
@@ -42,15 +51,16 @@ product:
 # Produce = path starts with EdgeSource??
 # Thumbnails = Only valid option is Produce or Ignore (inherits Produce/Exist from source photo location)
 # Use validate if it is just part of some products.
+# Component are processed in alphabetical order (regardless of how the appear below)
 
 component: 
-     2257: exists
+     2257: ignore
      bookimg: ignore
      boxcover: ignore
-     capture: ignore
-     compliance_txt: ignore
-     description_txt: ignore
-     ebay_txt: ignore
+     #capture: produce, deprecated: Capture has been moved to video componet to allow for unlimited videos
+     #compliance_txt: deprecated: Compliance Text will be generated during each video
+     description_txt: produce
+     #ebay_txt: deprecated: Will be generated as part of a product
      photoset1: ignore
      photoset2: ignore
      photoset3: ignore
@@ -89,7 +99,7 @@ video2:
 capture: 
      frame_every: 30
      out_dir: images
-     module: test_new_module
+     module: capture
      suffix: _capture
      name: capture
      ext: .jpg
@@ -99,16 +109,22 @@ capture:
 bookimg:
      src:
      module: noaction
+
+# Changed Boxcover to allow for multiple box covers (portrait or landscape)
+# Height / Width are what you want them to be. 
+# Allows for Video boxcover to be attached to MP4 as image.
      
 boxcover: 
-     src_exist: C1E253-C1E258/C1E255_COMBAT_ZONE-682/BoxCovers/GMCZ0022_cover_3724x5296.jpg
-     src_produce: C1E253-C1E258/C1E255_COMBAT_ZONE-682/BoxCovers/GMCZ0022_DONNA_BELL__CHOKY_ICE_22.jpg
      src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/BoxCovers/GMCZ0022_DONNA_BELL__CHOKY_ICE_22.jpg
      alignment: right
-     out_dir: cover
-     module: test_new_module
+     name: boxcover
+     module: boxcover
+     thumbnail: True
      suffix: _boxcover
      ext: .jpg
+     set_width: 3724
+     set_height: 5616
+     
 
 # If set_width/set_height are defined; then images will be resized to the height/width
 # If they don't resize 100% then there will be a black background added.
@@ -218,8 +234,8 @@ description_txt:
      src: templates/description_template.txt
      suffix: _description
      ext: .txt
-     module: test_new_module
-     out_dir: product
+     module: maketext
+
 
 ebay_txt: 
      src: templates/ebay_template.txt
@@ -233,7 +249,7 @@ compliance_txt:
      suffix: _compliance
      ext: .txt
      out_dir: video
-     module: test_new_module
+     module: maketext
 
 clips4sale_txt:
      src: templates/clips4sale_template.txt
