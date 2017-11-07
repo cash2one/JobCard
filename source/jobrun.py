@@ -137,8 +137,8 @@ logger.info('Starting Job Processing for ' + jobcard['clipinfo']['edgeid'])
 products = ['capture','videoinfo','promoimg','photoset1','description_txt','boxcover','video1', 'video2']
 productZ = ['photoset1']
 
-
-if not validate.produce(source, output, component, jobcard, config, noexec):
+Error = validate.produce(source, output, component, jobcard, config, noexec)
+if not Error:
     logger.info("JobCard is valid")
 
 debug = True

@@ -81,6 +81,14 @@ def produce(source, output, component, jobcard, config, noexec):
             logger.error('\t' + program +" : " + str(config['locations'][program]) + " -- does not exist: FAIL")
             Error = True
     
+    for key in config:
+        for item in config[key]:
+            if item.endswith('font'):
+                if os.path.isfile(config[key][item]):
+                    logger.info("Test if font exists:" + str(item) + ":Valid")
+                else:
+                    Error = True    
+                    logger.Error("Test if font exists:" + str(item) + ":Missing")
     
     
     for component in jobcard['component']:
@@ -90,19 +98,20 @@ def produce(source, output, component, jobcard, config, noexec):
             for value in jobcard[component]:
                 logger.info('\t' + value + ":" + str(jobcard[component][value]))
                 if value == 'src': 
+                    logger.info("Test Source file or directory")
                     test_desc = str(jobcard[component][value])
                     #Determine Absolute or Relative Path/File Descriptor               
                     
                     if test_desc[0] != "/":                       
-                        logger.debug("\tRelative Path")    
+                        logger.info("\tsource is realtive to Source")    
                         file_desc = str(config['default']['source']) + "/" +  str(jobcard[component][value])
                     else:
-                        logger.debug("\tAbsolute Path")
+                        logger.debug("\tsource is an absolute path")
                         file_desc = str(jobcard[component][value])
                     
-                    logger.debug("\tFILE_DESC = " + file_desc) 
+                    logger.info("\tFILE_DESC = " + file_desc) 
                             
-                    if os.path.exists( file_desc ):
+                    if os.path.exists(file_desc):
                         logger.info('\t\texists[' + file_desc + "]")
                         if os.path.isdir(file_desc):
                             logger.info('\t\is directory[' + file_desc + "]")
