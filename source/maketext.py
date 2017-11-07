@@ -121,6 +121,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         item_count = jobcard[component]['count'] if "count" in jobcard[component] else None
         item_timed = jobcard[component]['timed'] if "timed" in jobcard[component] else None
         item_size = jobcard[component]['size'] if "size" in jobcard[component] else None
+        templates = config['default']['templates'] if "templates" in config['default'] else ""
         
         # Get Clip Information 
         clip_prime_dubya = jobcard['clipinfo']['prime_dubya']

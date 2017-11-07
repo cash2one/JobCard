@@ -106,6 +106,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         item_timed = jobcard[component]['timed'] if "timed" in jobcard[component] else None
         item_size = jobcard[component]['size'] if "size" in jobcard[component] else None
         item_capture = jobcard[component]['capture'] if "capture" in jobcard[component] else False
+        templates = config['default']['templates'] if "templates" in config['default'] else ""
         
         # Get Clip Information 
         clip_prime_dubya = jobcard['clipinfo']['prime_dubya']
@@ -271,11 +272,12 @@ def produce(source, output,  component, jobcard, config, noexec):
    
     if compliance_template[0] != "/":
         logger.debug("Compliant Template - relative Path") 
-        compliance_template = source + "/" + compliance_template
+        compliance_template = str(templates) + "/" + str(compliance_template)
     else:
         logger.debug("Compliant Template - absolute Path") 
         
     logger.info("Compliance Template: " + str(compliance_template) )  
+     
      
      
      
