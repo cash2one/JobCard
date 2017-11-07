@@ -510,7 +510,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         logger.info("Thumbnail Command:\n\t" + CMD)
         if not noexec:
             thumbnail_result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            logger("Check if Concat Completed")
+            logger.info("Check if Concat Completed")
             stdoutdata, stderrdata = thumbnail_result.communicate()
             thumbnail_status = thumbnail_result.returncode 
             if concat_status == 0:
