@@ -36,7 +36,7 @@ clipinfo:
 # All Products that can be created/produced go here
 product: 
      clips4sale: ignore
-     ebay: produce
+     ebay: ignore
      flickrocket: ignore
      dvd: ignore
      picticon: ignore
@@ -59,7 +59,7 @@ component:
      boxcover: ignore
      #capture: produce, deprecated: Capture has been moved to video componet to allow for unlimited videos
      #compliance_txt: deprecated: Compliance Text will be generated during each video
-     description_txt: produce
+     description_txt: ignore
      #ebay_txt: deprecated: Will be generated as part of a product
      photoset1: ignore
      photoset2: ignore
@@ -68,22 +68,26 @@ component:
      promoimg: ignore
      scenethumb: ignore
      thumbnails: ignore
-     video1: ignore
+     video1: produce
      video2: ignore
      videoinfo: ignore
-     watermark: ignore
+     # watermark: No longer a component, deprecated to other components, the secrion remains for configuraiton parameters.
 
 
 # Components Go here
 # out_dir is relative unless it starts with a "/" then it is absolute
+# With Watermark; it will watermark captures and video
+
 video1:
-     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4 
+     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4
+     capture: true
+     watermark: true
+     thumbnail: true 
      size_width: 1920
      size_height: 1080
      size_kbps: 6000
-     out_dir: video
-     module: test_new_module
-     suffix: 
+     name: video1
+     module: processvideo
      ext: .mp4
      
 video2:
@@ -103,8 +107,7 @@ capture:
      suffix: _capture
      name: capture
      ext: .jpg
-     thumbnail: true
-     watermark: true
+
 
 bookimg:
      src:
@@ -211,6 +214,7 @@ thumbnails:
      
 watermark:
      fontsize: 100
+     videofontsize: 30
      template: '$STAR © EDGE'
      location: SouthEast
      out_dir: watermark
@@ -248,7 +252,7 @@ compliance_txt:
      src: templates/compliance_template.txt
      suffix: _compliance
      ext: .txt
-     out_dir: video
+     name: compliance
      module: maketext
 
 clips4sale_txt:
@@ -297,7 +301,6 @@ ebay:
      ebay_txt: true
      out_dir: ebay
      module: noaction
-     watermark: True
      map_photoset: photos
      map_promoimg: promo
      map_photoset1: photos/set1

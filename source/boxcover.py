@@ -150,6 +150,9 @@ def produce(source, output,  component, jobcard, config, noexec):
             water_color = jobcard['watermark']['color'] if "color" in jobcard['watermark'] else 'red'
             water_suffix = jobcard['watermark']['suffix'] if "suffix" in jobcard['watermark'] else None
             water_ext = jobcard['watermark']['ext'] if "ext"  in jobcard['watermark'] else '.jpg'
+            water_font = config['boxcover']['font'] if "font" in config['boxcover'] else "/usr/local/etc/Skia.ttf"
+
+            
             if not water_name == None and not water_outdir == None:
                 water_destination = destination + "/" + str(water_name) + "/" + str(water_outdir)
             elif not water_name == None and water_outdir == None:
@@ -162,8 +165,8 @@ def produce(source, output,  component, jobcard, config, noexec):
         else:
             logger.info("Watermark not requeted")
         
-    except:
-         logger.warning("Not all variables set properly")   
+    except Exception as e:  
+        logger.warning("Not all variables set properly; exception " + str(e))   
     # Test Source for relative or absoulte path
     
     if item_src[0] != "/":                       
