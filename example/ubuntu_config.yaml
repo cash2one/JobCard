@@ -9,10 +9,12 @@ locations:
   dvdauthor: /usr/bin/dvdauthor
   
 codec:
-  mp4_decode: h264_vdpau
-  mp4_encode: libx264
+  mp4_decode: h264_vda
+  mp4_encode: h264_videotoolbox
   mp4_simple: mpeg4
-    
+  mp4_jpeg: mjpeg
+  mp4_accel: '-hwaccel videotoolbox'
+  mp4_threads: '-threads 8'
   
 
 default:
@@ -23,30 +25,16 @@ default:
   deliveries: /edge/Delivery
 
 
-functions:
-  capture: CAPTURE
-  transcode: TRANSCODE
-  video1: makeVideo
-  video2: makeVideo
-  photoset1: makePhotoSet
-  photoset2: makePhotoSet
-  photoset3: makePhotoSet
-  photoset4: makePhotoSet   
-  box_cover: makeBoxCover
-  promoimg: makePromoImg
-  book: makeBook
-  videoinfo: makeVideoInfo
-
 compliance:
   licensedefault: Edge Interactive  
-  template: templates/compliance_template.txt
+  template: /usr/local/templates/compliance_template.txt
   preview_color: blue
   preview_font_color: yellow
   preview_font_size: 48
   preview_x: 100
   preview_y: 100
   compliance_color: green
-  compliance_font: /usr/local/font/Arial.ttf
+  compliance_font: /usr/local/fonts/Arial.ttf
   compliance_text_color: FFFFFF
   compliance_text_size: 20
 
@@ -62,7 +50,7 @@ flickrocket:
   password: password
     
 boxcover:
-  font: /usr/local/font/Skia.ttf
+  font: /usr/local/fonts/Skia.ttf
   star_size: 150
   support_size: 120
   keyword_size: 150

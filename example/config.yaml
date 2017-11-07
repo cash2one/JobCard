@@ -9,11 +9,11 @@ locations:
   dvdauthor: /opt/local/bin/dvdauthor
   
 codec:
-  mp4_decode: h264_vda
-  mp4_encode: h264_videotoolbox
+  mp4_decode: h264_cuvid
+  mp4_encode: h264_nvenc
   mp4_simple: mpeg4
   mp4_jpeg: mjpeg
-  mp4_accel: '-hwaccel videotoolbox'
+  mp4_accel: '-hwaccel cuvid'
   mp4_threads: '-threads 8'
     
   
@@ -26,19 +26,7 @@ default:
   deliveries: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/
 
 
-functions:
-  capture: CAPTURE
-  transcode: TRANSCODE
-  video1: makeVideo
-  video2: makeVideo
-  photoset1: makePhotoSet
-  photoset2: makePhotoSet
-  photoset3: makePhotoSet
-  photoset4: makePhotoSet   
-  box_cover: makeBoxCover
-  promoimg: makePromoImg
-  book: makeBook
-  videoinfo: makeVideoInfo
+
 
 compliance:
   licensedefault: Edge Interactive  
