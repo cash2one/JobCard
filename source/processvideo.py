@@ -259,6 +259,13 @@ def produce(source, output,  component, jobcard, config, noexec):
         logger.debug("Absolute Path")
         item_source = jobcard[component]['src']  
     
+    #Check Compliance Template for relative location
+    if compliance_template[0] != "/":
+        logger.debug("Compliant Template - relative Path") 
+        compliance_template = source + "/" + compliance_template
+    else:
+        logger.debug("Compliant Template - absolute Path")   
+     
      
      
     logger.info("\tItem Src: " + str(item_src))
