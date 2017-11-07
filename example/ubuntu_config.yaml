@@ -35,10 +35,16 @@ compliance:
   preview_font_size: 48
   preview_x: 100
   preview_y: 100
+  preview_suffix: _preview
+  preview_ext: .mp4
+  preview_font: /Library/Fonts/Arial.ttf
   compliance_color: green
-  compliance_font: /usr/local/fonts/Arial.ttf
-  compliance_text_color: FFFFFF
-  compliance_text_size: 20
+  compliance_font: /Library/Fonts/Arial.ttf
+  compliance_text_color: black
+  # Text Size Based on 1920x1080; automatically scaled
+  compliance_text_size: 30
+  compliance_suffix: _compliance
+  compliance_ext: .mp4
 
  
 clips4sale:
