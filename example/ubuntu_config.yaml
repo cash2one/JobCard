@@ -24,6 +24,7 @@ default:
   scratch: /edge/Scratch
   source: /edge/EdgeSource01
   deliveries: /edge/Delivery
+  templates: /usr/local
 
 
 compliance:

@@ -25,7 +25,7 @@ default:
   scratch: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/Scratch
   source: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/EdgeSource01
   deliveries: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard
-  templates: /usr/local/templates
+  templates: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard
 
 
 

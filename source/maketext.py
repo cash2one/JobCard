@@ -174,8 +174,11 @@ def produce(source, output,  component, jobcard, config, noexec):
     # Test Source for relative or absoulte path
     
     if item_src[0] != "/":                       
-        logger.debug("Relative Path")    
-        item_source = source + "/" + item_src
+        logger.debug("Relative Path")
+        if component.endswith("txt"):
+            item_source = templates +   "/" + item_src
+        else:      
+            item_source = source + "/" + item_src
     else:
         logger.debug("Absolute Path")
         item_source = jobcard[component]['src']  
