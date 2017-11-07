@@ -37,9 +37,9 @@ compliance:
   preview_y: 100
   preview_suffix: _preview
   preview_ext: .mp4
-  preview_font: /Library/Fonts/Arial.ttf
+  preview_font: /usr/local/Fonts/Arial.ttf
   compliance_color: green
-  compliance_font: /Library/Fonts/Arial.ttf
+  compliance_font: /usr/local/Fonts/Arial.ttf
   compliance_text_color: black
   # Text Size Based on 1920x1080; automatically scaled
   compliance_text_size: 30
