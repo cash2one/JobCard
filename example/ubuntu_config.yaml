@@ -1,6 +1,6 @@
 locations:
   convert: /usr/bin/convert
-  ffmpeg: /usr/bin/ffmpeg
+  ffmpeg: /usr/local/bin/ffmpeg
   curl: /usr/bin/curl
   flickrocket: /bin/echo
   ffprobe: /usr/bin/ffprobe
