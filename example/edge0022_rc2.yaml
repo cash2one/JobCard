@@ -76,7 +76,7 @@ component:
 # With Watermark; it will watermark captures and video
 
 video1:
-     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4
+     src: FC1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4
      capture: true
      watermark: true
      thumbnail: true 

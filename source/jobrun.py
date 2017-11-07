@@ -141,52 +141,52 @@ Error = validate.produce(source, output, component, jobcard, config, noexec)
 if not Error:
     logger.info("JobCard is valid")
 
-debug = True
-
-if debug == True:
-# If Job Card is Good Code Goes Here
-    logger.info('Creating Components')
-    for component in sorted(jobcard['component']):
-    #for component in productZ:
-        # Get Processing Module
-        logger.warning("Processing Component " + str(component))
-        run_module = jobcard[component]['module']
-        myModule = importlib.import_module(run_module)
-        jobflag = jobcard['component'][component]
-        logger.warning("Job Flag: " + jobflag)
-        
-        if jobflag == 'produce':
-            myError = myModule.produce(source, output,  component, jobcard, config, noexec)
-        elif jobflag == 'exists':
-            myError = myModule.exists(finish, output,  component, jobcard, config, noexec)
-        else:
-            myError = myModule.ignore(source, output,  component, jobcard, config, noexec)    
-
-        Error = myError if Error is False else True
+    debug = True
     
-    logger.info("Creating Products")
-
-    if debug == True:    
-        product_list = jobcard['product']
-       
-        
-        for product in sorted(product_list):
-            logger.info("Make " + product)
+    if debug == True:
+    # If Job Card is Good Code Goes Here
+        logger.info('Creating Components')
+        for component in sorted(jobcard['component']):
+        #for component in productZ:
             # Get Processing Module
-            run_module = jobcard[product]['module']
+            logger.warning("Processing Component " + str(component))
+            run_module = jobcard[component]['module']
             myModule = importlib.import_module(run_module)
-            jobflag = jobcard['product'][product]
-            output = config['default']['scratch']
-            source = config['default']['assembly']
-            component = product
+            jobflag = jobcard['component'][component]
+            logger.warning("Job Flag: " + jobflag)
             
             if jobflag == 'produce':
-                myModule.produce(source, output,  component, jobcard, config, noexec)
+                myError = myModule.produce(source, output,  component, jobcard, config, noexec)
             elif jobflag == 'exists':
-                myModule.exists(finish, output,  component, jobcard, config, noexec)
+                myError = myModule.exists(finish, output,  component, jobcard, config, noexec)
             else:
-                #myModule.ignore(source, output,  component, jobcard, config, noexec)  
-                logger.warning("Ignoring product " + product)          
+                myError = myModule.ignore(source, output,  component, jobcard, config, noexec)    
+    
+            Error = myError if Error is False else True
+        
+        logger.info("Creating Products")
+    
+        if debug == True:    
+            product_list = jobcard['product']
+           
+            
+            for product in sorted(product_list):
+                logger.info("Make " + product)
+                # Get Processing Module
+                run_module = jobcard[product]['module']
+                myModule = importlib.import_module(run_module)
+                jobflag = jobcard['product'][product]
+                output = config['default']['scratch']
+                source = config['default']['assembly']
+                component = product
+                
+                if jobflag == 'produce':
+                    myModule.produce(source, output,  component, jobcard, config, noexec)
+                elif jobflag == 'exists':
+                    myModule.exists(finish, output,  component, jobcard, config, noexec)
+                else:
+                    #myModule.ignore(source, output,  component, jobcard, config, noexec)  
+                    logger.warning("Ignoring product " + product)          
         
  
 
