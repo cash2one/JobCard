@@ -222,7 +222,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         if item_watermark == True:
             logger.info("Watermark creation requeseted")
             water_font_size = jobcard['watermark']['fontsize'] if "fontsize" in jobcard['watermark'] else 100
-            water_video_font_size = jobcard['watermark']['videofontsize'] if "fontsize" in jobcard['watermark'] else 100
+            water_video_font_size = jobcard['watermark']['videofontsize'] if "videofontsize" in jobcard['watermark'] else 100
             water_template = jobcard['watermark']['template'] if "template" in jobcard['watermark'] else "$EDGEID © EDGE"
             water_location = jobcard['watermark']['location'] if "location" in jobcard['watermark'] else 'SouthEast'
             water_outdir = jobcard['watermark']['out_dir'] if "out_dir" in jobcard['watermark'] else None
