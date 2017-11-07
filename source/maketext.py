@@ -142,16 +142,19 @@ def produce(source, output,  component, jobcard, config, noexec):
         clip_star_eyes = jobcard['clipinfo']['star']['eyes'] if "eyes" in jobcard['clipinfo']['star'] else None
         clip_star_skin = jobcard['clipinfo']['star']['skin'] if "skin" in jobcard['clipinfo']['star'] else None
         clip_star_birthplace = jobcard['clipinfo']['star']['birthplace'] if "birthplace" in jobcard['clipinfo']['star'] else None            
-        clip_star2_name = jobcard['clipinfo']['star2']['name'] if "name" in jobcard['clipinfo']['star2'] else ''
-        clip_star2_birthdate = jobcard['clipinfo']['star2']['birthdate'] if "birthdate" in jobcard['clipinfo']['star2'] else None
-        clip_star2_age = jobcard['clipinfo']['star2']['age'] if "age" in jobcard['clipinfo']['star2'] else None
-        clip_star2_height = jobcard['clipinfo']['star2']['height'] if "height" in jobcard['clipinfo']['star2'] else None
-        clip_star2_weight = jobcard['clipinfo']['star2']['weight'] if "weight" in jobcard['clipinfo']['star2'] else None
-        clip_star2_measurements = jobcard['clipinfo']['star2']['measurements'] if "measurements" in jobcard['clipinfo']['star2'] else None
-        clip_star2_hair = jobcard['clipinfo']['star2']['hair'] if "hair" in jobcard['clipinfo']['star2'] else None
-        clip_star2_eyes = jobcard['clipinfo']['star2']['eyes'] if "eyes" in jobcard['clipinfo']['star2'] else None
-        clip_star2_skin = jobcard['clipinfo']['star2']['skin'] if "skin" in jobcard['clipinfo']['star2'] else None
-        clip_star2_birthplace = jobcard['clipinfo']['star2']['birthplace'] if "birthplace" in jobcard['clipinfo']['star2'] else None
+        clip_star2 = True if "star2" in jobcard['clipinfo'] else False
+        if clip_star2:
+            logger.info("Loading Star 2")
+            clip_star2_name = jobcard['clipinfo']['star2']['name'] if "name" in jobcard['clipinfo']['star2'] else ''
+            clip_star2_birthdate = jobcard['clipinfo']['star2']['birthdate'] if "birthdate" in jobcard['clipinfo']['star2'] else None
+            clip_star2_age = jobcard['clipinfo']['star2']['age'] if "age" in jobcard['clipinfo']['star2'] else None
+            clip_star2_height = jobcard['clipinfo']['star2']['height'] if "height" in jobcard['clipinfo']['star2'] else None
+            clip_star2_weight = jobcard['clipinfo']['star2']['weight'] if "weight" in jobcard['clipinfo']['star2'] else None
+            clip_star2_measurements = jobcard['clipinfo']['star2']['measurements'] if "measurements" in jobcard['clipinfo']['star2'] else None
+            clip_star2_hair = jobcard['clipinfo']['star2']['hair'] if "hair" in jobcard['clipinfo']['star2'] else None
+            clip_star2_eyes = jobcard['clipinfo']['star2']['eyes'] if "eyes" in jobcard['clipinfo']['star2'] else None
+            clip_star2_skin = jobcard['clipinfo']['star2']['skin'] if "skin" in jobcard['clipinfo']['star2'] else None
+            clip_star2_birthplace = jobcard['clipinfo']['star2']['birthplace'] if "birthplace" in jobcard['clipinfo']['star2'] else None
         clip_supporting_name = jobcard['clipinfo']['supporting']['name'] if "name" in jobcard['clipinfo']['supporting'] else ''
         clip_supporting_birthdate = jobcard['clipinfo']['supporting']['birthdate'] if "birthdate" in jobcard['clipinfo']['supporting'] else None
         clip_supporting_age = jobcard['clipinfo']['supporting']['age'] if "age" in jobcard['clipinfo']['supporting'] else None
@@ -207,7 +210,8 @@ def produce(source, output,  component, jobcard, config, noexec):
     # Add Some log lines for clip info
     logger.info("\tClip Short Title: " + str(clip_shorttitle))
     logger.info("\tClip Star: " + str(clip_star_name))  
-    logger.info("\tClip Star2: " + str(clip_star2_name))  
+    if clip_star2:
+        logger.info("\tClip Star2: " + str(clip_star2_name))  
     logger.info("\tClip Supporting: " + str(clip_supporting_name))           
     # Create Directories if needed
     if not os.path.isdir(finaldestination) and not noexec:
@@ -225,8 +229,12 @@ def produce(source, output,  component, jobcard, config, noexec):
     if not noexec:
         desc_text = open(finaldestination + "/" + edgeid + item_suffix + item_ext, "w")
     
-    for line in desc_template:      
-        replaced_line = Template(line).safe_substitute(EDGEID=edgeid, SUPPORTING=clip_supporting_name,SHORTTITLE=clip_shorttitle, KEYWORDS=clip_keywords, PRODUCTIONDATE=clip_productiondate, RELEASEDATE=clip_releasedate, LICENSOR=clip_licensor, PROJECTNO=projectno, DESCRIPTION=clip_description, TITLE=clip_title, PRIME_DUBYA=clip_prime_dubya, STAR=clip_star_name, STAR_BIRTHDATE=clip_star_birthdate, STAR_AGE=clip_star_age, STAR_HEIGHT=clip_star_height, STAR_WEIGHT=clip_star_weight, STAR_MEASUREMENTS=clip_star_measurements, STAR_HAIR=clip_star_hair, STAR_EYES=clip_star_eyes, STAR_SKIN=clip_star_skin, STAR_BIRTHPLACE=clip_star_birthplace, STAR2=clip_star2_name, STAR2_BIRTHDATE=clip_star2_birthdate, STAR2_AGE=clip_star2_age, STAR2_HEIGHT=clip_star2_height, STAR2_WEIGHT=clip_star2_weight, STAR2_MEASUREMENTS=clip_star2_measurements, STAR2_HAIR=clip_star2_hair, STAR2_EYES=clip_star2_eyes, STAR2_SKIN=clip_star2_skin, STAR2_BIRTHPLACE=clip_star2_birthplace)
+    for line in desc_template:
+        if clip_star2:      
+            replaced_line = Template(line).safe_substitute(EDGEID=edgeid, SUPPORTING=clip_supporting_name,SHORTTITLE=clip_shorttitle, KEYWORDS=clip_keywords, PRODUCTIONDATE=clip_productiondate, RELEASEDATE=clip_releasedate, LICENSOR=clip_licensor, PROJECTNO=projectno, DESCRIPTION=clip_description, TITLE=clip_title, PRIME_DUBYA=clip_prime_dubya, STAR=clip_star_name, STAR_BIRTHDATE=clip_star_birthdate, STAR_AGE=clip_star_age, STAR_HEIGHT=clip_star_height, STAR_WEIGHT=clip_star_weight, STAR_MEASUREMENTS=clip_star_measurements, STAR_HAIR=clip_star_hair, STAR_EYES=clip_star_eyes, STAR_SKIN=clip_star_skin, STAR_BIRTHPLACE=clip_star_birthplace, STAR2=clip_star2_name, STAR2_BIRTHDATE=clip_star2_birthdate, STAR2_AGE=clip_star2_age, STAR2_HEIGHT=clip_star2_height, STAR2_WEIGHT=clip_star2_weight, STAR2_MEASUREMENTS=clip_star2_measurements, STAR2_HAIR=clip_star2_hair, STAR2_EYES=clip_star2_eyes, STAR2_SKIN=clip_star2_skin, STAR2_BIRTHPLACE=clip_star2_birthplace)
+        else:
+            replaced_line = Template(line).safe_substitute(EDGEID=edgeid, SUPPORTING=clip_supporting_name,SHORTTITLE=clip_shorttitle, KEYWORDS=clip_keywords, PRODUCTIONDATE=clip_productiondate, RELEASEDATE=clip_releasedate, LICENSOR=clip_licensor, PROJECTNO=projectno, DESCRIPTION=clip_description, TITLE=clip_title, PRIME_DUBYA=clip_prime_dubya, STAR=clip_star_name, STAR_BIRTHDATE=clip_star_birthdate, STAR_AGE=clip_star_age, STAR_HEIGHT=clip_star_height, STAR_WEIGHT=clip_star_weight, STAR_MEASUREMENTS=clip_star_measurements, STAR_HAIR=clip_star_hair, STAR_EYES=clip_star_eyes, STAR_SKIN=clip_star_skin, STAR_BIRTHPLACE=clip_star_birthplace, )
+
         formatted_line = word_wrap(replaced_line, width=120, ind1=0, ind2=11, prefix='')
         TEXT = TEXT + formatted_line
 

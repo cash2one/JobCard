@@ -118,9 +118,13 @@ def produce(source, output,  component, jobcard, config, noexec):
         clip_licensor = jobcard['clipinfo']['licensor']
         clip_comment = jobcard['clipinfo']['comment']
         clip_star_name = jobcard['clipinfo']['star']['name'] if "name" in jobcard['clipinfo']['star'] else ''
-        clip_star2_name = jobcard['clipinfo']['star2']['name'] if "name" in jobcard['clipinfo']['star2'] else ''
         clip_supporting_name = jobcard['clipinfo']['supporting']['name'] if "name" in jobcard['clipinfo']['supporting'] else ''
-
+        clip_star2 = True if "star2" in jobcard['clipinfo'] else False
+        if clip_star2:
+            logger.info("Loading Star 2")
+            clip_star2_name = jobcard['clipinfo']['star2']['name'] if "name" in jobcard['clipinfo']['star2'] else ''
+        
+        
         preview_color = config['compliance']['preview_font_color'] if 'preview_font_color' in config['compliance'] else 'black'
         preview_back = config['compliance']['preview_color'] if 'preview_color' in config['compliance'] else 'blue'
         preview_font = config['compliance']['preview_font'] if 'preview_font' in config['compliance'] else '/usr/local/etc/Arial.ttf'
@@ -226,7 +230,11 @@ def produce(source, output,  component, jobcard, config, noexec):
             water_suffix = jobcard['watermark']['suffix'] if "suffix" in jobcard['watermark'] else None
             water_ext = jobcard['watermark']['ext'] if "ext"  in jobcard['watermark'] else '.jpg'
             water_font = config['boxcover']['font'] if "font" in config['boxcover'] else "/usr/local/etc/Skia.ttf"
-            watermark_text = Template(water_template).safe_substitute(STAR=clip_star_name, STAR2=clip_star2_name, EDGEID=edgeid)
+            if clip_star2:
+                watermark_text = Template(water_template).safe_substitute(STAR=clip_star_name, STAR2=clip_star2_name, EDGEID=edgeid)
+            else:
+                watermark_text = Template(water_template).safe_substitute(STAR=clip_star_name, EDGEID=edgeid)
+
             watermark_cmd = "-vf drawtext=\"$FONT text=\'$TEMPLATE\': fontcolor=$COLOR: fontsize=$FONTSIZE: box=1: boxcolor=black: x=w-tw-5:y=h-th-5\""
             watermark = Template(watermark_cmd).safe_substitute(FONT=water_font, TEMPLATE=watermark_text, COLOR=water_color, FONTSIZE=water_video_font_size)
 
