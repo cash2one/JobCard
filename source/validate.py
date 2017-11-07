@@ -88,7 +88,7 @@ def produce(source, output, component, jobcard, config, noexec):
                     logger.info("Test if font exists:" + str(item) + ":Valid")
                 else:
                     Error = True    
-                    logger.Error("Test if font exists:" + str(item) + ":Missing")
+                    logger.error("Test if font exists:" + str(item) + ":Missing")
     
     
     for component in jobcard['component']:
