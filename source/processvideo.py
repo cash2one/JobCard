@@ -260,6 +260,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         item_source = jobcard[component]['src']  
     
     #Check Compliance Template for relative location
+    logger.info("Compliance Template: " + str(compliance_template) )
     if compliance_template[0] != "/":
         logger.debug("Compliant Template - relative Path") 
         compliance_template = source + "/" + compliance_template
