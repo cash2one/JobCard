@@ -109,8 +109,8 @@ def produce(source, output,  component, jobcard, config, noexec):
         templates = config['default']['templates'] if "templates" in config['default'] else ""
         
         if item_capture:
-            capture_thumbnail = jobcard['capture']['thumbnail'] if "thumbnail" in jobcard['capture'] else None
-            capture_watermark = jobcard['capture']['watermark'] if "watermark" in jobcard['capture'] else None
+            capture_thumbnail = jobcard['capture']['thumbnail'] if "thumbnail" in jobcard['capture'] else False
+            capture_watermark = jobcard['capture']['watermark'] if "watermark" in jobcard['capture'] else False
         
         # Get Clip Information 
         clip_prime_dubya = jobcard['clipinfo']['prime_dubya']
