@@ -224,6 +224,8 @@ def produce(source, output,  component, jobcard, config, noexec):
             logger.info("\tThumbnail Destination: " + str(thumb_destination))   
         else:
             logger.info("Thumbnail Creation - Not Requested")
+            thumb_destination =""
+            
 
         # Setup Watermarking
         if item_watermark == True:
@@ -248,6 +250,7 @@ def produce(source, output,  component, jobcard, config, noexec):
             watermark = Template(watermark_cmd).safe_substitute(FONT=water_font, TEMPLATE=watermark_text, COLOR=water_color, FONTSIZE=water_video_font_size)
         else:
             logger.info("Watermark not requested")    
+            water_destination =""
             
         if item_watermark == True and item_capture == True:           
             if not water_name == None and not water_outdir == None:
