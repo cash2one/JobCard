@@ -518,7 +518,7 @@ def produce(source, output,  component, jobcard, config, noexec):
  
     if item_thumbnail == True:
         logger.info("Creating Thumbnails of captured images")
-        CMD_TEMPLATE = "$MOGRIFY -resize $SIZE -background white -gravity center -extent $SIZE -format jpg -quality 75 -path $THUMBDIR $CAPTURE/*${EXT}"            
+        CMD_TEMPLATE = "$MOGRIFY -resize $SIZE -background white -gravity center -extent $SIZE -format jpg -quality 75 -path $THUMBDIR ${CAPTURE}/*${EXT}"            
         CMD = Template(CMD_TEMPLATE).safe_substitute(MOGRIFY=MOGRIFY, SIZE=thumb_size, THUMBDIR=thumb_destination, CAPTURE=capture_destination, EXT=thumb_ext)
         logger.info("Thumbnail Command:\n\t" + CMD)
         if not noexec:
