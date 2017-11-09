@@ -360,7 +360,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         CMD_TEMPLATE = "$FFMPEG  -threads 64  $MP4_ACCEL  -c:v $DECODEC -y -i '$VIDEO'  -vf $SCALEFILTER=$SCALE  -b:v ${KBPS}k -maxrate ${KBPS}k -bufsize $BUFSIZE  -preset fast  -c:v $ENCODEC '$DESTINATION/${EDGEID}_${WIDTH}x${HEIGHT}x${KBPS}_transcoded${EXT}'"
     else:
         logger.info("Watermarking the video" + str(watermark.encode('utf-8')))
-        CMD_TEMPLATE = "$FFMPEG  -threads 64  $MP4_ACCEL  -c:v $DECODEC -y -i '$VIDEO' -vf $WATERMARK -vf $SCALEFILTER=$SCALE  -b:v ${KBPS}k -maxrate ${KBPS}k -bufsize $BUFSIZE  -preset fast  -c:v $ENCODEC '$DESTINATION/${EDGEID}_${SCALE}x${KBPS}_transcoded${EXT}'"
+        CMD_TEMPLATE = "$FFMPEG  -threads 64  $MP4_ACCEL  -c:v $DECODEC -y -i '$VIDEO' -vf $WATERMARK -vf $SCALEFILTER=$SCALE  -b:v ${KBPS}k -maxrate ${KBPS}k -bufsize $BUFSIZE  -preset fast  -c:v $ENCODEC '$DESTINATION/${EDGEID}_${WIDTH}x${HEIGHT}x${KBPS}_transcoded${EXT}'"
     
     CMD = Template(CMD_TEMPLATE).safe_substitute(FFMPEG=FFMPEG,HWACCEL=mp4_accel, WATERMARK=str(watermark.encode('utf-8')), VIDEO=item_source, DECODEC=mp4_decode, ENCODEC=mp4_encode,MP4_ACCEL=mp4_accel, SCALEFILTER=mp4_scalefilter, SCALE=video_scale, HEIGHT=item_height, WIDTH=item_width, KBPS=item_kbps, BUFSIZE=video_bufsize, DESTINATION=finaldestination, EDGEID=edgeid, SUFFIX=item_suffix, EXT=item_ext)
 
