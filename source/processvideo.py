@@ -346,7 +346,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     # Phase 2 - Transcode Video
     
     if item_watermark == False:
-        CMD_TEMPLATE = "$FFMPEG -hide_banner  -y -i '$VIDEO' -c:v $ENCODEC -vf scale=$SCALE -b:v ${KBPS}k -maxrate ${KBPS}k -bufsize $BUFSIZE '$DESTINATION/${EDGEID}_${SCALE}_transcoded${EXT}'"
+        CMD_TEMPLATE = "$FFMPEG -hide_banner  -y -i '$VIDEO' -c:v $ENCODEC -vf scale=$SCALE -b:v ${KBPS}k -maxrate ${KBPS}k -bufsize $BUFSIZE '$DESTINATION/${EDGEID}_${SCALE}x${KBPS}_transcoded${EXT}'"
     else:
         logger.info("Watermarking the video" + str(watermark.encode('utf-8')))
         CMD_TEMPLATE = "$FFMPEG -hide_banner  -y -i '$VIDEO' -c:v $ENCODEC   -filter_complex \"scale=$SCALE$WATERMARK\"     -b:v ${KBPS}k -maxrate ${KBPS}k -bufsize $BUFSIZE '$DESTINATION/${EDGEID}_${SCALE}x${KBPS}_transcoded${EXT}'"
