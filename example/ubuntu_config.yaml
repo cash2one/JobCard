@@ -15,6 +15,7 @@ codec:
   mp4_jpeg: mjpeg
   mp4_accel: '-hwaccel cuvid'
   mp4_threads: '-threads 8'
+  mp4_scalefilter: scale_npp
 
   
 

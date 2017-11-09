@@ -78,8 +78,7 @@ component:
 video1:
      src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4
      capture: true
-     watermark: true
-     thumbnail: true 
+     watermark: true 
      size_width: 1920
      size_height: 1080
      size_kbps: 6000
@@ -88,7 +87,9 @@ video1:
      ext: .mp4
      
 video2:
-     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4 
+     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4
+     capture: true
+     watermark: true 
      size_width: 1280
      size_height: 720
      size_kbps: 1500
@@ -96,11 +97,11 @@ video2:
      module: processvideo
      name: video1
      ext: .mp4
-     watermark: false
-     thumbnail: false 
-     
+          
 capture: 
      frame_every: 30
+     thumbnail: true
+     watermark: true
      out_dir: images
      module: capture
      suffix: _capture

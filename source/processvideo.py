@@ -100,13 +100,17 @@ def produce(source, output,  component, jobcard, config, noexec):
         item_suffix = jobcard[component]['suffix'] if "suffix" in jobcard[component] else None
         item_ext = jobcard[component]['ext'] if "ext" in jobcard[component] else None
         item_name = jobcard[component]['name'] if "name" in jobcard[component] else None
-        item_thumbnail = jobcard[component]['thumbnail'] if "thumbnail" in jobcard[component] else None
+        #item_thumbnail = jobcard[component]['thumbnail'] if "thumbnail" in jobcard[component] else None
         item_watermark = jobcard[component]['watermark'] if "watermark" in jobcard[component] else None
         item_count = jobcard[component]['count'] if "count" in jobcard[component] else None
         item_timed = jobcard[component]['timed'] if "timed" in jobcard[component] else None
         item_size = jobcard[component]['size'] if "size" in jobcard[component] else None
         item_capture = jobcard[component]['capture'] if "capture" in jobcard[component] else False
         templates = config['default']['templates'] if "templates" in config['default'] else ""
+        
+        if item_capture:
+            capture_thumbnail = jobcard['capture']['thumbnail'] if "thumbnail" in jobcard['capture'] else None
+            capture_watermark = jobcard['capture']['watermark'] if "watermark" in jobcard['capture'] else None
         
         # Get Clip Information 
         clip_prime_dubya = jobcard['clipinfo']['prime_dubya']
@@ -156,6 +160,9 @@ def produce(source, output,  component, jobcard, config, noexec):
         mp4_jpeg = config['codec']['mp4_jpeg'] if "mp4_jpeg" in config['codec'] else "mjpeg"
         mp4_accel = config['codec']['mp4_accel'] if "mp4_accel" in config['codec'] else ""
         mp4_threads = config['codec']['mp4_threads'] if "mp4_threads" in config['codec'] else "-threads 2"
+        mp4_scalefilter = config['codec']['mp4_scalefilter'] if "mp4_scalefilter" in config['codec'] else "scale"
+
+        
         video_scale = str(item_width) + "x" + str(item_height)
         video_bufsize = int(str(item_kbps)) * 1000
         
@@ -199,8 +206,8 @@ def produce(source, output,  component, jobcard, config, noexec):
             logger.info("Capture not requeted")
 
         #Setup Thumbnail information if needed
-        if item_thumbnail == True and item_capture == True:
-            logger.info("Thumbnail creation requeseted")
+        if capture_thumbnail == True and item_capture == True:
+            logger.info("Thumbnail creation on captured images requeseted")
             thumb_size = jobcard['thumbnails']['size'] if "size" in jobcard['thumbnails'] else 96
             thumb_name = jobcard['thumbnails']['name'] if "name" in jobcard['thumbnails'] else None
             thumb_outdir = jobcard['thumbnails']['out_dir'] if "out_dir" in jobcard['thumbnails'] else None
@@ -237,7 +244,7 @@ def produce(source, output,  component, jobcard, config, noexec):
                 watermark_text = Template(water_template).safe_substitute(STAR=clip_star_name, EDGEID=edgeid)
 
             #watermark_cmd = "-vf drawtext=\"$FONT text=\'$TEMPLATE\': fontcolor=$COLOR: fontsize=$FONTSIZE: box=1: boxcolor=black: x=w-tw-5:y=h-th-5\""
-            watermark_cmd = ",drawtext=text=\'$TEMPLATE\':x=w-tw-5:y=h-th-5:fontfile=$FONT:fontsize=$FONTSIZE:fontcolor=$COLOR:shadowcolor=black:shadowx=2:shadowy=2:box=1:boxcolor=white"
+            watermark_cmd = "drawtext=\"text=\'$TEMPLATE\':x=w-tw-5:y=h-th-5:fontfile=$FONT:fontsize=$FONTSIZE:fontcolor=$COLOR:shadowcolor=black:shadowx=2:shadowy=2:box=1:boxcolor=white\""
             watermark = Template(watermark_cmd).safe_substitute(FONT=water_font, TEMPLATE=watermark_text, COLOR=water_color, FONTSIZE=water_video_font_size)
         else:
             logger.info("Watermark not requested")    
@@ -292,16 +299,17 @@ def produce(source, output,  component, jobcard, config, noexec):
     logger.info("\tItem Outdir: " + str(item_outdir))
     logger.info("\tItem Suffix: " + str(item_suffix))
     logger.info("\tItem Ext: " + str(item_ext))
-    logger.info("\tItem Thumbnail: " + str(item_thumbnail))
     logger.info("\tItem Watermark: " + str(item_watermark))
     logger.info("\tItem Count: " + str(item_count))
     logger.info("\tItem Timed: " + str(item_timed))
     logger.info("\tItem Size: " + str(item_size))  
     logger.info("\tCapture: " + str(item_capture))
-    logger.info("\tThumbnail: " + str(item_thumbnail)) 
-    logger.info("\tWatermark: " + str(item_watermark))
-    if item_capture == True:
-        logger.info("\tCapture still images every: " + str(capture_frame_every))           
+    
+   
+    if item_capture:
+        logger.info("\t\tThumbnail on Capture Images: " + str(capture_thumbnail)) 
+        logger.info("\t\tWatermark on Capture Images: " + str(capture_watermark)) 
+        logger.info("\t\tCapture still images every: " + str(capture_frame_every) + " seconds")           
              
     # Create Directories if needed
     if not os.path.isdir(finaldestination) and not noexec:
@@ -316,13 +324,13 @@ def produce(source, output,  component, jobcard, config, noexec):
     else:
         logger.info("Creating Directory [Capture Destination]:\t" + capture_destination)  
 
-    if not os.path.isdir(water_destination) and not noexec and item_watermark == True:
+    if not os.path.isdir(water_destination) and not noexec and capture_watermark == True:
         os.makedirs(water_destination,0777)
         logger.info("Creating Directory [Watermark Destination]:\t" + water_destination)
     else:
         logger.info("Creating Directory [Watermark Destination]:\t" + water_destination)  
 
-    if not os.path.isdir(thumb_destination) and not noexec and item_thumbnail == True:
+    if not os.path.isdir(thumb_destination) and not noexec and capture_thumbnail == True:
         os.makedirs(thumb_destination,0777)
         logger.info("Creating Directory [Thumbnail Destination]:\t" + thumb_destination)
     else:
@@ -346,12 +354,12 @@ def produce(source, output,  component, jobcard, config, noexec):
     # Phase 2 - Transcode Video
     
     if item_watermark == False:
-        CMD_TEMPLATE = "$FFMPEG -hide_banner  -y -i '$VIDEO' -c:v $ENCODEC -vf scale=$SCALE -b:v ${KBPS}k -maxrate ${KBPS}k -bufsize $BUFSIZE '$DESTINATION/${EDGEID}_${SCALE}x${KBPS}_transcoded${EXT}'"
+        CMD_TEMPLATE = "$FFMPEG  -threads 64  $MP4_ACCEL  -c:v $DECODEC -y -i '$VIDEO'  -vf $SCALEFILTER=$SCALE  -b:v ${KBPS}k -maxrate ${KBPS}k -bufsize $BUFSIZE  -preset fast  -c:v $ENCODEC '$DESTINATION/${EDGEID}_${SCALE}x${KBPS}_transcoded${EXT}'"
     else:
         logger.info("Watermarking the video" + str(watermark.encode('utf-8')))
-        CMD_TEMPLATE = "$FFMPEG -hide_banner  -y -i '$VIDEO' -c:v $ENCODEC   -filter_complex \"scale=$SCALE$WATERMARK\"     -b:v ${KBPS}k -maxrate ${KBPS}k -bufsize $BUFSIZE '$DESTINATION/${EDGEID}_${SCALE}x${KBPS}_transcoded${EXT}'"
-
-    CMD = Template(CMD_TEMPLATE).safe_substitute(FFMPEG=FFMPEG,HWACCEL=mp4_accel, WATERMARK=str(watermark.encode('utf-8')), VIDEO=item_source, DECODEC=mp4_decode, ENCODEC=mp4_encode, SCALE=video_scale, KBPS=item_kbps, BUFSIZE=video_bufsize, DESTINATION=finaldestination, EDGEID=edgeid, SUFFIX=item_suffix, EXT=item_ext)
+        CMD_TEMPLATE = "$FFMPEG  -threads 64  $MP4_ACCEL  -c:v $DECODEC -y -i '$VIDEO' -vf $WATERMARK -vf $SCALEFILTER=$SCALE  -b:v ${KBPS}k -maxrate ${KBPS}k -bufsize $BUFSIZE  -preset fast  -c:v $ENCODEC '$DESTINATION/${EDGEID}_${SCALE}x${KBPS}_transcoded${EXT}'"
+    
+    CMD = Template(CMD_TEMPLATE).safe_substitute(FFMPEG=FFMPEG,HWACCEL=mp4_accel, WATERMARK=str(watermark.encode('utf-8')), VIDEO=item_source, DECODEC=mp4_decode, ENCODEC=mp4_encode,MP4_ACCEL=mp4_accel, SCALEFILTER=mp4_scalefilter, SCALE=video_scale, KBPS=item_kbps, BUFSIZE=video_bufsize, DESTINATION=finaldestination, EDGEID=edgeid, SUFFIX=item_suffix, EXT=item_ext)
 
     logger.warning("Transcode Command\n\t" + CMD)
     if  noexec:
@@ -516,7 +524,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         logger.error("\t\tCapture failed with Status:"+ str(capture_status))
         Error = True
  
-    if item_thumbnail == True:
+    if capture_thumbnail == True:
         logger.info("Creating Thumbnails of captured images")
         CMD_TEMPLATE = "$MOGRIFY -resize $SIZE -background white -gravity center -extent $SIZE -format jpg -quality 75 -path $THUMBDIR ${CAPTURE}/*${EXT}"            
         CMD = Template(CMD_TEMPLATE).safe_substitute(MOGRIFY=MOGRIFY, SIZE=thumb_size, THUMBDIR=thumb_destination, CAPTURE=capture_destination, EXT=thumb_ext)
@@ -536,7 +544,7 @@ def produce(source, output,  component, jobcard, config, noexec):
             
     # Create Watermarked Images if requested       
     WorkResult = {} 
-    if item_watermark == True:
+    if capture_watermark == True:
         for filename in os.listdir(capture_destination):
             if filename.endswith(".jpg"):
                 logger.info("Image to Waterkark: " + str(filename))
