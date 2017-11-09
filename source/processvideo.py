@@ -163,7 +163,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         mp4_scalefilter = config['codec']['mp4_scalefilter'] if "mp4_scalefilter" in config['codec'] else "scale"
 
         
-        video_scale = str(item_width) + "x" + str(item_height)
+        video_scale = str(item_width) + ":" + str(item_height)
         video_bufsize = int(str(item_kbps)) * 1000
         
         #setup final destination in complex situations
