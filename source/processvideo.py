@@ -236,9 +236,9 @@ def produce(source, output,  component, jobcard, config, noexec):
             else:
                 watermark_text = Template(water_template).safe_substitute(STAR=clip_star_name, EDGEID=edgeid)
 
-            watermark_cmd = "-vf drawtext=\"$FONT text=\'$TEMPLATE\': fontcolor=$COLOR: fontsize=$FONTSIZE: box=1: boxcolor=black: x=w-tw-5:y=h-th-5\""
+            #watermark_cmd = "-vf drawtext=\"$FONT text=\'$TEMPLATE\': fontcolor=$COLOR: fontsize=$FONTSIZE: box=1: boxcolor=black: x=w-tw-5:y=h-th-5\""
+            watermark_cmd = ",drawtext=text=\'$TEMPLATE\':x=w-tw-5:y=h-th-5:fontfile=$FONT:fontsize=$FONTSIZE:fontcolor=$COLOR:shadowcolor=black:shadowx=2:shadowy=2:box=1:boxcolor=white"
             watermark = Template(watermark_cmd).safe_substitute(FONT=water_font, TEMPLATE=watermark_text, COLOR=water_color, FONTSIZE=water_video_font_size)
-
         else:
             logger.info("Watermark not requested")    
             
@@ -346,10 +346,10 @@ def produce(source, output,  component, jobcard, config, noexec):
     # Phase 2 - Transcode Video
     
     if item_watermark == False:
-        CMD_TEMPLATE = "$FFMPEG -hide_banner  -y -threads 8 $HWACCEL -c:v $DECODEC -i $VIDEO -vf scale=$SCALE -b:v ${KBPS}k -maxrate ${KBPS}k -bufsize $BUFSIZE -c:v $ENCODEC $DESTINATION/${EDGEID}_${SCALE}_transcoded${EXT}"
+        CMD_TEMPLATE = "$FFMPEG -hide_banner  -y -i '$VIDEO' -c:v $ENCODEC -vf scale=$SCALE -b:v ${KBPS}k -maxrate ${KBPS}k -bufsize $BUFSIZE '$DESTINATION/${EDGEID}_${SCALE}_transcoded${EXT}'"
     else:
         logger.info("Watermarking the video" + str(watermark.encode('utf-8')))
-        CMD_TEMPLATE = "$FFMPEG -hide_banner  -y -threads 8 $HWACCEL -c:v $DECODEC -i $VIDEO $WATERMARK -vf scale=$SCALE -b:v ${KBPS}k -maxrate ${KBPS}k -bufsize $BUFSIZE -c:v $ENCODEC $DESTINATION/${EDGEID}_${SCALE}_transcoded${EXT}"
+        CMD_TEMPLATE = "$FFMPEG -hide_banner  -y -i '$VIDEO' -c:v $ENCODEC   -filter_complex \"scale=$SCALE$WATERMARK\"     -b:v ${KBPS}k -maxrate ${KBPS}k -bufsize $BUFSIZE '$DESTINATION/${EDGEID}_${SCALE}x${KBPS}_transcoded${EXT}'"
 
     CMD = Template(CMD_TEMPLATE).safe_substitute(FFMPEG=FFMPEG,HWACCEL=mp4_accel, WATERMARK=str(watermark.encode('utf-8')), VIDEO=item_source, DECODEC=mp4_decode, ENCODEC=mp4_encode, SCALE=video_scale, KBPS=item_kbps, BUFSIZE=video_bufsize, DESTINATION=finaldestination, EDGEID=edgeid, SUFFIX=item_suffix, EXT=item_ext)
 
@@ -448,8 +448,8 @@ def produce(source, output,  component, jobcard, config, noexec):
         logger.error("\t\t Transcode failed with Status:"+ str(transcode_status))
         Error = True
 
-    CMD = FFMPEG + " -i '" + destination + "/" + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + preview_suffix + preview_ext + "'  -i '" + destination + "/" + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + "_transcoded" + item_ext + "' -i '"  + destination + "/" + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps)  + compliance_suffix + compliance_ext + "' " 
-    CMD = CMD + "-filter_complex 'concat=n=3:v=1:a=1'  -c:v " + mp4_encode +" -b:v " + str(item_kbps) +"k -bufsize 1500000  -c:a aac -strict -2  -y '"   + destination + "/" + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + "_assembled.mp4'"
+    CMD = FFMPEG + "  -i '" + finaldestination + "/" + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + preview_suffix + preview_ext + "'  -i '" + finaldestination + "/" + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + "_transcoded" + item_ext + "' -i '"  + finaldestination + "/" + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps)  + compliance_suffix + compliance_ext + "' " 
+    CMD = CMD + "-filter_complex 'concat=n=3:v=1:a=1'  -c:v " + mp4_encode +" -b:v " + str(item_kbps) +"k -bufsize 1500000  -c:a aac -strict -2  -y '"   + finaldestination + "/" + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + "_assembled.mp4'"
  
     logger.warning("Concat Command\n\t" + CMD)
     if not noexec:
@@ -458,9 +458,9 @@ def produce(source, output,  component, jobcard, config, noexec):
         stdoutdata, stderrdata = concat_result.communicate()
         concat_status = concat_result.returncode 
         if concat_status == 0:
-            logger.info("\t\t Concat returned Status: " + str(concat_status))
+            logger.info("\t\tConcat returned Status: " + str(concat_status))
         else:
-            logger.error("\t\t Concat failed with Status:"+ str(concat_status))
+            logger.error("\t\tConcat failed with Status:"+ str(concat_status))
             Error = True
     else:
         concat_result = subprocess.Popen("echo", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -469,7 +469,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     # Phase 6 - Add Meta Data to MP4 Video
     # Requires Concat to Complete
     
-    source_video = finaldestination  + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + "_assembled.mp4"
+    source_video = finaldestination + "/" + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + "_assembled.mp4"
     logger.info("Adding Meta data to " + str(source_video))
     
     # Create Metadata
@@ -503,7 +503,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     else:
         logger.warning("Running Command" )  
         metadata_result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)       
-        logger.info( "Compliance" + item_src + "Started" )   
+        logger.info( "Metadata" + item_src + "Started" )   
     
     # Phase 7 - Clean up / Thumbnails and Watermarks
     # Requires Capture to complete
@@ -518,8 +518,8 @@ def produce(source, output,  component, jobcard, config, noexec):
  
     if item_thumbnail == True:
         logger.info("Creating Thumbnails of captured images")
-        CMD_TEMPLATE = "$MOGRIFY -resize $SIZE -background white -gravity center -extent $SIZE -format jpg -quality 75 -path $THUMBDIR *${EXT}"            
-        CMD = Template(CMD_TEMPLATE).safe_substitute(MOGRIFY=MOGRIFY, SIZE=thumb_size, THUMBDIR=thumb_destination, EXT=thumb_ext)
+        CMD_TEMPLATE = "$MOGRIFY -resize $SIZE -background white -gravity center -extent $SIZE -format jpg -quality 75 -path $THUMBDIR $CAPTURE/*${EXT}"            
+        CMD = Template(CMD_TEMPLATE).safe_substitute(MOGRIFY=MOGRIFY, SIZE=thumb_size, THUMBDIR=thumb_destination, CAPTURE=capture_destination, EXT=thumb_ext)
         logger.info("Thumbnail Command:\n\t" + CMD)
         if not noexec:
             thumbnail_result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -540,7 +540,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         for filename in os.listdir(capture_destination):
             if filename.endswith(".jpg"):
                 logger.info("Image to Waterkark: " + str(filename))
-                CMD = CONVERT +" '" + capture_destination + "/" + filename + "'  -background none -font " + str(water_font) + " -fill " + water_color + " -gravity " + water_location +" -pointsize " + str(water_font_size) +" -annotate 0 '" + str(watermark.encode('utf-8')) + "'" + " -flatten '" + water_destination +"/" + filename + "'"
+                CMD = CONVERT +" '" + capture_destination + "/" + filename + "'  -background none -font " + str(water_font) + " -fill " + water_color + " -gravity " + water_location +" -pointsize " + str(water_font_size) +" -annotate 0 '" + str(watermark_text.encode('utf-8')) + "'" + " -flatten '" + water_destination +"/" + filename + "'"
                 logger.info("Watermark Command:\n\t" + str(CMD))
                 if noexec:
                     logger.warn("Not executing Command")

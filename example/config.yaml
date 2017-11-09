@@ -9,7 +9,7 @@ locations:
   dvdauthor: /opt/local/bin/dvdauthor
   
 codec:
-  mp4_decode: h264_vda
+  mp4_decode: h264
   mp4_encode: h264_videotoolbox
   mp4_simple: mpeg4
   mp4_jpeg: mjpeg

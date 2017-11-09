@@ -76,7 +76,7 @@ component:
 # With Watermark; it will watermark captures and video
 
 video1:
-     src: FC1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4
+     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4
      capture: true
      watermark: true
      thumbnail: true 
@@ -93,9 +93,11 @@ video2:
      size_height: 720
      size_kbps: 1500
      out_dir: video
-     module: test_new_module
-     suffix: 
+     module: processvideo
+     name: video1
      ext: .mp4
+     watermark: false
+     thumbnail: false 
      
 capture: 
      frame_every: 30
@@ -203,7 +205,7 @@ videoinfo:
      module: test_new_module
 
 thumbnails: 
-     size: 96x96
+     size: 96
      out_dir: thumbs
      suffix: _T
      module: noaction
