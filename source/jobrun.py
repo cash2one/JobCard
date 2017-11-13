@@ -166,27 +166,27 @@ if not Error:
         
         logger.info("Creating Products")
     
-        if debug == True:    
-            product_list = jobcard['product']
+    if debug == True:    
+        product_list = jobcard['product']
            
             
-            for product in sorted(product_list):
-                logger.info("Make " + product)
-                # Get Processing Module
-                run_module = jobcard[product]['module']
-                myModule = importlib.import_module(run_module)
-                jobflag = jobcard['product'][product]
-                output = config['default']['scratch']
-                source = config['default']['assembly']
-                component = product
+        for product in sorted(product_list):
+            logger.info("Make " + product)
+            # Get Processing Module
+            run_module = jobcard[product]['module']
+            myModule = importlib.import_module(run_module)
+            jobflag = jobcard['product'][product]
+            output = config['default']['scratch']
+            source = config['default']['assembly']
+            component = product
                 
-                if jobflag == 'produce':
-                    myModule.produce(source, output,  component, jobcard, config, noexec)
-                elif jobflag == 'exists':
-                    myModule.exists(finish, output,  component, jobcard, config, noexec)
-                else:
-                    #myModule.ignore(source, output,  component, jobcard, config, noexec)  
-                    logger.warning("Ignoring product " + product)          
+            if jobflag == 'produce':
+                myModule.produce(source, output,  component, jobcard, config, noexec)
+            elif jobflag == 'exists':
+                myModule.exists(finish, output,  component, jobcard, config, noexec)
+            else:
+                #myModule.ignore(source, output,  component, jobcard, config, noexec)  
+                logger.warning("Ignoring product " + product)          
         
  
 

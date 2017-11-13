@@ -256,8 +256,9 @@ compliance_txt:
 
 clips4sale_txt:
      src: templates/clips4sale_template.txt
-     suffix: _clips4sale.txt
-     out_dir: product
+     suffix: _clips4sale
+     ext: .txt
+     name: product
      module: test_new_module
 
 
@@ -277,11 +278,11 @@ clips4sale_txt:
 
 clips4sale: 
      account: edgeinter11
-     boxcover: true
-     promoimg: true
-     video1: true
+     boxcover: False
+     promoimg: False 
+     video1: True
      out_dir: clips4sale
-     clips4sale_txt: true
+     clips4sale_txt: True
      module: product
      map_video1: clips
      map_promoimg: clips_images
