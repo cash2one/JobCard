@@ -130,7 +130,7 @@ def produce(source, output,  component, jobcard, config, noexec):
                 
             
         
-        if (not part == 'out_dir') and (not part == 'module') and (not part == 'account') and (not part[0:3] == 'map'):
+        if (not part == 'out_dir') and (not part == 'name') and (not part == 'module') and (not part == 'account') and (not part[0:3] == 'map'):
     
             if jobcard[part]['out_dir']:
                 if not jobcard[part]['name']:

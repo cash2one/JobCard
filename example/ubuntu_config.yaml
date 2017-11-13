@@ -7,6 +7,7 @@ locations:
   mogrify: /usr/bin/mogrify
   mkisofs: /usr/bin/mkisofs
   dvdauthor: /usr/bin/dvdauthor
+  atomicparsley: /opt/local/bin/AtomicParsley
   
 codec:
   mp4_decode: h264_cuvid

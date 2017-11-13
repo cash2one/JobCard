@@ -8,24 +8,20 @@ Collector's Edition Edge ID: $EDGEID
 
 Purchase this limited edition white-label computer ROM
 
-- $PHOTOSET1_COUNT - High-resolution pictures ( $PHOTOSET1_WIDTH x $PHOTOSET1_HEIGHT JPGs)
-
-- 1 - $DURATION digital HD video ( $VWIDTH x $VHEIGHT x $VKBPS kbs resolution mp4)
-
 Description:$DESCRIPTION
 
 Star: $STAR & $SUPPORTING
 
 Star Stats:
-	$BIRTHDATE
-	$BIRTHPLACE
-	$AGE
-	$HEIGHT
-	$WEIGHT
-	$MEASUREMENTS
-	$HAIR
-	$EYES
-	$SKIN
+	$STAR_BIRTHDATE
+	$STAR_BIRTHPLACE
+	$STAR_AGE
+	$STAR_HEIGHT
+	$STAR_WEIGHT
+	$STAR_MEASUREMENTS
+	$STAR_HAIR
+	$STAR_EYES
+	$STAR_SKIN
 	
 
 Shot: $PRODUCTIONDATE  Age: 21  Idno: GMCZ0022
@@ -50,6 +46,6 @@ Release Date this Production: $RELEASEDATE
 
 Licensor: $LICENSOR 
 
-Prime_Dubya: $PRIME_DUBYA
+Grouping: $PRIME_DUBYA
 
 Custodian: Photographs and videos contained on this disk are covered by the record-keeping requirements of 18 U.S.C. 2257 (a)-(c) and 28 C.F.R. part 75. All models are 18 years of age or older. Custodian of records is J. Rosebush, Edge Interactive Publishing Inc., 630 Ninth Ave. #508, New York, NY 10036. See 'http://www.goedge.com/legal' for an on-line 18 U.S.C. 2257 Record-Keeping Compliance Statement.

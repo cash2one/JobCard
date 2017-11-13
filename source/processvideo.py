@@ -68,6 +68,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     FFMPEG=config['locations']['ffmpeg']
     FFPROBE=config['locations']['ffprobe']
     MOGRIFY=config['locations']['mogrify']
+    ATOMICPARSLEY=config['locations']['atomicparsley']
     
     Error = False
 
@@ -107,6 +108,10 @@ def produce(source, output,  component, jobcard, config, noexec):
         item_size = jobcard[component]['size'] if "size" in jobcard[component] else None
         item_capture = jobcard[component]['capture'] if "capture" in jobcard[component] else False
         templates = config['default']['templates'] if "templates" in config['default'] else ""
+        item_boxcover = jobcard['component']['boxcover'] if "boxcover" in  jobcard['component'] else None
+        if item_boxcover == "produce" or item_boxcover == "exsist":
+            item_boxcover_img =  source + "/" + str(jobcard['boxcover']['src']) if "src" in jobcard['boxcover'] else ""
+            
         
         if item_capture:
             capture_thumbnail = jobcard['capture']['thumbnail'] if "thumbnail" in jobcard['capture'] else False
@@ -360,7 +365,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         CMD_TEMPLATE = "$FFMPEG  -threads 64  $MP4_ACCEL  -c:v $DECODEC -y -i '$VIDEO'  -vf $SCALEFILTER=$SCALE  -b:v ${KBPS}k -maxrate ${KBPS}k -bufsize $BUFSIZE  -preset fast  -c:v $ENCODEC '$DESTINATION/${EDGEID}_${WIDTH}x${HEIGHT}x${KBPS}_transcoded${EXT}'"
     else:
         logger.info("Watermarking the video" + str(watermark.encode('utf-8')))
-        CMD_TEMPLATE = "$FFMPEG  -threads 64  $MP4_ACCEL  -c:v $DECODEC -y -i '$VIDEO' -vf $WATERMARK -vf $SCALEFILTER=$SCALE  -b:v ${KBPS}k -maxrate ${KBPS}k -bufsize $BUFSIZE  -preset fast  -c:v $ENCODEC '$DESTINATION/${EDGEID}_${WIDTH}x${HEIGHT}x${KBPS}_transcoded${EXT}'"
+        CMD_TEMPLATE = "$FFMPEG  -threads 64  $MP4_ACCEL  -c:v $DECODEC -y -i '$VIDEO' -vf $WATERMARK -vf $SCALEFILTER=$SCALE,setdar=dar=16/9  -b:v ${KBPS}k -maxrate ${KBPS}k -bufsize $BUFSIZE  -preset fast  -c:v $ENCODEC '$DESTINATION/${EDGEID}_${WIDTH}x${HEIGHT}x${KBPS}_transcoded${EXT}'"
     
     CMD = Template(CMD_TEMPLATE).safe_substitute(FFMPEG=FFMPEG,HWACCEL=mp4_accel, WATERMARK=str(watermark.encode('utf-8')), VIDEO=item_source, DECODEC=mp4_decode, ENCODEC=mp4_encode,MP4_ACCEL=mp4_accel, SCALEFILTER=mp4_scalefilter, SCALE=video_scale, HEIGHT=item_height, WIDTH=item_width, KBPS=item_kbps, BUFSIZE=video_bufsize, DESTINATION=finaldestination, EDGEID=edgeid, SUFFIX=item_suffix, EXT=item_ext)
 
@@ -413,7 +418,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     maketext.produce(source, output, 'compliance_txt', jobcard, config, noexec)
     
     #Normalize the text size based on 1920x1080
-    normalize = float(int(item_height) / int(1080))
+    normalize = float(float(item_height) / float(1080))
     logger.info("Normalize the size by " + str(normalize))
     normalized_font = int(float(compliance_textsize) * normalize)
     logger.info("Normalized size " + str(normalized_font))
@@ -485,28 +490,35 @@ def produce(source, output,  component, jobcard, config, noexec):
     
     # Create Metadata
     quote = "\""
-    title = quote + clip_title + " " + edgeid + quote
-    author = quote + clip_star_name + quote
+    title =  quote + clip_title + " " + edgeid + quote
+    artist = quote + clip_star_name + quote
     composer = quote + "Edge Interactive" + quote
-    album = quote + clip_supporting_name + quote
-    proddate = quote + clip_productiondate + quote
-    release = quote + clip_releasedate + quote
+    album =  quote + clip_supporting_name + quote
+    #proddate = quote + clip_productiondate + quote
+    #release = quote + clip_releasedate + quote
     comment = quote + clip_keywords + quote
     genre = quote + "Adult"  + quote
     copyright_t = quote + "This production is produced 8/9/17 and copyright 2017 Edge Interactive Publishing Inc. All rights reserved. No right is granted for reproduction of these images other than for the personal use by the purchaser of this disk." + quote
-    mydescription = quote + clip_description + quote
-    synopsis = quote + clip_description + quote
+    mydescription =  quote + clip_description + quote   
     show = quote + clip_shorttitle + quote
     episode_id = quote + edgeid + quote
-    network = quote + clip_licensor + quote
-    track = quote + clip_shorttitle + quote
+    network =  quote + clip_licensor + quote
+    keyword = quote + clip_shorttitle + quote
     actors = quote + clip_star_name + " and " + clip_supporting_name + quote
+    advisory = "explicit"
+    
     meta_video =  edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + str(item_ext)
     
         
-    CMD = FFMPEG + " -i '" + source_video + "' -metadata title=" + title + " -metadata author=" + author + " -metadata composer=" + composer + " -metadata album=" + album + " -metadata date=" + proddate + " -metadata purchase_date=" + release
-    CMD = CMD + " -metadata track=" + track + " -metadata artist=" + actors +" -metadata comment=" + comment + " -metadata genre=" + genre + " -metadata copyright=" + copyright_t + " -metadata description=" + mydescription + " -metadata synopsis=" + synopsis
-    CMD = CMD + " -metadata show=" + show + " -metadata episode_id=" + episode_id + " -metadata network=" + network + " -metadata media_type=9 -y -c:v "+ mp4_encode +" -b:v " + str(item_kbps) +"k '" + finaldestination + "/" + meta_video + "'"
+    CMD = ATOMICPARSLEY + " '" + source_video + "' --title=" + title + " --artist=" + artist + " --composer=" + composer + " --album=" + album 
+    CMD = CMD + " --keyword=" + keyword + " --artist=" + actors +" --comment=" + comment + " --genre=" + genre + " --copyright=" + copyright_t + " --description=" + mydescription 
+
+    if item_boxcover == "produce" or item_boxcover == "exists":
+        CMD = CMD + " --TVShowName=" + show + " --TVEpisode=" + episode_id + " --TVNetwork=" + network + "–artwork '" + item_boxcover_img + "' --output '" + finaldestination + "/" + meta_video + "'"
+    else:
+        CMD = CMD + " --TVShowName=" + show + " --TVEpisode=" + episode_id + " --TVNetwork=" + network +  " --output '" + finaldestination + "/" + meta_video + "'"
+
+
 
     logger.warning("Metadata Command\n\t" + CMD)
     if noexec:

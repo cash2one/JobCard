@@ -32,7 +32,7 @@ clipinfo:
 
 # All Products that can be created/produced go here
 product: 
-     clips4sale: ignore
+     clips4sale: produce
      ebay: ignore
      flickrocket: ignore
      dvd: ignore
@@ -56,7 +56,7 @@ component:
      boxcover: ignore
      #capture: produce, deprecated: Capture has been moved to video componet to allow for unlimited videos
      #compliance_txt: deprecated: Compliance Text will be generated during each video
-     description_txt: ignore
+     description_txt: produce
      #ebay_txt: deprecated: Will be generated as part of a product
      photoset1: ignore
      photoset2: ignore
@@ -66,7 +66,7 @@ component:
      scenethumb: ignore
      thumbnails: ignore
      video1: produce
-     video2: ignore
+     video2: produce
      videoinfo: ignore
      # watermark: No longer a component, deprecated to other components, the secrion remains for configuraiton parameters.
 
@@ -93,9 +93,8 @@ video2:
      size_width: 1280
      size_height: 720
      size_kbps: 1500
-     out_dir: video
      module: processvideo
-     name: video1
+     name: video2
      ext: .mp4
           
 capture: 
@@ -283,7 +282,7 @@ clips4sale:
      video1: true
      out_dir: clips4sale
      clips4sale_txt: true
-     module: noaction
+     module: product
      map_video1: clips
      map_promoimg: clips_images
      map_boxcover: clips_images

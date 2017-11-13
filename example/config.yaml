@@ -7,6 +7,7 @@ locations:
   mogrify: /opt/local/bin/mogrify
   mkisofs: /opt/local/bin/mkisofs
   dvdauthor: /opt/local/bin/dvdauthor
+  atomicparsley: /opt/local/bin/AtomicParsley
   
 codec:
   mp4_decode: h264
@@ -21,11 +22,11 @@ codec:
   
 
 default:
-  assembly: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/Assembly
-  finish: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/Finished
-  scratch: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/Scratch
-  source: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/EdgeSource01
-  deliveries: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard
+  assembly: /edge/Assembly
+  finish: /edge/Finished
+  scratch: /edge/Scratch
+  source: /edge/EdgeSource01
+  deliveries: /edge/Delivery
   templates: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard
 
 
