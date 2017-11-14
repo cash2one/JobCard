@@ -8,7 +8,7 @@ Created on Sep 30, 2017
 # Import 
 #===============================================================================
 
-import os
+import os,glob
 from string import Template
 import shutil
 import logging
@@ -194,11 +194,23 @@ def produce(source, output,  component, jobcard, config, noexec):
             logger.info("Part directory = " + partfinaldestination)
             logger.info("Account name = " + str(part_account))
             
+            # Create Directories if needed
+            if not os.path.isdir(partfinaldestination) and not noexec:
+                os.makedirs(partfinaldestination,0777)
+                logger.info("Creating Directory [Final Destination]:\t" + partfinaldestination)
+            else:
+                logger.info("Creating Directory:[Final Destination]:\t" + partfinaldestination)  
             
             if not noexec:
-                copy_result = shutil.copy(src_final + "/" + edgeid +"*" +str( part_suffix ) +   str(part_ext) , str(partfinaldestination))
+                files =  src_final + "/" + edgeid +"*" + str( part_suffix ) +  str(part_ext)
+                filelist = glob.glob(files)
+                for myfile in filelist:
+                    logger.info("Copy file: " + myfile + " to " + str(partfinaldestination) ) 
+                    copy_result = shutil.copy(myfile , str(partfinaldestination))
+                    
             else:
                 logger.info("Copy: " + src_final + "/" + edgeid +"*" +str( part_suffix ) +   str(part_ext) + " to " + str(partfinaldestination) )
+                logger.info("Command:\n\tcp " + src_final + "/" + edgeid +"*" +str( part_suffix ) +   str(part_ext) +" " + str(partfinaldestination))
     
     logger.info("Produce - End")
     return(Error)

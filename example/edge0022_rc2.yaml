@@ -77,8 +77,8 @@ component:
 
 video1:
      src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4
-     capture: true
-     watermark: true 
+     capture: false
+     watermark: false 
      size_width: 1920
      size_height: 1080
      size_kbps: 6000
@@ -88,8 +88,8 @@ video1:
      
 video2:
      src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4
-     capture: true
-     watermark: true 
+     capture: false
+     watermark: false 
      size_width: 1280
      size_height: 720
      size_kbps: 1500
@@ -282,7 +282,7 @@ clips4sale:
      promoimg: False 
      video1: True
      out_dir: clips4sale
-     clips4sale_txt: True
+     clips4sale_txt: false
      module: product
      map_video1: clips
      map_promoimg: clips_images

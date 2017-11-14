@@ -143,7 +143,7 @@ if not Error:
 
     debug = True
     
-    if debug == True:
+    if debug == False:
     # If Job Card is Good Code Goes Here
         logger.info('Creating Components')
         for component in sorted(jobcard['component']):
