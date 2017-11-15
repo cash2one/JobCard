@@ -82,7 +82,7 @@ video1:
      size_width: 1920
      size_height: 1080
      size_kbps: 6000
-     name: video1
+     name: GMCZ0022_VID
      module: processvideo
      ext: .mp4
      
@@ -94,7 +94,7 @@ video2:
      size_height: 720
      size_kbps: 1500
      module: processvideo
-     name: video2
+     name: GMCZ0022_VID
      ext: .mp4
           
 capture: 
@@ -251,7 +251,7 @@ compliance_txt:
      src: templates/compliance_template.txt
      suffix: _compliance
      ext: .txt
-     name: compliance
+     name: GMCZ0022_BOOK
      module: maketext
 
 clips4sale_txt:
