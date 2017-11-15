@@ -239,7 +239,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         else:
             replaced_line = Template(line).safe_substitute(EDGEID=edgeid, SUPPORTING=clip_supporting_name,SHORTTITLE=clip_shorttitle, KEYWORDS=clip_keywords, PRODUCTIONDATE=clip_productiondate, RELEASEDATE=clip_releasedate, LICENSOR=clip_licensor, PROJECTNO=projectno, DESCRIPTION=clip_description, TITLE=clip_title, PRIME_DUBYA=clip_prime_dubya, STAR=clip_star_name, STAR_BIRTHDATE=clip_star_birthdate, STAR_AGE=clip_star_age, STAR_HEIGHT=clip_star_height, STAR_WEIGHT=clip_star_weight, STAR_MEASUREMENTS=clip_star_measurements, STAR_HAIR=clip_star_hair, STAR_EYES=clip_star_eyes, STAR_SKIN=clip_star_skin, STAR_BIRTHPLACE=clip_star_birthplace, )
 
-        formatted_line = word_wrap(replaced_line, width=120, ind1=0, ind2=11, prefix='')
+        formatted_line = word_wrap(replaced_line, width=115, ind1=0, ind2=11, prefix='')
         TEXT = TEXT + formatted_line
 
     if not noexec:

@@ -35,17 +35,17 @@ default:
 compliance:
   licensedefault: Edge Interactive  
   template: /Users/colin/Documents/Appcelerator_Studio_Workspace/JobCard/example/compliance_template.txt
-  preview_color: blue
-  preview_font_color: yellow
+  preview_color: LightBlue
+  preview_font_color: Purple
   preview_font_size: 48
   preview_x: 100
   preview_y: 100
-  preview_suffix: _preview
+  preview_suffix: _title
   preview_ext: .mp4
   preview_font: /Library/Fonts/Arial.ttf
-  compliance_color: green
+  compliance_color: Purple
   compliance_font: /Library/Fonts/Arial.ttf
-  compliance_text_color: black
+  compliance_text_color: white
   # Text Size Based on 1920x1080; automatically scaled
   compliance_text_size: 30
   compliance_suffix: _compliance

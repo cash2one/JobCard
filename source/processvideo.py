@@ -367,11 +367,11 @@ def produce(source, output,  component, jobcard, config, noexec):
     # Phase 2 - Transcode Video
     
     if item_watermark == False:
-        CMD_TEMPLATE = "$FFMPEG  -threads 64  $MP4_ACCEL  -c:v $DECODEC -y -i '$VIDEO'  -vf $SCALEFILTER=$SCALE,setdar=dar=16/9  -b:v ${KBPS}k -maxrate ${KBPS}k -bufsize $BUFSIZE  -preset fast  -c:v $ENCODEC '$DESTINATION/${EDGEID}_${WIDTH}x${HEIGHT}x${KBPS}_transcoded${EXT}'"
+        CMD_TEMPLATE = "$FFMPEG  -threads 64  $MP4_ACCEL  -c:v $DECODEC -y -i '$VIDEO'  -vf $SCALEFILTER=$SCALE,setdar=dar=16/9  -b:v ${KBPS}k -maxrate ${KBPS}k -bufsize $BUFSIZE  -preset fast  -c:v $ENCODEC '$DESTINATION/${EDGEID}_${WIDTH}x${HEIGHT}x${KBPS}_vid${EXT}'"
         watermark = ""
     else:
         logger.info("Watermarking the video" + str(watermark.encode('utf-8')))
-        CMD_TEMPLATE = "$FFMPEG  -threads 64  $MP4_ACCEL  -c:v $DECODEC -y -i '$VIDEO' -vf $WATERMARK -vf $SCALEFILTER=$SCALE,setdar=dar=16/9  -b:v ${KBPS}k -maxrate ${KBPS}k -bufsize $BUFSIZE  -preset fast  -c:v $ENCODEC '$DESTINATION/${EDGEID}_${WIDTH}x${HEIGHT}x${KBPS}_transcoded${EXT}'"
+        CMD_TEMPLATE = "$FFMPEG  -threads 64  $MP4_ACCEL  -c:v $DECODEC -y -i '$VIDEO' -vf $WATERMARK -vf $SCALEFILTER=$SCALE,setdar=dar=16/9  -b:v ${KBPS}k -maxrate ${KBPS}k -bufsize $BUFSIZE  -preset fast  -c:v $ENCODEC '$DESTINATION/${EDGEID}_${WIDTH}x${HEIGHT}x${KBPS}_vid${EXT}'"
     
     CMD = Template(CMD_TEMPLATE).safe_substitute(FFMPEG=FFMPEG,HWACCEL=mp4_accel, WATERMARK=str(watermark.encode('utf-8')), VIDEO=item_source, DECODEC=mp4_decode, ENCODEC=mp4_encode,MP4_ACCEL=mp4_accel, SCALEFILTER=mp4_scalefilter, SCALE=video_scale, HEIGHT=item_height, WIDTH=item_width, KBPS=item_kbps, BUFSIZE=video_bufsize, DESTINATION=finaldestination, EDGEID=edgeid, SUFFIX=item_suffix, EXT=item_ext)
 
@@ -392,21 +392,21 @@ def produce(source, output,  component, jobcard, config, noexec):
     
     logger.info("Creating Preview for " + component)
     
-    CMD = FFMPEG + " -y -f lavfi -r 30 -i color=" + preview_back +":"+ str(item_width) + "x" + str(item_height) + " -f lavfi -i anullsrc -filter_complex  "
+    CMD = FFMPEG + " -y -f lavfi -r 5 -i color=" + preview_back +":"+ str(item_width) + "x" + str(item_height) + " -f lavfi -i anullsrc -filter_complex  "
     # Make Title Line
-    CMD = CMD + "\"drawtext=enable='between(t,00,10)':fontfile=" + preview_font + ":text=\'" + title_f +  "\':x=(w-text_w)/2" + ":y=" + str(preview_y) +":fontcolor=" + preview_color  + ":fontsize=" + str(preview_fontsize)
+    CMD = CMD + "\"drawtext=enable='between(t,00,05)':fontfile=" + preview_font + ":text=\'" + title_f +  "\':x=(w-text_w)/2" + ":y=" + str(preview_y) +":fontcolor=" + preview_color  + ":fontsize=" + str(preview_fontsize)
     # Sub Title
-    CMD = CMD +  ",drawtext=enable='between(t,00,10)':fontfile=" + preview_font + ":text=\'Starring " + "\':x=(w-text_w)/2" +":y=" + str(preview_y+100) +":fontcolor=" + preview_color + ":fontsize=" + str(preview_fontsize)
+    CMD = CMD +  ",drawtext=enable='between(t,00,05)':fontfile=" + preview_font + ":text=\'Starring " + "\':x=(w-text_w)/2" +":y=" + str(preview_y+100) +":fontcolor=" + preview_color + ":fontsize=" + str(preview_fontsize)
     
-    CMD = CMD +  ",drawtext=enable='between(t,00,10)':fontfile=" + preview_font + ":text=\'" + clip_star_name + " and " + clip_supporting_name + "\':x=(w-text_w)/2" +":y=" + str(preview_y+200) +":fontcolor=" + preview_color + ":fontsize=" + str(preview_fontsize)
+    CMD = CMD +  ",drawtext=enable='between(t,00,05)':fontfile=" + preview_font + ":text=\'" + clip_star_name + " and " + clip_supporting_name + "\':x=(w-text_w)/2" +":y=" + str(preview_y+200) +":fontcolor=" + preview_color + ":fontsize=" + str(preview_fontsize)
     
-    CMD = CMD +  ",drawtext=enable='between(t,00,10)':fontfile=" + preview_font + ":text=\'IN " + "\':x=(w-text_w)/2" +":y=" + str(preview_y+300) +":fontcolor=" + preview_color + ":fontsize=" + str(preview_fontsize)
+    CMD = CMD +  ",drawtext=enable='between(t,00,05)':fontfile=" + preview_font + ":text=\'IN " + "\':x=(w-text_w)/2" +":y=" + str(preview_y+300) +":fontcolor=" + preview_color + ":fontsize=" + str(preview_fontsize)
     
     # Keywords
-    CMD = CMD +  ",drawtext=enable='between(t,00,10)':fontfile=" + preview_font + ":text=\'" + clip_shorttitle + "\':x=(w-text_w)/2:y=" + str(preview_y+400) +":fontcolor=" + preview_color + ":fontsize=" + str(preview_fontsize)
+    CMD = CMD +  ",drawtext=enable='between(t,00,05)':fontfile=" + preview_font + ":text=\'" + clip_shorttitle + "\':x=(w-text_w)/2:y=" + str(preview_y+400) +":fontcolor=" + preview_color + ":fontsize=" + str(preview_fontsize)
     
-    CMD = CMD +  ",drawtext=enable='between(t,00,10)':fontfile=" + preview_font + ":text=\'Release Date [" + jobcard['clipinfo']['releasedate'] + "]\':x=(w-text_w)/2:y=" + str(preview_y+500) +":fontcolor=" + preview_color + ":fontsize=" + str(preview_fontsize*.6)
-    CMD = CMD +  ",drawtext=enable='between(t,00,10)':fontfile=" + preview_font + ":text=\'Production Date [" + jobcard['clipinfo']['productiondate'] + "]\':x=(w-text_w)/2:y=" + str(preview_y+550) +":fontcolor=" + preview_color + ":fontsize=" + str(preview_fontsize*.6)
+    CMD = CMD +  ",drawtext=enable='between(t,00,05)':fontfile=" + preview_font + ":text=\'Release Date " + jobcard['clipinfo']['releasedate'] + "\':x=(w-text_w)/2:y=" + str(preview_y+500) +":fontcolor=" + preview_color + ":fontsize=" + str(preview_fontsize*.6)
+    CMD = CMD +  ",drawtext=enable='between(t,00,05)':fontfile=" + preview_font + ":text=\'Production Date " + jobcard['clipinfo']['productiondate'] + "\':x=(w-text_w)/2:y=" + str(preview_y+550) +":fontcolor=" + preview_color + ":fontsize=" + str(preview_fontsize*.6)
 
     # Wrap end of command
     CMD = CMD + "\" -c:v " + mp4_simple + " -b:v " + str(item_kbps) + "k -pix_fmt yuv420p -video_track_timescale 15360 -c:a aac -strict -2 -ar 48000 -ac 2 -sample_fmt fltp -t 12 '" + finaldestination + "/" + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + str(preview_suffix) + str(preview_ext) +"'" 
@@ -430,7 +430,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     logger.info("Normalized size " + str(normalized_font))
     
     logger.info("Text File Location:" + text_location + "/" + edgeid + text_suffix + text_ext )
-    CMD = FFMPEG + " -y -f lavfi -r 60 -i color=" + compliance_back + ":" +str(item_width) + "x" + str(item_height) + " -f lavfi -i anullsrc -vf drawtext=\"fontfile=" + compliance_font + ":fontcolor=" + compliance_color + ": fontsize=" + str(normalized_font) + ":textfile='" + text_location  + "/" + edgeid + text_suffix + text_ext + "'" + ":x=50:y=50,fade=t=in:st=00:d=2,fade=t=out:st=58:d=2\" -c:v mpeg4 -b:v " + str(item_kbps) + "k  -pix_fmt yuv420p -video_track_timescale 15360 -c:a aac -strict -2 -ar 48000 -ac 2 -sample_fmt fltp -t 60 '" + finaldestination + "/" + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + compliance_suffix + compliance_ext + "'"
+    CMD = FFMPEG + " -y -f lavfi -r 10 -i color=" + compliance_back + ":" +str(item_width) + "x" + str(item_height) + " -f lavfi -i anullsrc -vf drawtext=\"fontfile=" + compliance_font + ":fontcolor=" + compliance_color + ": fontsize=" + str(normalized_font) + ":textfile='" + text_location  + "/" + edgeid + text_suffix + text_ext + "'" + ":x=50:y=50\" -c:v mpeg4 -b:v " + str(item_kbps) + "k  -pix_fmt yuv420p -video_track_timescale 15360 -c:a aac -strict -2 -ar 48000 -ac 2 -sample_fmt fltp -t 10 '" + finaldestination + "/" + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + compliance_suffix + compliance_ext + "'"
 
     logger.info("Compliance Command:\n\t" + str(CMD))
     if noexec:
@@ -470,7 +470,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         logger.error("\t\t Transcode failed with Status:"+ str(transcode_status))
         Error = True
 
-    CMD = FFMPEG + "  -i '" + finaldestination + "/" + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + preview_suffix + preview_ext + "'  -i '" + finaldestination + "/" + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + "_transcoded" + item_ext + "' -i '"  + finaldestination + "/" + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps)  + compliance_suffix + compliance_ext + "' " 
+    CMD = FFMPEG + "  -i '" + finaldestination + "/" + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + preview_suffix + preview_ext + "'  -i '" + finaldestination + "/" + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + "_vid" + item_ext + "' -i '"  + finaldestination + "/" + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps)  + compliance_suffix + compliance_ext + "' " 
     CMD = CMD + "-filter_complex 'concat=n=3:v=1:a=1'  -c:v " + mp4_encode +" -b:v " + str(item_kbps) +"k -bufsize 1500000  -c:a aac -strict -2  -y '"   + finaldestination + "/" + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + "_assembled.mp4'"
  
     logger.warning("Concat Command\n\t" + CMD)
