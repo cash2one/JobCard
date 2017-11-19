@@ -32,15 +32,15 @@ default:
 compliance:
   licensedefault: Edge Interactive  
   template: /usr/local/templates/compliance_template.txt
-  preview_color: LightBlue
-  preview_font_color: Purple
+  preview_color: DarkMagenta
+  preview_font_color: White
   preview_font_size: 48
   preview_x: 100
   preview_y: 100
   preview_suffix: _title
   preview_ext: .mp4
   preview_font: /usr/local/fonts/Arial.ttf
-  compliance_color: Purple
+  compliance_color: DarkMagenta
   compliance_font: /usr/local/fonts/Arial.ttf
   compliance_text_color: white
   # Text Size Based on 1920x1080; automatically scaled
