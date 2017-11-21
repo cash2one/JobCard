@@ -409,7 +409,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     CMD = CMD +  ",drawtext=enable='between(t,00,04)':fontfile=" + preview_font + ":text=\'Production Date " + jobcard['clipinfo']['productiondate'] + "\':x=(w-text_w)/2:y=" + str(preview_y+550) +":fontcolor=" + preview_color + ":fontsize=" + str(preview_fontsize*.6)
 
     # Wrap end of command
-    CMD = CMD + "\" -c:v " + mp4_simple + " -b:v " + str(item_kbps) + "k -pix_fmt yuv420p -video_track_timescale 15360 -c:a aac -strict -2 -ar 48000 -ac 2 -sample_fmt fltp -t 12 '" + finaldestination + "/" + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + str(preview_suffix) + str(preview_ext) +"'" 
+    CMD = CMD + "\" -c:v " + mp4_simple + " -b:v " + str(item_kbps) + "k -pix_fmt yuv420p -video_track_timescale 15360 -c:a aac -strict -2 -ar 48000 -ac 2 -sample_fmt fltp -t 05 '" + finaldestination + "/" + edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + str(preview_suffix) + str(preview_ext) +"'" 
 
     logger.info("Preview Command: \n\t" + str(CMD))
     if noexec:

@@ -1,0 +1,408 @@
+# Example Job Card
+# 
+# NOTE: All key/pairs are lowercase.
+# Section 1: Clip Information
+clipinfo: 
+     projectno: Test01
+     prime_dubya: GMCZ_Scenes
+     edgeid: GMCZ0022
+     shorttitle: Suck Fuck Anal A2M Facial
+     title: Edge Interactive Collector Scene
+     description: Romanian Donna Bell started out shooting masturbation, toy and lesbo work but quickly graduated to sucking and fucking cocks. Here she is breaking through into in anal, A2M, and eventually DP roles. Today she runs with Choky Ice as the Spanish Maid with white hose and heels.
+     keywords: Porn Stars, Hetrosexual, Blowjobs, Finger Fucking, Vaginal Sex, Anal, A2M, Facials, Hose, Uniforms
+     productiondate: June 1, 2010
+     releasedate: October 6, 2017
+     licensor: Global Media International. 
+     star: 
+        name: Donna Bell
+        birthdate: August 11, 1988
+        age: 21
+        height: '5'' 7"'
+        weight: 105
+        measurements: 36C-27-37
+        hair: Blonde`
+        eyes: Blue
+        skin: Caucasian
+        birthplace: Constanta, Romania
+     supporting:
+        name: Choky Ice
+		
+     # Optional section Star2
+	 # star2:
+     #    name: Donna Bell
+     #    birthdate: August 11, 1988
+     #    age: 21
+     #    height: '5'' 7"'
+     #    weight: 105
+     #    measurements: 36C-27-37
+     #    hair: Blonde`
+     #    eyes: Blue
+     #    skin: Caucasian
+     #    birthplace: Constanta, Romania
+		 
+     comment: Combat Zone, acquired 2015 GMI License. Stats trimmed from Iafd 38D-27-38 to 36C-27-37
+
+# Star(s) and Supporting actor/actress have the following possible options:
+# name, birthdate, age, height, weight, measurements, hair, eyes, skin, birthplace 
+# There is support for 2 stars and 1 supporting cast.
+
+# Section 2: Products and Components
+# Products have valid options: (Product or Ignore)
+# Components have valid options: (Produce, Validate, Exists, or Ignore)
+
+
+# All Products that can be created/produced go here
+product: 
+     clips4sale: produce
+     ebay: ignore
+     flickrocket: ignore
+     dvd: ignore
+     picticon: ignore
+     aebn: ignore
+     hotmovies: ignore
+     book: ignore
+
+# All components go here.
+# Choose [produce|validate|exists|ignore]
+# Validate runs through the validation module only and allows the component to be called
+# Exist = path starts with Finished
+# Produce = path starts with EdgeSource??
+# Thumbnails = Only valid option is Produce or Ignore (inherits Produce/Exist from source photo location)
+# Use validate if it is just part of some products.
+# Component are processed in alphabetical order (regardless of how the appear below)
+# Components set here must have corresponding section below
+component: 
+     2257: ignore
+     bookimg: ignore
+     boxcover: ignore
+     #capture: produce, deprecated: Capture has been moved to video componet to allow for unlimited videos
+     #compliance_txt: deprecated: Compliance Text will be generated during each video
+     description_txt: produce
+     #ebay_txt: deprecated: Will be generated as part of a product
+     photoset1: ignore
+     photoset2: ignore
+     photoset3: ignore
+     photoset4: ignore
+     promoimg: ignore
+     scenethumb: ignore
+     thumbnails: ignore
+     video1: produce
+     video2: produce
+     videoinfo: ignore
+     # watermark: No longer a component, deprecated to other components, the secrion remains for configuraiton parameters.
+
+
+# Components Go here
+# out_dir is relative unless it starts with a "/" then it is absolute
+# With Watermark; it will watermark captures and video
+#
+#
+# Section 3: Components
+#
+#
+# Note Name and Out_dir are directories for the component.
+# This is used when the are parts to a component
+# Like watermark or thumbnail
+# Set Name if there is no other part; directory is created as destination + name + outdir (If they both exists)
+video1:
+     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4
+     capture: false
+     watermark: false 
+     size_width: 1920
+     size_height: 1080
+     size_kbps: 6000
+     name: GMCZ0022_VID
+     module: processvideo
+     ext: .mp4
+     
+video2:
+     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/HDVC022.mp4
+     capture: false
+     watermark: false 
+     size_width: 1280
+     size_height: 720
+     size_kbps: 1500
+     module: processvideo
+     name: GMCZ0022_VID
+     ext: .mp4
+          
+capture: 
+     frame_every: 30
+     thumbnail: true
+     watermark: true
+     out_dir: images
+     module: capture
+     suffix: _capture
+     name: capture
+     ext: .jpg
+
+
+bookimg:
+     src:
+     module: noaction
+
+# Changed Boxcover to allow for multiple box covers (portrait or landscape)
+# Height / Width are what you want them to be. 
+# Allows for Video boxcover to be attached to MP4 as image.
+     
+boxcover: 
+     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/BoxCovers/GMCZ0022_DONNA_BELL__CHOKY_ICE_22.jpg
+     alignment: right
+     name: boxcover
+     module: boxcover
+     thumbnail: True
+     suffix: _boxcover
+     ext: .jpg
+     set_width: 3724
+     set_height: 5616
+     
+
+# If set_width/set_height are defined; then images will be resized to the height/width
+# If they don't resize 100% then there will be a black background added.
+
+promoimg: 
+     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/Promos/GMCZ0022_Samples
+     set_width: 3782
+     set_height: 
+     timed: true
+     out_dir: images
+     module: test_new_module 
+     name: promoimg
+     suffix: _promoimg 
+     ext: .jpg
+
+photoset1: 
+     src: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_3872P_JPG/
+     set_width: 3872
+     set_height: 2592
+     timed: true
+     out_dir: photoset
+     module: test_new_module
+     suffix: _set1
+     count: 36
+     ext: .jpg
+     name: set1
+     thumbnail: true
+     watermark: true
+     
+
+photoset2: 
+     src: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_1920CP_CAP_JPG/
+     set_width: 1920
+     set_height: 1080
+     timed: true
+     out_dir: image2
+     module: test_new_module
+     suffix: _set2
+     ext: .jpg
+     name: set2
+     thumbnail: true
+     watermark: true
+     
+
+photoset3:
+     src: 
+     set_width: 1920
+     set_height: 1080
+     timed: true
+     out_dir: image3
+     module: test_new_module
+     suffix: _set3
+     ext: .jpg
+     name: set3
+     thumbnail: true
+     watermark: true
+
+
+photoset4:
+     src: 
+     set_width: 1920
+     set_height: 1080
+     timed: true
+     out_dir: image4
+     module: test_new_module
+     suffix: set_4
+     ext: .jpg
+     name: set4
+     thumbnail: true
+     watermark: true
+
+
+videoinfo:
+     name: info 
+     out_dir: video
+     module: test_new_module
+
+thumbnails: 
+     size: 96
+     out_dir: thumbs
+     suffix: _T
+     module: noaction
+     ext: .jpg
+     
+watermark:
+     fontsize: 100
+     videofontsize: 30
+     template: '$STAR © EDGE'
+     location: SouthEast
+     out_dir: watermark
+     color: purple
+     suffix: _W  
+     ext: .jpg   
+     module: noaction
+
+scenethumb: 
+     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/scenethumb/GMCZ0022_DONNA_BELL__CHOKY_ICE_32.jpg
+     size: 96
+     out_dir: promo2
+     suffix: _scene_T
+     module: test_new_module
+     prefix: edge0022
+     ext: .jpg
+     name: promo2
+     
+
+description_txt: 
+     src: templates/description_template.txt
+     suffix: _description
+     ext: .txt
+     module: maketext
+
+
+ebay_txt: 
+     src: templates/ebay_template.txt
+     suffix: _ebay
+     out_dir: product
+     module: test_new_module
+     ext: .txt
+
+compliance_txt: 
+     src: templates/compliance_template.txt
+     suffix: _compliance
+     ext: .txt
+     name: GMCZ0022_BOOK
+     module: maketext
+
+clips4sale_txt:
+     src: templates/clips4sale_template.txt
+     suffix: _clips4sale
+     ext: .txt
+     name: product
+     module: test_new_module
+
+
+
+# This is moved to its own component.     
+2257:
+    src: C16F01-C16G00/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0022_2257/
+    out_dir: 2257
+    module: filecopy
+    name: compliance      
+
+
+# Product parts and componets go here.
+# Module is the python module to create the component
+# Values are [True/False] or specific Caps matter on the True/False
+# True is implied; False is not needed at this time. IF the part is there; it is True
+
+#Section 4 Products
+# Set module to "product" if used and "noaction" if not
+# map_ sets the component directory to a new directory for the sake of productizing.
+# If map_ is not set then the components (name and out_dir) will be preserved in the product
+# A product is a list of components plus its own information
+# there is no need to set a false entry; these are set for clarity; False is ignored.
+# Also allows for a run later if we need to add a component or test
+# Products are written to scratch and are used to create final deliveries.
+# Only ISO images are written back to the assembly area. (Assembly Area is the Finished location prior to QA/QC)
+# Scratch areas are deleted post use. For instance if the product is an FTP upload; then it will be deleted after upload is confirmed.
+
+clips4sale: 
+     account: edgeinter11
+     boxcover: False
+     promoimg: False 
+     video1: True
+     out_dir: clips4sale
+     clips4sale_txt: false
+     module: product
+     map_video1: clips
+     map_promoimg: clips_images
+     map_boxcover: clips_images
+     map_scenethumb: clips_images
+     
+
+ebay: 
+     photoset1: true
+     scenethumb: true
+     video1: true
+     capture: true
+     promoimg: true
+     boxcover: true
+     description_txt: true
+     ebay_txt: true
+     out_dir: ebay
+     module: noaction
+     map_photoset: photos
+     map_promoimg: promo
+     map_photoset1: photos/set1
+     map_capture: photos/set2
+     map_ebay_txt: ./
+
+dvd: 
+     photoset1: true
+     video1: true
+     capture: true
+     boxcover: true
+     compliance_txt: true
+     out_dir: dvd
+     module: noaction
+
+picticon: 
+     photoset1: true
+     video1: true
+     thumbnails: true
+     scenethumb: true
+     description_txt: exists
+     out_dir: web
+     module: noaction
+
+aebn: 
+     out_dir: aebn
+     video1: true
+     boxcover: true
+     2257: true
+     module: noaction
+     map_video1: video
+     map_promoimg: video_images
+     map_boxcover: video_images
+     map_scenethumb: video_images
+     
+
+hotmovies: 
+     out_dir: hotmovies
+     video1: true
+     boxcover: true
+     2257: true
+     module: noaction
+     map_video1: video
+     map_promoimg: video_images
+     map_boxcover: video_images
+     map_scenethumb: video_images
+
+flickrocket: 
+     out_dir: flickrocket
+     video1: true
+     boxcover: true
+     promo: true
+     module: noaction
+     map_video1: video
+     map_promoimg: video_images
+     map_boxcover: video_images
+     map_scenethumb: video_images
+
+book: 
+     out_dir: book
+     book: true
+     pict1: true
+     pict2: true
+     description: true
+     module: noaction
