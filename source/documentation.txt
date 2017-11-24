@@ -35,4 +35,26 @@ Job runs are configured from 2 files:
 	Components have the valid key: produce, validate, exists, or ignore
 	
 	
+6. Components
+
+Support for unlimited number of videos (information video[nnn])
+Must have entry in products and components control section.
+Video is self contained; so if there is a request for watermark (on video) it will be just for that video
+Capures configuration is set in the captures section and allows for thumbnails on the images.
+Use name: for path here; we do not use the out_dir setting; if it is set it will be appended for all videos.
+
+video1: 
+     src: PATHNAME
+     capture: true or false
+     watermark: true or false
+     size_width: 1920
+     size_height: 1080
+     size_kbps: 6000
+     name: GMCZ0023_VID [Path name for video]
+     module: processvideo
+     ext: .mp4
+     
+     
+     	
+	
 		

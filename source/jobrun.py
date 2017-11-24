@@ -130,8 +130,9 @@ Error = False
 # Main Code
 #===============================================================================
 logger.info(sys.argv[0] + "[Starting]")
-logger.info('Starting Job Processing for ' + jobcard['clipinfo']['edgeid'])
-
+logger.info('EdgeID: ' + jobcard['clipinfo']['edgeid'])
+logger.info("Project ID: " + str(jobcard['clipinfo']['projectno']))
+logger.info("PrimeDubya: " + str(jobcard['clipinfo']['prime_dubya']))
 
 # For debugging (Select only these and in order)
 products = ['capture','videoinfo','promoimg','photoset1','description_txt','boxcover','video1', 'video2']
