@@ -26,7 +26,7 @@ default:
   scratch: /edge/Scratch
   source: /edge/EdgeSource01
   deliveries: /edge/Deliveries
-  templates: /edge/JobCard/template
+  templates: /edge/JobCard/templates
 
 
 compliance:
