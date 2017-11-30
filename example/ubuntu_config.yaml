@@ -31,7 +31,7 @@ default:
 
 compliance:
   licensedefault: Edge Interactive  
-  template: /usr/local/templates/compliance_template.txt
+  template: /edge/JobCard/templates/compliance_template.txt
   preview_color: DarkMagenta
   preview_font_color: White
   preview_font_size: 48
@@ -39,9 +39,9 @@ compliance:
   preview_y: 100
   preview_suffix: _title
   preview_ext: .mp4
-  preview_font: /usr/local/fonts/Arial.ttf
+  preview_font: /edge/JobCard/fonts/Arial.ttf
   compliance_color: DarkMagenta
-  compliance_font: /usr/local/fonts/Arial.ttf
+  compliance_font: /edge/JobCard/fonts/Arial.ttf
   compliance_text_color: white
   # Text Size Based on 1920x1080; automatically scaled
   compliance_text_size: 30
@@ -60,7 +60,7 @@ flickrocket:
   password: password
     
 boxcover:
-  font: /usr/local/fonts/Skia.ttf
+  font: /edge/JobCard/fonts/Skia.ttf
   star_size: 150
   support_size: 120
   keyword_size: 150
