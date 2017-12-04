@@ -195,7 +195,7 @@ if not Error:
 else:
     logger.error("Fix JobCard issues; then rerun")    
     
-filelst.close()
+#filelst.close()
 logger.info('[end program]')
 if Error == True:
     logger.error("Program Completed with Errors")
