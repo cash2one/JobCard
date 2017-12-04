@@ -44,7 +44,7 @@ if args.jobcard == None:
 #else:
 #    filelog = args.filelog
 
-print filelog
+#print filelog
 
 
 
