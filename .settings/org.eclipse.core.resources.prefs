@@ -2,6 +2,7 @@ eclipse.preferences.version=1
 encoding//archive/bulkvideosize.py=utf-8
 encoding//source/boxcover.py=utf-8
 encoding//source/job.py=utf-8
+encoding//source/jobq.py=utf-8
 encoding//source/jobrun.py=utf-8
 encoding//source/maketext.py=utf-8
 encoding//source/processvideo.py=utf-8

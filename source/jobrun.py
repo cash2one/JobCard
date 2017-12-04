@@ -38,11 +38,11 @@ if args.jobcard == None:
     exit(1)
     
 
-if args.filelog == None:
-    base = os.path.basename(args.jobcard)
-    filelog = os.path.splitext(base)[0] + ".csv"
-else:
-    filelog = args.filelog
+#if args.filelog == None:
+#    base = os.path.basename(args.jobcard)
+#    filelog = os.path.splitext(base)[0] + ".csv"
+#else:
+#    filelog = args.filelog
 
 print filelog
 

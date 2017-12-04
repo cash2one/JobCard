@@ -1,0 +1,32 @@
+1. Need Full Job Card
+2. Validate all components
+	- Video 1
+		Capture + Thumbnail + Watermark
+	- Video 2
+	- Photoset 1 ( Produce )
+	- Video Info
+3. Validate Products
+	- Clips for Sale
+	- Ebay
+
+4. Test FTP Component for Clips for Sale
+	- Test How long this will add time for running during jobcard processing.
+	- Probably best to process whole job.
+	
+5. Test ISO Component for Ebay
+
+6. Add component for gathering information. [to Module Job ]
+	- source video length and size
+	- number of images for photoset(1-4)
+	- size of images for photosets (size for mode of all of the images, basically the most common size in the directory)
+
+Create Job Daemon
+	Use Python Wrapper to allow FTP to run in the background.
+	We need to monitor the CPU load during the jobdaemon.
+		We can process 3-5 cards at the same time given load
+		GPU runs 10-28% during processing. 
+		Unknown is FTP time; however, this can be mitigated with more upload bandwidth
+		
+
+
+	

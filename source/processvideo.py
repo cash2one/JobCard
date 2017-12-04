@@ -201,13 +201,13 @@ def produce(source, output,  component, jobcard, config, noexec):
             capture_suffix = jobcard['capture']['suffix'] if "suffix" in jobcard['capture'] else None
             capture_ext = jobcard['capture']['ext'] if "ext"  in jobcard['capture'] else '.jpg'
             if not capture_name == None and not capture_outdir == None:
-                capture_destination = finaldestination + "/" + str(capture_name) + "/" + str(capture_outdir)
+                capture_destination = finaldestination + "/" + str(component) + "_" +  str(capture_name) + "/" + str(capture_outdir)
             elif not capture_name == None and capture_outdir == None:
-                capture_destination = finaldestination + "/" + str(capture_name) 
+                capture_destination = finaldestination + "/" + str(component) + "_"+ str(capture_name) 
             elif capture_name == None and not capture_outdir == None:
-                capture_destination = finaldestination + "/" + str(capture_outdir)     
+                capture_destination = finaldestination + "/" + str(component) + "_"+ str(capture_outdir)     
             else:
-                capture_destination = destination + "/" + str(capture_name) 
+                capture_destination = destination + "/" + str(component) + "_" + str(capture_name) 
             logger.info("\tCapture Destination: " + str(capture_destination))   
         else:
             logger.info("Capture not requeted")
@@ -223,13 +223,13 @@ def produce(source, output,  component, jobcard, config, noexec):
             thumb_suffix = jobcard['thumbnails']['suffix'] if "suffix" in jobcard['thumbnails'] else None
             thumb_ext = jobcard['thumbnails']['ext'] if "ext" in jobcard['thumbnails'] else '.jpg'
             if not thumb_name == None and not thumb_outdir == None:
-                thumb_destination = finaldestination + "/" + str(capture_name) + "/" + str(thumb_name) + "/" + str(thumb_outdir)
+                thumb_destination = finaldestination + "/" + str(component) + "_" + str(capture_name) + "/" + str(thumb_name) + "/" + str(thumb_outdir)
             elif not thumb_name == None and thumb_outdir == None:
-                thumb_destination = finaldestination + "/" + str(capture_name) + "/"+ str(thumb_name)
+                thumb_destination = finaldestination + "/" + str(component) + "_" + str(capture_name) + "/"+ str(thumb_name)
             elif thumb_name == None and not thumb_outdir == None:
-                thumb_destination = finaldestination + "/" + str(capture_name) + "/" + str(thumb_outdir)     
+                thumb_destination = finaldestination + "/" + str(component) + "_" + str(capture_name) + "/" + str(thumb_outdir)     
             else:
-                thumb_destination = finaldestination + "/" + str(capture_name) 
+                thumb_destination = finaldestination + "/" + str(component) + "_" + str(capture_name) 
             logger.info("\tThumbnail Destination: " + str(thumb_destination))   
         else:
             logger.info("Thumbnail Creation - Not Requested")
@@ -263,13 +263,13 @@ def produce(source, output,  component, jobcard, config, noexec):
             
         if item_watermark == True and item_capture == True:           
             if not water_name == None and not water_outdir == None:
-                water_destination = finaldestination + "/" + str(capture_name) + "/" + str(water_name) + "/" + str(water_outdir)
+                water_destination = finaldestination + "/" + str(component) + "_" + str(capture_name) + "/" + str(water_name) + "/" + str(water_outdir)
             elif not water_name == None and water_outdir == None:
-                water_destination = finaldestination + "/" + str(capture_name) + "/" + str(water_name)
+                water_destination = finaldestination + "/" + str(component) + "_" + str(capture_name) + "/" + str(water_name)
             elif water_name == None and not water_outdir == None:
-                water_destination = finaldestination + "/" + str(capture_name) + "/" + str(water_outdir)     
+                water_destination = finaldestination + "/" + str(component) + "_" + str(capture_name) + "/" + str(water_outdir)     
             else:
-                water_destination = finaldestination + "/" + str(capture_name) 
+                water_destination = finaldestination + "/" + str(component) + "_" + str(capture_name) 
             logger.info("\tWatermark Destination: " + str(water_destination))           
                    
         else:

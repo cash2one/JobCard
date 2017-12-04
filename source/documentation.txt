@@ -55,6 +55,23 @@ video1:
      ext: .mp4
      
      
-     	
+Production Directories:
+
+[JobCard]
+	All job cards are loaded to the Jobcard Share
+		 ./jobs -> jobcards for processing
+		 ./logs -> logs of the jobcard processing. Will be named the same as the jobcard + .log
+		 ./output -> output for live code input, initially a text file named the same as the jobcard + .txt with all of the files created
+		 ./processed -> the jobcard is copied to this directory when it is finished. (the ending .success or .failure is appened for easy evaluation.)
+[Assembly]
+	[Project Name]/[PrimeDubya]/[EdgeID]
+		[Component Name] + optional [output_dir]
+		[Product Name] { for specfic output files related to a product i.e. DVD.iso or text files}		
+
+[Scratch] - Files here can be deleted after delivery to distribution outlet
+	[Project Name]/[PrimeDubya]/[EdgeID]
+			[Product name] - Assembly Area for files (like for ftp upload)
+			
+		     	
 	
 		
