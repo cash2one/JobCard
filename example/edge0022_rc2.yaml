@@ -33,7 +33,7 @@ clipinfo:
 # All Products that can be created/produced go here
 product: 
      clips4sale: produce
-     ebay: produce
+     ebay: ignore
      flickrocket: ignore
      dvd: ignore
      picticon: ignore
