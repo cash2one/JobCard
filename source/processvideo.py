@@ -365,7 +365,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         else:
             logger.warning("Running Command" )  
             capture_result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)       
-            logger.info( "Capture on " + item_src + "Started" )
+            logger.info( "Capture on " + item_src + " Started" )
 
     # Phase 2 - Transcode Video
     
@@ -384,7 +384,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     else:
         logger.warning("Running Command" )  
         transcode_result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)       
-        logger.info( "Transcode" + item_src + "Started" )
+        logger.info( "Transcode" + item_src + " Started" )
     
     # Phase 3 - Create Preview
     # Modify title and shortitle for creation
@@ -420,7 +420,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     else:
         logger.warning("Running Command" )  
         preview_result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)       
-        logger.info( "Preview" + item_src + "Started" )
+        logger.info( "Preview" + item_src + " Started" )
     
     # Phase 4 Create Compliance Trailer
     #Create a text file
@@ -441,7 +441,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     else:
         logger.warning("Running Command" )  
         compliance_result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)       
-        logger.info( "Compliance" + item_src + "Started" )
+        logger.info( "Compliance" + item_src + " Started" )
 
     
     # Phase 5 - Concat the Preview - Transcode - Compliance VIdeos
@@ -516,7 +516,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     actors = quote + clip_star_name + " and " + clip_supporting_name + quote
     advisory = "explicit"
     
-    meta_video =  edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + item_suffix + str(item_ext)
+    meta_video =  edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + str(item_suffix) + str(item_ext)
     
         
     CMD = ATOMICPARSLEY + " '" + source_video + "' --title=" + title + " --artist=" + artist + " --composer=" + composer + " --album=" + album 
@@ -535,7 +535,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     else:
         logger.warning("Running Command" )  
         metadata_result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)       
-        logger.info( "Metadata" + item_src + "Started" )   
+        logger.info( "Metadata" + item_src + " Started" )   
     
     # Phase 7 - Clean up / Thumbnails and Watermarks
     # Requires Capture to complete
