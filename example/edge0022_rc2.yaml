@@ -33,7 +33,7 @@ clipinfo:
 # All Products that can be created/produced go here
 product: 
      clips4sale: produce
-     ebay: ignore
+     ebay: produce
      flickrocket: ignore
      dvd: ignore
      picticon: ignore
@@ -83,6 +83,7 @@ video1:
      size_height: 1080
      size_kbps: 6000
      name: GMCZ0022_VID
+     suffix: _final
      module: processvideo
      ext: .mp4
      
@@ -93,6 +94,7 @@ video2:
      size_width: 1280
      size_height: 720
      size_kbps: 1500
+     suffix: _final
      module: processvideo
      name: GMCZ0022_VID
      ext: .mp4
@@ -214,7 +216,7 @@ thumbnails:
 watermark:
      fontsize: 100
      videofontsize: 30
-     template: '$STAR © EDGE'
+     template: '$STAR $COPYRIGHT EDGE'
      location: SouthEast
      out_dir: watermark
      color: purple
@@ -282,12 +284,12 @@ clips4sale:
      promoimg: False 
      video1: True
      out_dir: clips4sale
-     clips4sale_txt: false
+     clips4sale_txt: true
      module: product
      map_video1: clips
-     map_promoimg: clips_images
-     map_boxcover: clips_images
-     map_scenethumb: clips_images
+     map_promoimg: clip_images
+     map_boxcover: clip_images
+     map_scenethumb: clip_images
      
 
 ebay: 
@@ -295,12 +297,12 @@ ebay:
      scenethumb: true
      video1: true
      capture: true
-     promoimg: true
-     boxcover: true
+     promoimg: false
+     boxcover: false
      description_txt: true
      ebay_txt: true
      out_dir: ebay
-     module: noaction
+     module: product
      map_photoset: photos
      map_promoimg: promo
      map_photoset1: photos/set1
@@ -353,7 +355,7 @@ flickrocket:
      video1: true
      boxcover: true
      promo: true
-     module: noaction
+     module: product
      map_video1: video
      map_promoimg: video_images
      map_boxcover: video_images

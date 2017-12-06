@@ -104,4 +104,10 @@ def numimages(source, config, noexec):
             
     return(Error, jpg, tif)
 
+def filetransfer(config, account, password, file):
+    # Transfers a file via FTP to a final location
+    # Returns True for Success and False for failure
+    CURL=config['locations']['curl']
+    
+
 

@@ -33,6 +33,9 @@ ERROR = ''
 NEWLINE = '\n'
 Error = False
 
+COPYRIGHT = "(c)"
+
+DELETEASSEMBLED = True
 
 
 def main (source, output,  component, jobcard, config, noexec):
@@ -250,9 +253,9 @@ def produce(source, output,  component, jobcard, config, noexec):
             water_ext = jobcard['watermark']['ext'] if "ext"  in jobcard['watermark'] else '.jpg'
             water_font = config['boxcover']['font'] if "font" in config['boxcover'] else "/usr/local/etc/Skia.ttf"
             if clip_star2:
-                watermark_text = Template(water_template).safe_substitute(STAR=clip_star_name, STAR2=clip_star2_name, EDGEID=edgeid)
+                watermark_text = Template(water_template).safe_substitute(STAR=clip_star_name, STAR2=clip_star2_name, EDGEID=edgeid, COPYRIGHT=COPYRIGHT)
             else:
-                watermark_text = Template(water_template).safe_substitute(STAR=clip_star_name, EDGEID=edgeid)
+                watermark_text = Template(water_template).safe_substitute(STAR=clip_star_name, EDGEID=edgeid,COPYRIGHT=COPYRIGHT)
 
             #watermark_cmd = "-vf drawtext=\"$FONT text=\'$TEMPLATE\': fontcolor=$COLOR: fontsize=$FONTSIZE: box=1: boxcolor=black: x=w-tw-5:y=h-th-5\""
             watermark_cmd = "drawtext=\"text=\'$TEMPLATE\':x=w-tw-5:y=h-th-5:fontfile=$FONT:fontsize=$FONTSIZE:fontcolor=$COLOR:shadowcolor=black:shadowx=2:shadowy=2:box=1:boxcolor=white\""
@@ -513,7 +516,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     actors = quote + clip_star_name + " and " + clip_supporting_name + quote
     advisory = "explicit"
     
-    meta_video =  edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + str(item_ext)
+    meta_video =  edgeid + "_" + str(item_width) + "x" + str(item_height) + "x" + str(item_kbps) + item_suffix + str(item_ext)
     
         
     CMD = ATOMICPARSLEY + " '" + source_video + "' --title=" + title + " --artist=" + artist + " --composer=" + composer + " --album=" + album 
@@ -577,7 +580,10 @@ def produce(source, output,  component, jobcard, config, noexec):
                 else:
                     WorkResult[filename] = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)    
                 
-            
+    # Delete the temporary use assembled video
+    if DELETEASSEMBLED:
+        logger.info("Removing temporary video: " + source_video)
+        os.remove(source_video)
    
     logger.info("Produce - End")
     return(Error)

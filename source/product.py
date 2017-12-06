@@ -212,6 +212,9 @@ def produce(source, output,  component, jobcard, config, noexec):
                 logger.info("Copy: " + src_final + "/" + edgeid +"*" +str( part_suffix ) +   str(part_ext) + " to " + str(partfinaldestination) )
                 logger.info("Command:\n\tcp " + src_final + "/" + edgeid +"*" +str( part_suffix ) +   str(part_ext) +" " + str(partfinaldestination))
     
+    # Create Product Specific calls here
+    # Allowed (clips4sale, ebay, flickrocket)
+    
     logger.info("Produce - End")
     return(Error)
 
