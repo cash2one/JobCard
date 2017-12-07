@@ -104,10 +104,14 @@ def numimages(source, config, noexec):
             
     return(Error, jpg, tif)
 
-def filetransfer(config, account, password, file):
+def filetransfer(config, host, account, password, file, path):
+    Error = False
     # Transfers a file via FTP to a final location
     # Returns True for Success and False for failure
     CURL=config['locations']['curl']
+    CMD_TEMPLATE = "$CURL -T $FILE ftp://${USERNAME}:${PASSWORD}@$HOST:$PATH"
+    CMD = Template(CMD_TEMPLATE).safe_substitute(CURL=CURL, FILE=file, USERNAME=account, PASSWORD=password, PATH=path)
+    logger.info("File Transfer Command: " + str(CMD))
     
-
-
+    return Error
+    

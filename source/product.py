@@ -11,6 +11,7 @@ Created on Sep 30, 2017
 import os,glob
 from string import Template
 import shutil
+import job
 import logging
 logger = logging.getLogger(__name__)
 
@@ -214,6 +215,9 @@ def produce(source, output,  component, jobcard, config, noexec):
     
     # Create Product Specific calls here
     # Allowed (clips4sale, ebay, flickrocket)
+    if component == "ebay":
+        job.filetransfer(config, "myHost", "myAccount", "myPassword", "myFile", "myPath")
+    
     
     logger.info("Produce - End")
     return(Error)

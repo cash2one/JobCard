@@ -533,9 +533,16 @@ def produce(source, output,  component, jobcard, config, noexec):
     if noexec:
         metadata_result = subprocess.Popen("echo", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     else:
-        logger.warning("Running Command" )  
+        logger.warning("Adding Metadata to temporary video" )  
         metadata_result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)       
-        logger.info( "Metadata" + item_src + " Started" )   
+        logger.info( "Metadata" + item_src + " Started" )  
+        logger.info("Check if Metadata adding has Completed") 
+        meta_status = metadata_result.returncode
+        if meta_status == 0:
+            logger.info("\t\Metadata add returned Status: " + str(meta_status))
+        else:
+            logger.error("\t\tMetadata add failed with Status:"+ str(meta_status))
+            Error = True
     
     # Phase 7 - Clean up / Thumbnails and Watermarks
     # Requires Capture to complete
@@ -584,13 +591,16 @@ def produce(source, output,  component, jobcard, config, noexec):
     if DELETEASSEMBLED:
         #Validate the final video exists first
         logger.info("temp video: " + str(source_video))
-        if os.path.isfile(finaldestination + "/" + meta_video):
-            logger.info("Final Video is there we can")
-            logger.info("Removing temporary video: " + source_video)
-            os.remove(source_video)
+        if not os.path.isfile(source_video):
+            logger.warn("Temp video does not exist")
         else:
-            logger.error("Final Video is missing " + str(finaldestination) + "/" + str(meta_video))
-            logger.error("intermediate video will not be removed")
+            if os.path.isfile(finaldestination + "/" + meta_video) and os.path.isfile(source_video):
+                logger.info("Final Video is there we can")
+                logger.info("Removing temporary video: " + source_video)
+                os.remove(source_video)
+            else:
+                logger.error("Final Video is missing " + str(finaldestination) + "/" + str(meta_video))
+                logger.error("intermediate video will not be removed")
    
     logger.info("Produce - End")
     return(Error)
