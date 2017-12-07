@@ -35,7 +35,7 @@ Error = False
 
 COPYRIGHT = "(c)"
 
-DELETEASSEMBLED = True
+DELETEASSEMBLED = False
 
 
 def main (source, output,  component, jobcard, config, noexec):
