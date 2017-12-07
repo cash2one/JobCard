@@ -35,7 +35,7 @@ Error = False
 
 COPYRIGHT = "(c)"
 
-DELETEASSEMBLED = False
+DELETEASSEMBLED = True
 
 
 def main (source, output,  component, jobcard, config, noexec):
@@ -582,8 +582,14 @@ def produce(source, output,  component, jobcard, config, noexec):
                 
     # Delete the temporary use assembled video
     if DELETEASSEMBLED:
-        logger.info("Removing temporary video: " + source_video)
-        os.remove(source_video)
+        #Validate the final video exists first
+        if os.path.isfile(meta_video):
+            logger.info("Final Video is there we can")
+            logger.info("Removing temporary video: " + source_video)
+            os.remove(source_video)
+        else:
+            logger.error("Final Video is missing")
+            logger.error("intermediate video will not be removed")
    
     logger.info("Produce - End")
     return(Error)
