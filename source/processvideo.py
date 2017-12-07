@@ -537,6 +537,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         metadata_result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)       
         logger.info( "Metadata" + item_src + " Started" )  
         logger.info("Check if Metadata adding has Completed") 
+        stdoutdata, stderrdata = metadata_result.communicate()
         meta_status = metadata_result.returncode
         if meta_status == 0:
             logger.info("\t\Metadata add returned Status: " + str(meta_status))

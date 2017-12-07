@@ -81,7 +81,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     destination = output + "/" + projectno + "/" + prime_dubya + "/" + edgeid
     src = source + "/" + projectno + "/" + prime_dubya + "/" + edgeid
     
-    # Create Directories as needed
+    #Get Product information
     try:
         item_src = jobcard[component]['src'] if "src" in jobcard[component] else None
         item_width = jobcard[component]['set_width'] if "set_width" in jobcard[component] else None
@@ -117,6 +117,9 @@ def produce(source, output,  component, jobcard, config, noexec):
         logger.info("Creating Directory: " + finaldestination)
     else:
         logger.info("Creating Directory: " + finaldestination)   
+
+    # Create a product directory structure based on the product settings
+    #
 
     logger.info("Creating Product Files for ->" + component)
     for part in jobcard[component]:
@@ -213,8 +216,10 @@ def produce(source, output,  component, jobcard, config, noexec):
                 logger.info("Copy: " + src_final + "/" + edgeid +"*" +str( part_suffix ) +   str(part_ext) + " to " + str(partfinaldestination) )
                 logger.info("Command:\n\tcp " + src_final + "/" + edgeid +"*" +str( part_suffix ) +   str(part_ext) +" " + str(partfinaldestination))
     
+    # Package or file transfer the product
     # Create Product Specific calls here
     # Allowed (clips4sale, ebay, flickrocket)
+    
     if component == "ebay":
         job.filetransfer(config, "myHost", "myAccount", "myPassword", "myFile", "myPath")
     
