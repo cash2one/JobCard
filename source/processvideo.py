@@ -583,12 +583,13 @@ def produce(source, output,  component, jobcard, config, noexec):
     # Delete the temporary use assembled video
     if DELETEASSEMBLED:
         #Validate the final video exists first
-        if os.path.isfile(meta_video):
+        logger.info("temp video: " + str(source_video))
+        if os.path.isfile(finaldestination + "/" + meta_video):
             logger.info("Final Video is there we can")
             logger.info("Removing temporary video: " + source_video)
             os.remove(source_video)
         else:
-            logger.error("Final Video is missing")
+            logger.error("Final Video is missing " + str(finaldestination) + "/" + str(meta_video))
             logger.error("intermediate video will not be removed")
    
     logger.info("Produce - End")

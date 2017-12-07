@@ -66,7 +66,7 @@ component:
      scenethumb: ignore
      thumbnails: ignore
      video1: produce
-     video2: produce
+     video2: ignore
      videoinfo: ignore
      # watermark: No longer a component, deprecated to other components, the secrion remains for configuraiton parameters.
 
