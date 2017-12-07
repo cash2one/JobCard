@@ -260,7 +260,7 @@ clips4sale_txt:
      src: templates/clips4sale_template.txt
      suffix: _clips4sale
      ext: .txt
-     name: product
+     name: clips4sale
      module: test_new_module
 
 
@@ -283,7 +283,7 @@ clips4sale:
      boxcover: False
      promoimg: False 
      video1: True
-     out_dir: clips4sale
+     name: clips4sale
      clips4sale_txt: true
      module: product
      map_video1: clips
@@ -301,7 +301,7 @@ ebay:
      boxcover: false
      description_txt: true
      ebay_txt: true
-     out_dir: ebay
+     name: ebay
      module: product
      map_photoset: photos
      map_promoimg: promo
