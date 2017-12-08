@@ -174,7 +174,7 @@ USAGE
         log.close()
         return 1
     except Exception, e:
-        logger.error("ERROR: " + str(e))
+        logger.error("ERROR Exception: " + str(e))
         if DEBUG or TESTRUN:
             raise(e)
         indent = len(program_name) * " "
