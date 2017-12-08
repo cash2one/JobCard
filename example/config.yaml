@@ -53,10 +53,10 @@ compliance:
 
  
 clips4sale:
-  ftpsite: 192.168.23.128
-  edge0001: MyPassword
-  edge0002: AnotherPassword
-  edge0003: YetAnotherPassword
+  ftpsite: 172.16.1.128
+  edge001: MyPassword
+  edge002: AnotherPassword
+  edge003: YetAnotherPassword
 
 flickrocket:  
   username: username

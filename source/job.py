@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# encoding: utf-8
+#-*- coding: utf-8 -*-
 '''
 joblib -- shortdesc
 
@@ -24,6 +24,7 @@ from string import Template
 import subprocess
 import datetime
 import logging
+import ftplib
 logger = logging.getLogger(__name__)
 
 def videosize(source, config, noexec):
@@ -104,14 +105,69 @@ def numimages(source, config, noexec):
             
     return(Error, jpg, tif)
 
-def filetransfer(config, host, account, password, file, path):
+def filetransfer(config, location, account, filename, path):
+    logger.info("Starting filetransfer")
     Error = False
-    # Transfers a file via FTP to a final location
-    # Returns True for Success and False for failure
-    CURL=config['locations']['curl']
-    CMD_TEMPLATE = "$CURL -T $FILE ftp://${USERNAME}:${PASSWORD}@$HOST:$PATH"
-    CMD = Template(CMD_TEMPLATE).safe_substitute(CURL=CURL, FILE=file, USERNAME=account, PASSWORD=password, PATH=path)
-    logger.info("File Transfer Command: " + str(CMD))
+    
+    # Assign Variables from Config
+    try:
+        ftpsite = config[location]['ftpsite'] if "ftpsite" in config[location] else None
+        password = config[location][account] if account in config[location] else None
+        basename = os.path.basename(filename)
+        logger.info("FTP Site: " + str(ftpsite))
+        logger.info("Account: " + str(account))
+        logger.info("Password: " + str(password))
+        filehandle = open(filename,'rb')
+        if os.path.isfile(filename):
+            logger.info("File " + str(basename) + " exists")
+        else:
+            Error = True
+            logger.error("File " + str(basename) + " does not exists")
+        
+        # Open FTP Connection
+        
+        ftp = ftplib.FTP(ftpsite,account,password)
+        logger.info(ftp.getwelcome())
+        
+        # Set Passive Mode
+        ftp.set_pasv(True)   
+        
+        # Change to and check destination
+        try:
+            logger.info(ftp.cwd(path))
+        except Exception as e:
+            logger.error(ftplib.error_perm)
+            logger.error("Can't change directory")
+            logger.warn("An error occured " + str(e)) 
+            Error = True
+                
+        logger.info("FTP Remote Directory: " + str(ftp.pwd()))
+        
+        if Error == False:
+        
+            try:
+                ftp.size(basename)
+                logger.info( str(basename) +  " File Exists, existing file will be overwritten")
+            except:
+                logger.info("Uploadling new file:" + str(basename))
+            
+            try:            
+                ftp_message = ftp.storbinary('STOR ' + str(basename), filehandle, 8192)
+                logger.info(ftp_message)
+            except Exception as e:
+                logger.warn("An error occured " + str(e)) 
+                Error = True
+        else:
+            logger.error("Processing terminated, an error occurred")
+            
+        logger.info("Close FTP Connection")
+        ftp.close()
+        
+    except Exception as e: 
+        Error = True
+        logger.warn("An error occured " + str(e))    
+    
+    
     
     return Error
     

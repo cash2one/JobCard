@@ -204,13 +204,13 @@ def produce(source, output,  component, jobcard, config, noexec):
             capture_suffix = jobcard['capture']['suffix'] if "suffix" in jobcard['capture'] else None
             capture_ext = jobcard['capture']['ext'] if "ext"  in jobcard['capture'] else '.jpg'
             if not capture_name == None and not capture_outdir == None:
-                capture_destination = finaldestination + "/" + str(component) + "_" +  str(capture_name) + "/" + str(capture_outdir)
+                capture_destination = finaldestination + "/" +  str(capture_name) + "/" + str(capture_outdir)
             elif not capture_name == None and capture_outdir == None:
-                capture_destination = finaldestination + "/" + str(component) + "_"+ str(capture_name) 
+                capture_destination = finaldestination + "/" +  str(capture_name) 
             elif capture_name == None and not capture_outdir == None:
-                capture_destination = finaldestination + "/" + str(component) + "_"+ str(capture_outdir)     
+                capture_destination = finaldestination + "/" + str(capture_outdir)     
             else:
-                capture_destination = destination + "/" + str(component) + "_" + str(capture_name) 
+                capture_destination = destination + "/" +  "_" + str(capture_name) 
             logger.info("\tCapture Destination: " + str(capture_destination))   
         else:
             logger.info("Capture not requeted")

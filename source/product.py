@@ -13,6 +13,8 @@ from string import Template
 import shutil
 import job
 import logging
+import subprocess
+
 logger = logging.getLogger(__name__)
 
 #===============================================================================
@@ -45,6 +47,7 @@ def main (source, output,  component, jobcard, config, noexec):
     FFPROBE=config['locations']['ffprobe']
     MOGRIFY=config['locations']['mogrify']
     FONT=config['boxcover']['font']
+    MKISOFS = config['locations']['mkisofs']
     
     logger.debug("CURL = " + CURL)
     logger.debug("CONVERT = " + CONVERT)
@@ -62,6 +65,8 @@ def main (source, output,  component, jobcard, config, noexec):
     return(Error)
 
 def produce(source, output,  component, jobcard, config, noexec):
+    MKISOFS = config['locations']['mkisofs']
+    Error = False
     logger.info("Produce - Start")
     logger.info("Source: " + str(source))
     logger.info("Output: " + str(output))
@@ -167,8 +172,10 @@ def produce(source, output,  component, jobcard, config, noexec):
             else:
                 src_final = src  
             
-            if not part_account == None:
-                accountdestination = "/" + part_account
+            #if not part_account == None:
+            #    accountdestination = "/" + part_account
+            # Remove Account subdirectory
+            accountdestination = ""
                 
             # Create part final destination and accomondate for mapped and not mapped
             if not map_part_name == None: 
@@ -220,11 +227,58 @@ def produce(source, output,  component, jobcard, config, noexec):
     # Create Product Specific calls here
     # Allowed (clips4sale, ebay, flickrocket)
     
-    if component == "ebay":
-        job.filetransfer(config, "myHost", "myAccount", "myPassword", "myFile", "myPath")
+    if component == "clips4sale":
+        try:
+            item_account = jobcard[component]['account'] if "account" in jobcard[component] else None
+            logger.info("Transferring files to " + str(component) + " account " + str(item_account))
+            logger.info("Source Directory: " + str(finaldestination))
+            for eachname in os.listdir(finaldestination):
+                if os.path.isdir(finaldestination + "/" + eachname):
+                    remotepath = eachname
+                    logger.info("Remote Directory: "+ str(eachname))
+                    for eachfile in os.listdir(finaldestination + "/" + eachname): 
+                        filesize = os.path.getsize(finaldestination + "/" + eachname + "/" + eachfile)
+                        logger.info("File to transfer: " + str(eachfile) + " -- " +  str(filesize) + " bytes")
+                        # Transfer files
+                        if not noexec:
+                            Status =  job.filetransfer(config, component, item_account, finaldestination + "/" + eachname + "/" + eachfile, eachname)
+                            if (Error == True) and (Status == False):
+                                Error = True
+                            else:
+                                Error = Status
+                        else:
+                            logger.info("FTP Transfer simulated")
+                            logger.info("FTP: " + str(component) + " account " + str(item_account) + "File " + finaldestination + "/" + eachname + "/" + eachfile + " remote dir: " + str(eachname) )
+                        
+                        
+
+        except Exception as e: 
+            Error = True
+            logger.warn("An error occured " + str(e))    
     
+    if component == "ebay":
+        logger.info("Doing the Ebay thing")
+        logger.info("Creating DVD Image")
+        logger.info("ISO Destination " + str(finaldestination))
+        CMD = MKISOFS + " -J -r -o " + destination + "/" + edgeid + "_ROM.iso -V " + edgeid + "_ROM -uid 500 -find " + finaldestination
+    
+        logger.info("DVD Creation Command \n\t" + CMD)
+    
+        if not noexec:                
+            result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            stdoutdata, stderrdata = result.communicate()
+            status = result.returncode 
+            if status == 0:
+                logger.info("\t\t DVD Creation returned Status: " + str(status))
+            else:
+                logger.warning("\t\t DVD Creation failed with Status:"+ str(status))
+                Error = True 
+        else:
+            logger.info("Make ISO CMD: " + str(CMD))
     
     logger.info("Produce - End")
+    if Error:
+        logger.error("Error In Product")
     return(Error)
 
 

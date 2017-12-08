@@ -182,13 +182,15 @@ if not Error:
             component = product
                 
             if jobflag == 'produce':
-                myModule.produce(source, output,  component, jobcard, config, noexec)
+                myError = myModule.produce(source, output,  component, jobcard, config, noexec)
             elif jobflag == 'exists':
-                myModule.exists(finish, output,  component, jobcard, config, noexec)
+                myError = myModule.exists(finish, output,  component, jobcard, config, noexec)
             else:
                 #myModule.ignore(source, output,  component, jobcard, config, noexec)  
-                logger.warning("Ignoring product " + product)          
-        
+                logger.warning("Ignoring product " + product) 
+                myError = False   
+                      
+            Error = myError if Error is False else True
  
 
 # JobCard doesn't validate

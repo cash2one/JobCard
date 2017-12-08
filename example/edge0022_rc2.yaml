@@ -33,7 +33,7 @@ clipinfo:
 # All Products that can be created/produced go here
 product: 
      clips4sale: produce
-     ebay: ignore
+     ebay: produce
      flickrocket: ignore
      dvd: ignore
      picticon: ignore
@@ -259,8 +259,7 @@ compliance_txt:
 clips4sale_txt:
      src: templates/clips4sale_template.txt
      suffix: _clips4sale
-     ext: .txt
-     name: clips4sale
+     ext: .txt 
      module: test_new_module
 
 
@@ -279,7 +278,7 @@ clips4sale_txt:
 # True is implied; False is not needed at this time. IF the part is there; it is True
 
 clips4sale: 
-     account: edgeinter11
+     account: edge001
      boxcover: False
      promoimg: False 
      video1: True
@@ -293,8 +292,8 @@ clips4sale:
      
 
 ebay: 
-     photoset1: true
-     scenethumb: true
+     photoset1: false
+     scenethumb: false
      video1: true
      capture: true
      promoimg: false
@@ -306,7 +305,7 @@ ebay:
      map_photoset: photos
      map_promoimg: promo
      map_photoset1: photos/set1
-     map_capture: photos/set2
+     map_capture: photos/capture
      map_ebay_txt: ./
 
 dvd: 
