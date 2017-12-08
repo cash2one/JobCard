@@ -130,14 +130,14 @@ USAGE
         if inpat and expat and inpat == expat:
             raise CLIError("include and exclude pattern are equal! Nothing will be processed.")
 
-        if logfile:            
+        if not logfile:            
             base = os.path.basename(logfile)
-            filelog = os.path.splitext(base)[0] + ".log"
+            logfile = os.path.splitext(base)[0] + ".log"
         else:
-            filelog = args.filelog
+            logfile = args.logfile
 
-        print filelog    
-        log = open(filelog,'w')
+        print logfile    
+        log = open(logfile,'w')
         log.write("filePath,filename,md5,width,height,bitrate,duration\n")
         
         # Code execution goes here
