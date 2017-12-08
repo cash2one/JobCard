@@ -149,7 +149,11 @@ USAGE
         
         # Code execution goes here
         print "Review Directory " + str(path)
-                        
+        for root, dirs, files in os.walk(path,followlinks=True):
+            for folder in dirs:
+                for file in files:
+                    filePath = os.path.join(root,file)
+                    logger.info(file)
                         
                     
                     
