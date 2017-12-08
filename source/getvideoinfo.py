@@ -153,7 +153,8 @@ USAGE
             for folder in dirs:
                 for file in files:
                     filePath = os.path.join(root,file)
-                    logger.info(file)
+                    if file.endswith(inpat):                           
+                        logger.info(file)
                         
                     
                     
