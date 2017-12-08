@@ -142,7 +142,7 @@ USAGE
         else:
             logfile = args.logfile
 
-        print logfile    
+        logger.info("Logfile: " + str(logfile))   
         log = open(logfile,'w')
         log.write("filePath,filename,md5,width,height,bitrate,duration\n")
         
