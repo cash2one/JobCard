@@ -158,7 +158,7 @@ def produce(source, output,  component, jobcard, config, noexec):
                       
             except Exception as e:  
                 logger.warning("Not all variables set properly; exception " + str(e))   
-                logger.warn("No Name or Outdir found")
+                logger.warning("No Name or Outdir found")
                 part_name = None
                 part_outdir = None
             
@@ -241,7 +241,7 @@ def produce(source, output,  component, jobcard, config, noexec):
                         logger.info("File to transfer: " + str(eachfile) + " -- " +  str(filesize) + " bytes")
                         # Transfer files
                         if not noexec:
-                            Status =  job.filetransfer(config, component, item_account, finaldestination + "/" + eachname + "/" + eachfile, eachname)
+                            Status =  job.filetransfer(config, component, item_account, finaldestination + "/" + eachname + "/" + eachfile, eachname,noexec)
                             if (Error == True) and (Status == False):
                                 Error = True
                             else:

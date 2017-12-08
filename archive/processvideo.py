@@ -14,7 +14,6 @@ from string import Template
 import logging
 import subprocess
 import maketext
-import job
 logger = logging.getLogger(__name__)
 
 #===============================================================================
@@ -95,7 +94,7 @@ def produce(source, output,  component, jobcard, config, noexec):
     prime_dubya = jobcard['clipinfo']['prime_dubya']
     destination = output + "/" + projectno + "/" + prime_dubya + "/" + edgeid
     
-    # Get Variables
+    # Create Directories as needed
     try:
         item_src = jobcard[component]['src'] if "src" in jobcard[component] else None
         item_width = jobcard[component]['size_width'] if "size_width" in jobcard[component] else 720
@@ -105,16 +104,24 @@ def produce(source, output,  component, jobcard, config, noexec):
         item_suffix = jobcard[component]['suffix'] if "suffix" in jobcard[component] else None
         item_ext = jobcard[component]['ext'] if "ext" in jobcard[component] else None
         item_name = jobcard[component]['name'] if "name" in jobcard[component] else None
+        #item_thumbnail = jobcard[component]['thumbnail'] if "thumbnail" in jobcard[component] else None
         item_watermark = jobcard[component]['watermark'] if "watermark" in jobcard[component] else None
         item_count = jobcard[component]['count'] if "count" in jobcard[component] else None
         item_timed = jobcard[component]['timed'] if "timed" in jobcard[component] else None
         item_size = jobcard[component]['size'] if "size" in jobcard[component] else None
+        item_capture = jobcard[component]['capture'] if "capture" in jobcard[component] else False
         templates = config['default']['templates'] if "templates" in config['default'] else ""
         item_boxcover = jobcard['component']['boxcover'] if "boxcover" in  jobcard['component'] else None
         if item_boxcover == "produce" or item_boxcover == "exsist":
             item_boxcover_img =  source + "/" + str(jobcard['boxcover']['src']) if "src" in jobcard['boxcover'] else ""
             
         
+        if item_capture:
+            capture_thumbnail = jobcard['capture']['thumbnail'] if "thumbnail" in jobcard['capture'] else False
+            capture_watermark = jobcard['capture']['watermark'] if "watermark" in jobcard['capture'] else False
+        else:
+            capture_thumbnail = False
+            capture_watermark = False
         # Get Clip Information 
         clip_prime_dubya = jobcard['clipinfo']['prime_dubya']
         clip_shorttitle = jobcard['clipinfo']['shorttitle']
@@ -188,7 +195,48 @@ def produce(source, output,  component, jobcard, config, noexec):
         else:
             text_location = destination    
         
+        # Setup Capture
+        if item_capture == True:
+            logger.info("Capture creation requeseted")
+            capture_frame_every = jobcard['capture']['frame_every'] if "frame_every" in jobcard['capture'] else 30
+            capture_outdir = jobcard['capture']['out_dir'] if "out_dir" in jobcard['capture'] else None
+            capture_name = jobcard['capture']['name'] if "name" in jobcard['capture'] else None
+            capture_suffix = jobcard['capture']['suffix'] if "suffix" in jobcard['capture'] else None
+            capture_ext = jobcard['capture']['ext'] if "ext"  in jobcard['capture'] else '.jpg'
+            if not capture_name == None and not capture_outdir == None:
+                capture_destination = finaldestination + "/" +  str(capture_name) + "/" + str(capture_outdir)
+            elif not capture_name == None and capture_outdir == None:
+                capture_destination = finaldestination + "/" +  str(capture_name) 
+            elif capture_name == None and not capture_outdir == None:
+                capture_destination = finaldestination + "/" + str(capture_outdir)     
+            else:
+                capture_destination = destination + "/" +  "_" + str(capture_name) 
+            logger.info("\tCapture Destination: " + str(capture_destination))   
+        else:
+            logger.info("Capture not requeted")
+            # Capture Destination to invalid setting
+            capture_destination ="NOTVALID"
 
+        #Setup Thumbnail information if needed
+        if capture_thumbnail == True and item_capture == True:
+            logger.info("Thumbnail creation on captured images requeseted")
+            thumb_size = jobcard['thumbnails']['size'] if "size" in jobcard['thumbnails'] else 96
+            thumb_name = jobcard['thumbnails']['name'] if "name" in jobcard['thumbnails'] else None
+            thumb_outdir = jobcard['thumbnails']['out_dir'] if "out_dir" in jobcard['thumbnails'] else None
+            thumb_suffix = jobcard['thumbnails']['suffix'] if "suffix" in jobcard['thumbnails'] else None
+            thumb_ext = jobcard['thumbnails']['ext'] if "ext" in jobcard['thumbnails'] else '.jpg'
+            if not thumb_name == None and not thumb_outdir == None:
+                thumb_destination = finaldestination + "/"  + str(capture_name) + "/" + str(thumb_name) + "/" + str(thumb_outdir)
+            elif not thumb_name == None and thumb_outdir == None:
+                thumb_destination = finaldestination + "/"  + str(capture_name) + "/"+ str(thumb_name)
+            elif thumb_name == None and not thumb_outdir == None:
+                thumb_destination = finaldestination + "/"  + str(capture_name) + "/" + str(thumb_outdir)     
+            else:
+                thumb_destination = finaldestination + "/"  +  + str(capture_name) 
+            logger.info("\tThumbnail Destination: " + str(thumb_destination))   
+        else:
+            logger.info("Thumbnail Creation - Not Requested")
+            thumb_destination =""
             
 
         # Setup Watermarking
@@ -216,7 +264,19 @@ def produce(source, output,  component, jobcard, config, noexec):
             logger.info("Watermark not requested")    
             water_destination =""
             
-   
+        if item_watermark == True and item_capture == True:           
+            if not water_name == None and not water_outdir == None:
+                water_destination = finaldestination + "/" + str(capture_name) + "/" + str(water_name) + "/" + str(water_outdir)
+            elif not water_name == None and water_outdir == None:
+                water_destination = finaldestination + "/" + str(capture_name) + "/" + str(water_name)
+            elif water_name == None and not water_outdir == None:
+                water_destination = finaldestination + "/" + str(capture_name) + "/" + str(water_outdir)     
+            else:
+                water_destination = finaldestination + "/" + str(capture_name) 
+            logger.info("\tWatermark Destination: " + str(water_destination))           
+                   
+        else:
+            logger.info("Watermark Only on Video File")
         
 
     except Exception as e:  
@@ -258,23 +318,54 @@ def produce(source, output,  component, jobcard, config, noexec):
     logger.info("\tItem Count: " + str(item_count))
     logger.info("\tItem Timed: " + str(item_timed))
     logger.info("\tItem Size: " + str(item_size))  
- 
+    logger.info("\tCapture: " + str(item_capture))
     
+   
+    if item_capture:
+        logger.info("\t\tThumbnail on Capture Images: " + str(capture_thumbnail)) 
+        logger.info("\t\tWatermark on Capture Images: " + str(capture_watermark)) 
+        logger.info("\t\tCapture still images every: " + str(capture_frame_every) + " seconds")      
+        if not os.path.isdir(capture_destination) and not noexec and item_capture == True:
+            os.makedirs(capture_destination,0777)
+            logger.info("Creating Directory [Capture Destination]:\t" + capture_destination)
+        else:
+            logger.info("Creating Directory [Capture Destination]:\t" + capture_destination)       
+             
     # Create Directories if needed
     if not os.path.isdir(finaldestination) and not noexec:
         os.makedirs(finaldestination,0777)
         logger.info("Creating Directory [Final Destination]:\t" + finaldestination)
     else:
         logger.info("Creating Directory:[Final Destination]:\t" + finaldestination)  
-
-
-
-    # Phase 1 - Get video source information
-    #  videosize(source, config, noexec)
-    #  return(Error, height, width, myduration, mybitrate)
+        
     
-    logger.info("Video Duration: " + str(jobcard['clipinfo']['video1_duration']))
-    
+    if item_watermark == True:
+        if not os.path.isdir(water_destination) and not noexec and capture_watermark == True:
+            os.makedirs(water_destination,0777)
+            logger.info("Creating Directory [Watermark Destination]:\t" + water_destination)
+        else:
+            logger.info("Creating Directory [Watermark Destination]:\t" + water_destination)  
+    if capture_thumbnail == True:
+        if not os.path.isdir(thumb_destination) and not noexec and capture_thumbnail == True:
+            os.makedirs(thumb_destination,0777)
+            logger.info("Creating Directory [Thumbnail Destination]:\t" + thumb_destination)
+        else:
+            logger.info("Creating Directory [Thumbnail Destination]:\t" + thumb_destination)  
+
+
+
+    # Phase 1 - Do movie captures if requested. 
+    if item_capture == True:
+        CMD_TEMPLATE = "$FFMPEG -c:v $DECODEC -i '$VIDEO' -thread_type slice -hide_banner -vf fps=1/$FRAME -c:v mjpeg '$DESTINATION/$EDGEID${SUFFIX}_%03d$EXT' "
+        CMD = Template(CMD_TEMPLATE).safe_substitute(FFMPEG=FFMPEG, VIDEO=item_source, DECODEC=mp4_decode, ENCODEC=mp4_jpeg, FRAME=capture_frame_every, DESTINATION=capture_destination, EDGEID=edgeid, SUFFIX=capture_suffix, EXT=capture_ext)
+        logger.info("Capture Command:\n\t" + str(CMD))
+        if noexec:
+            logger.info( "No Execute" )
+            capture_result=subprocess.Popen("echo", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        else:
+            logger.warning("Running Command" )  
+            capture_result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)       
+            logger.info( "Capture on " + item_src + " Started" )
 
     # Phase 2 - Transcode Video
     
@@ -454,7 +545,48 @@ def produce(source, output,  component, jobcard, config, noexec):
             logger.error("\t\tMetadata add failed with Status:"+ str(meta_status))
             Error = True
     
-  
+    # Phase 7 - Clean up / Thumbnails and Watermarks
+    # Requires Capture to complete
+    if item_capture:
+        logger.info("Waiting for Capture to Complete so we can create thumbnails and watermarks if needed")
+        stdoutdata, stderrdata = capture_result.communicate()
+        capture_status = capture_result.returncode 
+        if capture_status == 0:
+            logger.info("\t\tCapture Completed, returned Status: " + str(capture_status))
+        else:
+            logger.error("\t\tCapture failed with Status:"+ str(capture_status))
+            Error = True
+ 
+    if capture_thumbnail == True:
+        logger.info("Creating Thumbnails of captured images")
+        CMD_TEMPLATE = "$MOGRIFY -resize $SIZE -background white -gravity center -extent $SIZE -format jpg -quality 75 -path $THUMBDIR ${CAPTURE}/*${EXT}"            
+        CMD = Template(CMD_TEMPLATE).safe_substitute(MOGRIFY=MOGRIFY, SIZE=thumb_size, THUMBDIR=thumb_destination, CAPTURE=capture_destination, EXT=thumb_ext)
+        logger.info("Thumbnail Command:\n\t" + CMD)
+        if not noexec:
+            thumbnail_result = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            logger.info("Check if Concat Completed")
+            stdoutdata, stderrdata = thumbnail_result.communicate()
+            thumbnail_status = thumbnail_result.returncode 
+            if concat_status == 0:
+                logger.info("\t\tThumbnail Completed, returned Status: " + str(thumbnail_status))
+            else:
+                logger.error("\t\tThumbnail failed, with Status:"+ str(thumbnail_status))
+                Error = True
+        else:
+            concat_result = subprocess.Popen("echo", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            
+    # Create Watermarked Images if requested       
+    WorkResult = {} 
+    if capture_watermark == True:
+        for filename in os.listdir(capture_destination):
+            if filename.endswith(".jpg"):
+                logger.info("Image to Waterkark: " + str(filename))
+                CMD = CONVERT +" '" + capture_destination + "/" + filename + "'  -background none -font " + str(water_font) + " -fill " + water_color + " -gravity " + water_location +" -pointsize " + str(water_font_size) +" -annotate 0 '" + str(watermark_text.encode('utf-8')) + "'" + " -flatten '" + water_destination +"/" + filename + "'"
+                logger.info("Watermark Command:\n\t" + str(CMD))
+                if noexec:
+                    logger.warn("Not executing Command")
+                else:
+                    WorkResult[filename] = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)    
                 
     # Delete the temporary use assembled video
     if DELETEASSEMBLED:

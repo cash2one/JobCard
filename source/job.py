@@ -105,7 +105,7 @@ def numimages(source, config, noexec):
             
     return(Error, jpg, tif)
 
-def filetransfer(config, location, account, filename, path):
+def filetransfer(config, location, account, filename, path, noexec):
     logger.info("Starting filetransfer")
     Error = False
     
@@ -170,4 +170,16 @@ def filetransfer(config, location, account, filename, path):
     
     
     return Error
+ 
+def test(test_text):
     
+    print "Test"
+    
+    return(test)   
+
+def getmd5(filename, noexec):
+    MD5="/sbin/md5"
+    value=subprocess.check_output([MD5, filename])
+    basename,myMD5 = value.split("=")
+    logger.info("MD5: " + filename + " = " + myMD5)
+    return myMD5

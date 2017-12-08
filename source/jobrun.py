@@ -10,6 +10,7 @@ import argparse
 import shlex
 import datetime
 import importlib
+import job as JOB
 
 # Import Local Modules
 import validate
@@ -125,7 +126,9 @@ finish = config['default']['finish']
 component = 'validate'
 noexec = args.noexec
 Error = False
-    
+
+
+
 #===============================================================================
 # Main Code
 #===============================================================================
@@ -139,10 +142,44 @@ products = ['capture','videoinfo','promoimg','photoset1','description_txt','boxc
 productZ = ['photoset1']
 
 Error = validate.produce(source, output, component, jobcard, config, noexec)
+
 if not Error:
     logger.info("JobCard is valid")
 
     debug = True
+    
+    # Build basic variables
+    try:
+        video1_src =  jobcard['video1']['src']
+        if video1_src[0] != "/":                       
+            logger.debug("Relative Path")    
+            video1_source = source + "/" + video1_src
+        else:
+            logger.debug("Absolute Path")
+            video1_source = jobcard[component]['src']
+    except Exception as e:
+        logger.error("An error occured " + str(e)) 
+        Error = True 
+        
+    #  Get Video Source Information and set tot JobCard
+    logger.info("Get Source Video Parameters: " + str(video1_source))
+    Error, src_height, src_width, src_duration, src_bitrate = JOB.videosize(video1_source, config, noexec)
+    logger.info("Video " + str(src_width) + "x" + str(src_height) + "x" + str(src_bitrate) + "duration " + str(src_duration) )
+    
+    logger.info("Getting MD5 Hash for Source")
+    myMD5 = JOB.getmd5(video1_source,noexec)
+    
+
+    jobcard['clipinfo']['video1_duration'] = src_duration
+    jobcard['clipinfo']['video1_src_height'] = src_height
+    jobcard['clipinfo']['video1_src_width'] = src_width
+    jobcard['clipinfo']['video1_src_bitrate'] =  src_bitrate
+    jobcard['clipinfo']['video1_src_md5'] =  myMD5
+    
+    #  Get the number of images and size for photoset1-4 
+    
+    
+    
     
     if debug == True:
     # If Job Card is Good Code Goes Here
