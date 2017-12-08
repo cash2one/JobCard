@@ -181,6 +181,6 @@ def test(test_text):
 def getmd5(config, filename, noexec):
     MD5=config['locations']['md5']
     value=subprocess.check_output([MD5, filename])
-    basename,myMD5 = value.split("=")
+    basename,myMD5 = value.split(" = ")
     logger.info("MD5: " + filename + " = " + myMD5)
     return myMD5
