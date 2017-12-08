@@ -8,6 +8,7 @@ locations:
   mkisofs: /opt/local/bin/mkisofs
   dvdauthor: /opt/local/bin/dvdauthor
   atomicparsley: /opt/local/bin/AtomicParsley
+  md5: /sbin/md5
   
 codec:
   mp4_decode: h264
