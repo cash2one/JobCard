@@ -154,6 +154,7 @@ USAGE
                         #print file + ":" + MD5.rstrip()
                         log.write(filePath + ","+ file + ","+ md5 + "," + width + "," + height + "," + mybitrate + "," + myduration + "\n")
                         
+                        
                     
                     
         log.close()       
