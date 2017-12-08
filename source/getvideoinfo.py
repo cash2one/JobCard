@@ -155,8 +155,8 @@ USAGE
                     filePath = os.path.join(root,file)
                     if file.endswith(inpat):                           
                         logger.info(file)
-                        MD5 = job.getmd5(config,filePath,False)
-                        md5 = MD5.rstrip()
+                        #MD5 = job.getmd5(config,filePath,False)
+                        #md5 = MD5.rstrip()
                         Error, height, width, myduration, mybitrate = job.videosize(filePath, config, False)
                         log.write(filePath + ","+ file + ","+ md5 + "," + width + "," + height + "," + mybitrate + "," + myduration + "\n")
                     
