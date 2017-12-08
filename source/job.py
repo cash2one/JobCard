@@ -49,7 +49,7 @@ def videosize(source, config, noexec):
     
     logger.info("Get the Video Size Information for Video: " + videoName )
     logger.info("Source Dir:" + pathName )
-    logger.info("getVideoSizeCMD:\n  " )
+    
     
     logger.info("Getting information about video: " + source)
     
