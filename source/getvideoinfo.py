@@ -122,7 +122,7 @@ USAGE
             config = yaml.load(cfg)
         else:
             logger.info("Missing Config File")
-            exit(3)
+            return 3
     
         
 
@@ -174,7 +174,7 @@ USAGE
     except KeyboardInterrupt:
         ### handle keyboard interrupt ###
         log.close()
-        return 0
+        return 1
     except Exception, e:
         logger.error("ERROR: " + str(e))
         if DEBUG or TESTRUN:
@@ -182,7 +182,7 @@ USAGE
         indent = len(program_name) * " "
         sys.stderr.write(program_name + ": " + repr(e) + "\n")
         sys.stderr.write(indent + "  for help use --help")
-        return 2
+        return 4
 
 if __name__ == "__main__":
     print "start processing"
