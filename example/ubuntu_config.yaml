@@ -8,6 +8,7 @@ locations:
   mkisofs: /usr/bin/mkisofs
   dvdauthor: /usr/bin/dvdauthor
   atomicparsley: /usr/bin/AtomicParsley
+  md5: /usr/bin/md5sum
   
 codec:
   mp4_decode: h264_cuvid

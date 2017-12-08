@@ -155,7 +155,7 @@ USAGE
                     filePath = os.path.join(root,file)
                     if file.endswith(inpat):                           
                         logger.info(file)
-                        MD5 = job.getmd5(filePath,False)
+                        MD5 = job.getmd5(config,filePath,False)
                         
                     
                     

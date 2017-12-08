@@ -37,6 +37,7 @@ def videosize(source, config, noexec):
 
     FFMPEG=config['locations']['ffmpeg']
     FFPROBE=config['locations']['ffprobe']
+    MD5=config['locations']['md5']
     
     CMD_TEMPLATE = "$FFPROBE  -v error -of flat=s=_ -select_streams v:0 -show_entries stream=height,width,bit_rate,duration '$VIDEO'"
     CMD = Template(CMD_TEMPLATE).safe_substitute(FFPROBE=FFPROBE, VIDEO=source)
@@ -177,8 +178,8 @@ def test(test_text):
     
     return(test)   
 
-def getmd5(filename, noexec):
-    MD5="/sbin/md5"
+def getmd5(config, filename, noexec):
+    MD5=config['locations']['md5']
     value=subprocess.check_output([MD5, filename])
     basename,myMD5 = value.split("=")
     logger.info("MD5: " + filename + " = " + myMD5)
