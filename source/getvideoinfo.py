@@ -120,6 +120,7 @@ USAGE
             logger.info("Config file exists")
             cfg = open(args.configfile,'r')
             config = yaml.load(cfg)
+            print config
         else:
             logger.info("Missing Config File")
             return 3
