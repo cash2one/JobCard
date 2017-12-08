@@ -142,7 +142,7 @@ USAGE
         
         # Code execution goes here
         print "Review Directory " + str(path)
-        for root, subFolders, files in os.walk(path,followlinks=True):
+        for root, dirs, files in os.walk(path,followlinks=True):
             for folder in subFolders:
                 for file in files:
                     filePath = os.path.join(root,file)
