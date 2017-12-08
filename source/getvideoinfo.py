@@ -107,8 +107,14 @@ USAGE
         expat = args.exclude
         logfile = args.logfile
         
+        # Error Check all directories
+        
+        if os.path.isdir(path):
+            logger.info("Directory exists: " + str(path))
+        
+        
         # Load Config file
-        #Open Config File
+        # Open Config File
 
         if os.path.isfile(args.configfile):
             logger.info("Config file exists")
@@ -116,7 +122,7 @@ USAGE
             config = yaml.load(cfg)
         else:
             logger.info("Missing Config File")
-            exit(2)
+            exit(3)
     
         
 
