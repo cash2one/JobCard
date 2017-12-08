@@ -120,7 +120,7 @@ USAGE
             logger.info("Config file exists")
             cfg = open(args.configfile,'r')
             config = yaml.load(cfg)
-            print config
+            
         else:
             logger.info("Missing Config File")
             return 3
@@ -149,17 +149,6 @@ USAGE
         
         # Code execution goes here
         print "Review Directory " + str(path)
-        for root, dirs, files in os.walk(path,followlinks=True):
-            for folder in dirs:
-                for file in files:
-                    filePath = os.path.join(root,file)
-                    if os.path.isfile(filePath):
-                      if file.endswith(inpat):
-                        MD5 = job.getmd5(filePath,False)
-                        md5 = MD5.rstrip()
-                        Error, height, width, myduration, mybitrate = job.videosize(filePath, config, False)
-                        #print file + ":" + MD5.rstrip()
-                        log.write(filePath + ","+ file + ","+ md5 + "," + width + "," + height + "," + mybitrate + "," + myduration + "\n")
                         
                         
                     
