@@ -20,6 +20,7 @@ import validate
 parser = argparse.ArgumentParser()
 group = parser.add_mutually_exclusive_group()
 group.add_argument("-v", "--verbose", action="store_true", help="Display detailed debugging information")
+group.add_argument("-e", "--error", action="store_true", help="Display detailed error (only) information")
 group.add_argument("-q", "--quiet", action="store_true")
 parser.add_argument("-j", "--jobcard", action="store", help="jobcard.yml file to process")
 parser.add_argument("-l","--logfile", action="store", help="Write Logfile if ommitted write to STDOUT")
@@ -65,7 +66,8 @@ import logging.config
 
 logger = logging.getLogger(__name__)
 
-logging.basicConfig(filename=args.logfile, disable_existing_loggers=False,format='%(asctime)s %(name)s:%(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
+
+logging.basicConfig(filename=args.logfile, disable_existing_loggers=False,format='%(asctime)s %(name)s:%(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.ERROR)
 
 
 
