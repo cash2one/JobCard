@@ -11,6 +11,7 @@ Created on Sep 30, 2017
 
 import os
 import shutil
+import subprocess
 from string import Template
 import logging
 logger = logging.getLogger(__name__)
@@ -31,7 +32,9 @@ MESSAGE = ''
 ERROR = ''
 NEWLINE = '\n'
 Error = False
-
+command_status = {}
+command_name = "example"
+command = {}
 
 
 def main (source, output,  component, jobcard, config, noexec):
@@ -65,6 +68,8 @@ def produce(source, output,  component, jobcard, config, noexec):
     logger.info("Produce - Start")
     logger.info("Source: " + str(source))
     logger.info("Output: " + str(output))
+    
+    Error = False
 
     
     if noexec:
@@ -103,10 +108,13 @@ def produce(source, output,  component, jobcard, config, noexec):
         # setup clip information
         title = jobcard['clipinfo']['title'] + " " + edgeid  if "title" in jobcard['clipinfo'] else " "
         star = jobcard['clipinfo']['star']['name']  if "name" in jobcard['clipinfo']['star'] else " "
-        star2 = jobcard['clipinfo']['star2']['name']  if "name" in jobcard['clipinfo']['star2'] else ''
         supporting = jobcard['clipinfo']['supporting']['name'] if "name" in jobcard['clipinfo']['supporting'] else " "
         shorttitle = jobcard['clipinfo']['shorttitle'] if "shorttitle" in jobcard['clipinfo'] else " "
-        
+        star2 = True if "star2" in jobcard['clipinfo'] else False
+        if star2:
+            logger.info("Loading Star 2")
+            star2_name = jobcard['clipinfo']['star2']['name'] if "name" in jobcard['clipinfo']['star2'] else ''
+ 
         
 
         #Setup Box Config Information
@@ -139,31 +147,7 @@ def produce(source, output,  component, jobcard, config, noexec):
         else:
             logger.info("Thumbnail Creation - Not Requested")
 
-        # Setup Watermarking
-        if item_watermark == True:
-            logger.info("Watermark creation requeseted")
-            water_font_size = jobcard['watermark']['fontsize'] if "fontsize" in jobcard['watermark'] else 100
-            water_template = jobcard['watermark']['template'] if "template" in jobcard['watermark'] else "$STAR © EDGE"
-            water_location = jobcard['watermark']['location'] if "location" in jobcard['watermark'] else 'SouthEast'
-            water_outdir = jobcard['watermark']['out_dir'] if "out_dir" in jobcard['watermark'] else None
-            water_name = jobcard['watermark']['name'] if "name" in jobcard['watermark'] else None
-            water_color = jobcard['watermark']['color'] if "color" in jobcard['watermark'] else 'red'
-            water_suffix = jobcard['watermark']['suffix'] if "suffix" in jobcard['watermark'] else None
-            water_ext = jobcard['watermark']['ext'] if "ext"  in jobcard['watermark'] else '.jpg'
-            water_font = config['boxcover']['font'] if "font" in config['boxcover'] else "/usr/local/etc/Skia.ttf"
 
-            
-            if not water_name == None and not water_outdir == None:
-                water_destination = destination + "/" + str(water_name) + "/" + str(water_outdir)
-            elif not water_name == None and water_outdir == None:
-                water_destination = destination + "/" + str(water_name)
-            elif water_name == None and not water_outdir == None:
-                water_destination = destination + "/" + str(water_outdir)     
-            else:
-                water_destination = destination 
-            logger.info("\tWatermark Destination: " + str(water_destination))   
-        else:
-            logger.info("Watermark not requeted")
         
     except Exception as e:  
         logger.warning("Not all variables set properly; exception " + str(e))   
@@ -223,28 +207,30 @@ def produce(source, output,  component, jobcard, config, noexec):
     except:
         logger.info("No thumbnail directory needed")        
     
-    try:
-        if not os.path.isdir(water_destination) and not noexec and item_watermark == True:
-            os.makedirs(water_destination,0777)
-            logger.info("Creating Directory: " + water_destination)
-        elif item_watermark == True:
-            logger.info("Creating Directory: " + water_destination)  
-    except:
-         logger.info("No Watermark directory needed")        
+
    
     # Change Left, Center, Right for Imagemagick Terms
     if box_alignment == 'left':
         title = " " + title
-        all_star = " " + star + " & " + star2
+        if star2:
+            all_star = " " + star + " & " + star2
+        else:
+            all_star = " " + star
         supporting = "  " + supporting
         gravity='Northwest'
     if box_alignment == 'center':
         gravity = 'North'
-        all_star = star + " & " + star2
+        if star2:
+            all_star = star + " & " + star2
+        else:
+            all_star = star
     if box_alignment == 'right':
         gravity='NorthEast'       
         title = title + " "
-        all_star = star + " & " + star2 + " "
+        if star2:
+            all_star = star + " & " + star2 + " "
+        else:
+            all_star = star + " "
         supporting =  supporting + "  "
 
     # Display Text Parameters and Alignment
@@ -276,6 +262,30 @@ def produce(source, output,  component, jobcard, config, noexec):
     
     logger.info("Resize Command:\n\t" + str(RESIZE_CMD))
     
+    CMD = RESIZE_CMD
+    # Run command
+    command_name = 'ResizeBoxCover'
+    if noexec:
+        command[command_name] = subprocess.Popen("echo", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    else:
+        logger.warning("Running Command - " + str(command_name))  
+        command[command_name] = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)       
+        logger.info( "COMMAND" + command_name + " for "+ item_src + " Started" )
+        
+    
+    # Check if Command executed
+    logger.info("Check if " + str(command_name) + " Completed")
+    stdoutdata, stderrdata = command[command_name].communicate()
+    command_status[command_name] = command[command_name].returncode 
+    if command_status[command_name] == 0:
+        logger.info(str(command_name) + " Completed, returned Status: " + str(command_status[command_name]))
+    else:
+        logger.error(str(command_name) + "failed, with Status:"+ str(command_status[command_name]))
+        Error = True
+
+    
+    
+    
     CMD = CONVERT + " -verbose -size " + str(item_width) + "x" + str(item_height) + " -font " + str(box_font) + " -pointsize " + str(box_title_size)
     CMD = CMD + " -fill " + str(box_font_color) + " \( \( -gravity " + gravity + " -background transparent -pointsize  " + str(box_title_size) + "  label:\"" + title_f +"\"" + " -pointsize " + str(box_star_size)
     CMD = CMD + " -annotate +0+250 '" + str(all_star) + "'" + " -pointsize " + str(box_support_size) + " -annotate +0+450 '" +  str(supporting) + "' -splice 0x16 \)"
@@ -285,9 +295,28 @@ def produce(source, output,  component, jobcard, config, noexec):
     CMD = CMD + " \( +clone -background black -shadow 60x18+0+0 \) -background transparent +swap -layers merge +repage \) \(  -label 'image' -background transparent -mosaic label:blank "
     CMD = CMD + "'" + str(RESIZE_IMG) + "' \) \(  -clone 0--1 -mosaic  \) -trim -reverse " + BOX_PSD + "; " + CONVERT + " " + BOX_PSD + " -flatten " + str(BOX_IMG)
     
-     
+    # Run command
+    command_name = 'BoxCover'
     
-    logger.warning("Box Cover Command\n\t" + CMD)
+    # Run Command
+    
+    if noexec:
+        command[command_name] = subprocess.Popen("echo", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    else:
+        logger.warning("Running Command - " + str(command_name))  
+        command[command_name] = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)       
+        logger.info( "COMMAND" + command_name + " for "+ item_src + " Started" )
+        
+    
+    # Check if Command executed
+    logger.info("Check if " + str(command_name) + " Completed")
+    stdoutdata, stderrdata = command[command_name].communicate()
+    command_status[command_name] = command[command_name].returncode 
+    if command_status[command_name] == 0:
+        logger.info(str(command_name) + " Completed, returned Status: " + str(command_status[command_name]))
+    else:
+        logger.error(str(command_name) + "failed, with Status:"+ str(command_status[command_name]))
+        Error = True
 
     
     logger.info("Produce - End")
@@ -296,6 +325,7 @@ def produce(source, output,  component, jobcard, config, noexec):
 
 def exists(source, output,  component, jobcard, config, noexec):
     result = ''
+    Error = False
     logger.info("Exists - Start")
     
     logger.info("Source: " + str(source))
@@ -355,31 +385,10 @@ def exists(source, output,  component, jobcard, config, noexec):
         else:
             logger.info("Thumbnail Creation - Not Requested")
 
-        # Setup Watermarking
-        if item_watermark == True:
-            logger.info("Watermark creation requeseted")
-            water_font_size = jobcard['watermark']['fontsize'] if "fontsize" in jobcard['watermark'] else 100
-            water_template = jobcard['watermark']['template'] if "template" in jobcard['watermark'] else "$STAR © EDGE"
-            water_location = jobcard['watermark']['location'] if "location" in jobcard['watermark'] else 'SouthEast'
-            water_outdir = jobcard['watermark']['out_dir'] if "out_dir" in jobcard['watermark'] else None
-            water_name = jobcard['watermark']['name'] if "name" in jobcard['watermark'] else None
-            water_color = jobcard['watermark']['color'] if "color" in jobcard['watermark'] else 'red'
-            water_suffix = jobcard['watermark']['suffix'] if "suffix" in jobcard['watermark'] else None
-            water_ext = jobcard['watermark']['ext'] if "ext"  in jobcard['watermark'] else '.jpg'
-            if not water_name == None and not water_outdir == None:
-                water_destination = destination + "/" + str(water_name) + "/" + str(water_outdir)
-            elif not water_name == None and water_outdir == None:
-                water_destination = destination + "/" + str(water_name)
-            elif water_name == None and not water_outdir == None:
-                water_destination = destination + "/" + str(water_outdir)     
-            else:
-                water_destination = destination 
-            logger.info("\tWatermark Destination: " + str(water_destination))   
-        else:
-            logger.info("Watermark not requeted")
+
         
     except:
-         logger.warning("Not all variables set properly")   
+        logger.warning("Not all variables set properly")   
     # Test Source for relative or absoulte path
     
     if item_src[0] != "/":                       
@@ -426,7 +435,7 @@ def exists(source, output,  component, jobcard, config, noexec):
     else:
         logger.info("Creating Directory: " + finaldestination)   
 
-    # Create Watermark and Thumbnail directories if needed
+    # Create  Thumbnail directories if needed
     try:
         if not os.path.isdir(thumb_destination) and not noexec and item_thumbnail == True:
             os.makedirs(thumb_destination,0777)
@@ -436,35 +445,44 @@ def exists(source, output,  component, jobcard, config, noexec):
     except:
         logger.info("No thumbnail directory needed")        
     
-    try:
-        if not os.path.isdir(water_destination) and not noexec and item_watermark == True:
-            os.makedirs(water_destination,0777)
-            logger.info("Creating Directory: " + water_destination)
-        elif item_watermark == True:
-            logger.info("Creating Directory: " + water_destination)  
-    except:
-         logger.info("No Watermark directory needed")        
+     
    
+    logger.info("Copy Existing Box cover" + item_source)
+    CMD = CONVERT + " '" + str(item_source) + "'   -flatten '" + finaldestination +  "/" + str(edgeid)  + str(item_suffix)  + item_ext +"'"
+ 
 
-    # Display Text Parameters and Alignment
-    logger.info("Box Cover will be copied with the following information")
-    BOX_PSD = "'"  + finaldestination +  "/" + str(edgeid)  + str(item_suffix) + ".psd'"
-    BOX_IMG = "'" + finaldestination +  "/" + str(edgeid)  + str(item_suffix) + item_ext +"'"
-    
-    logger.info("Copy PSD file if exists")
-    if os.path.isfile(BOX_PSD) and not noexec:
-        logger.info("Copy PSD file")
-        result = shutil.copyfile(BOX_PSD, finaldestination)
-        logger.info(result)
-    else:
-        logger.warn("NO PSD File exists")
         
-    if os.path.isfile(BOX_IMG) and not noexec: 
-        logger.info("Copy JPG Box cover")
-        result = shutil.copyfile(BOX_IMG, finaldestination)
+    if os.path.isfile(item_source) and not noexec: 
+        logger.info("Copy Existing Box cover" + item_source)
+        CMD = CONVERT + " '" + str(item_source) + "'   -flatten '" + finaldestination +  "/" + str(edgeid)  + str(item_suffix)  + item_ext +"'"
+        
+        command_name = 'CopyBoxCover'
+
+        # Run Command
+        
+        if noexec:
+            command[command_name] = subprocess.Popen("echo", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        else:
+            logger.info("Running Command - " + str(command_name))  
+            command[command_name] = subprocess.Popen(CMD, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)       
+            logger.info( "COMMAND" + command_name + " for "+ item_src + " Started" )
+            
+        
+        # Check if Command executed
+        logger.info("Check if " + str(command_name) + " Completed")
+        stdoutdata, stderrdata = command[command_name].communicate()
+        command_status[command_name] = command[command_name].returncode 
+        if command_status[command_name] == 0:
+            logger.info(str(command_name) + " Completed, returned Status: " + str(command_status[command_name]))
+        else:
+            logger.error(str(command_name) + "failed, with Status:"+ str(command_status[command_name]))
+            Error = True
+        
         logger.info(result)
+    elif os.path.isfile(item_source) and  noexec: 
+        logger.warning("Running Command - " + str(command_name)) 
     else:
-        logger.warn("No Box Cover Exists")
+        logger.Error("No Box Cover Exists")
         Error = True
     
         

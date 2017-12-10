@@ -53,7 +53,7 @@ product:
 component: 
      2257: ignore
      bookimg: ignore
-     boxcover: ignore
+     boxcover: exists
      capture1: ignore
      description_txt: produce
      photoset1: ignore
@@ -112,11 +112,12 @@ bookimg:
 # Allows for Video boxcover to be attached to MP4 as image.
      
 boxcover: 
-     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/BoxCovers/GMCZ0022_DONNA_BELL__CHOKY_ICE_22.jpg
+     src: C1E253-C1E258/C1E255_COMBAT_ZONE-682/BoxCovers/GMCZ0022_cover_3724x5296.jpg
+     Ysrc: example_img/example_boxcover.jpg
      alignment: right
      name: boxcover
      module: boxcover
-     thumbnail: True
+     thumbnail: False
      suffix: _boxcover
      ext: .jpg
      set_width: 3724

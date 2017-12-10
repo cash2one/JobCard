@@ -167,14 +167,14 @@ if not Error:
     logger.info("Video " + str(src_width) + "x" + str(src_height) + "x" + str(src_bitrate) + "duration " + str(src_duration) )
     
     logger.info("Getting MD5 Hash for Source")
-    myMD5 = JOB.getmd5(video1_source,noexec)
+    #myMD5 = JOB.getmd5(video1_source,noexec)
     
 
     jobcard['clipinfo']['video1_duration'] = src_duration
     jobcard['clipinfo']['video1_src_height'] = src_height
     jobcard['clipinfo']['video1_src_width'] = src_width
     jobcard['clipinfo']['video1_src_bitrate'] =  src_bitrate
-    jobcard['clipinfo']['video1_src_md5'] =  myMD5
+    #jobcard['clipinfo']['video1_src_md5'] =  myMD5
     
     #  Get the number of images and size for photoset1-4 
     
