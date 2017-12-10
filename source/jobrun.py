@@ -67,7 +67,7 @@ import logging.config
 logger = logging.getLogger(__name__)
 
 
-logging.basicConfig(filename=args.logfile, disable_existing_loggers=False,format='%(asctime)s %(name)s:%(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.ERROR)
+logging.basicConfig(filename=args.logfile, disable_existing_loggers=False,format='%(asctime)s %(name)s:%(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
 
 
 
