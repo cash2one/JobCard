@@ -1,0 +1,296 @@
+# All Clip Related Variables go here
+clipinfo: 
+     projectno: DEV_RUN-118
+     prime_dubya: GMCZ_Scenes
+     edgeid: GMCZ0040
+     shorttitle: Suck Fuck Facial
+     title: Edge Interactive Collector Scene
+     description: "Martial arts practice turns into sex practice when Manuel lets Megan suck cock before and after sharing it in her smoothly shaven pink pussy. Megan gets her first facial today and it may be the only one you'll ever see."
+     keywords: Porn Stars, Hetrosexual, Blowjobs, Vaginal Sex, Facials, Athletics, Megan Fenox & Manuel Ferrara
+     productiondate: October 11, 2010
+     releasedate: December 8, 2017
+     licensor: Global Media International License. 
+     star: 
+          name: Megan Fenox
+          birthdate: September 13, 1989
+          age: 21
+          height: '5'' 5"'
+          weight: 120
+          measurements: 34C-23-34
+          hair: Brunette
+          eyes: Blue
+          skin: Caucasian
+          birthplace: West Carrollton, Ohio
+     supporting: 
+          name: Manuel Ferrara
+     comment: Combat Zone, acquired 2015 GMI License.Teacher Leave Them Teens Alone.2.
+
+# All Products that can be created/produced go here. Chose ignore or produce
+
+product: 
+     clips4sale: produce
+     ebay: ignore
+     flickrocket: produce
+     dvd: ignore
+     picticon: ignore
+     aebn: ignore
+     hotmovies: ignore
+     book: ignore
+
+# All components go here
+# Choose [produce|validate|exists|ignore]
+# Validate runs through the validation module only and allows the component to be called
+# Exist = path starts with Finished
+# Produce = path starts with EdgeSource??
+# Thumbnails = Only valid option is Produce or Ignore (inherits Produce/Exist from source photo location)
+# Use validate if it is just part of some products.
+
+component: 
+     2257: ignore
+     bookimg: ignore
+     boxcover: ignore
+     description_txt: ignore
+     photoset1: ignore
+     promoimg: ignore
+     scenethumb: ignore
+     thumbnails: ignore
+     video1: produce
+     video2: produce
+     capture1: ignore
+
+# Components Go here
+# out_dir is relative unless it starts with a / then it is absolute
+# Set name to video name (Equals directory)
+# Set the source for each video (video 1 or 2, even if the same)
+# Set Watermark = True and it will watermark the video and capture images
+# Set Capture = True and it will create Capture images (based on capture parameters)
+# If Thumbnail is set to True (Capture Images have thumbnails created)
+
+video1: 
+     src: C1E237-C1E258/C1E255_COMBAT_ZONE-682/HDVC040.mp4
+     watermark: true
+     size_width: 1920
+     size_height: 1080
+     size_kbps: 6000
+     name: GMCZ0040_VID
+     suffix: _final
+     module: processvideo
+     ext: .mp4
+
+video2: 
+     src: C1E237-C1E258/C1E255_COMBAT_ZONE-682/HDVC040.mp4
+     watermark: true
+     size_width: 1280
+     size_height: 720
+     size_kbps: 1500
+     name: GMCZ0040_VID
+     suffix: _final
+     module: processvideo
+     ext: .mp4
+     ext: .mp4
+
+capture1: 
+     src: C1E237-C1E258/C1E255_COMBAT_ZONE-682/HDVC040.mp4
+     frame_every: 30
+     out_dir: images
+     module: product
+     suffix: _CAP
+     name: capture
+     ext: .jpg
+
+boxcover: 
+     src: C16G00-C16G99/C16G12_Finished_B71103-B71108/GMCZ_Scenes/GMCZ0040_PIX/GMCZ0040_TIF/GMCZ0040_MG_0174.TIF
+     alignment: right
+     name: cover
+     module: product
+     suffix: _BoxCover
+     ext: .jpg
+
+# If set_width/set_height are defined; then images will be resized to the height/width
+# If they don't resize 100% then there will be a black background added.
+
+promoimg: 
+     src: C16G00-C16G99/C16G12_Finished_B71103-B71108/GMCZ_Scenes/GMCZ0040_Selects/
+     set_width: 
+     set_height: 
+     timed: true
+     out_dir: images
+     module: product
+     name: promoimg
+     suffix: _promoimg
+     ext: .jpg
+
+photoset1: 
+     src: C16G00-C16G99/C16G12_Finished_B71103-B71108/GMCZ_Scenes/GMCZ0040_PIX/GMCZ0040_JPG/
+     set_width: 3504
+     set_height: 2336
+     count: 123
+     timed: true
+     out_dir: photoset
+     module: product
+     name: set1
+     suffix: _set1
+     ext: .jpg
+     thumbnail: true
+     watermark: true
+
+thumbnails: 
+     size: 96x96
+     out_dir: thumbs
+     suffix: _T
+     module: product
+     ext: .jpg
+
+watermark: 
+     fontsize: 87.6
+     template: '$STAR - EDGE'
+     location: SouthEast
+     color: red
+     module: product
+     out_dir: watermark
+     suffix: _W
+     ext: .jpg
+
+scenethumb: 
+     src: C16G00-C16G99/C16G12_Finished_B71103-B71108/GMCZ_Scenes/GMCZ0040_PIX/GMCZ0040_TIF/GMCZ0040_MG_0174.TIF
+     size: 96
+     out_dir: promo2
+     module: product
+     prefix: GMCZ0040
+     name: promo2
+     suffix: _scene_T
+     ext: .jpg
+
+description_txt: 
+     src: description_template.txt
+     suffix: _description
+     ext: .txt
+     module: maketext
+     out_dir: product
+
+ebay_txt: 
+     src: ebay_template.txt
+     suffix: _ebay
+     out_dir: product
+     module: maketext
+     ext: .txt
+
+compliance_txt: 
+     src: compliance_template.txt
+     suffix: _compliance
+     module: maketext
+     ext: .txt
+     name: GMCZ0040_Books
+
+clips4sale_txt: 
+     src: clips4sale_template.txt
+     suffix: _clips4sale
+     out_dir: product
+     module: maketext
+     ext: .txt
+
+2257: 
+     src: C16G00-C16G99/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0040_2257/
+     out_dir: compliance_2257
+     module: product
+
+bookimg:
+     src: C16G00-C16G99/C16G00_Finished_B70901-B70907/GMCZ/GMCZ0040_2257/
+     out_dir: booking
+     module: product
+
+# Product parts and components go here.
+# Module is the python module to create the component
+# Values are [True/False] or specific Caps matter on the True/False
+# True is implied; False is not needed at this time. IF the part is there; it is True
+
+
+clips4sale: 
+     account: edgeinter11
+     boxcover: true
+     promoimg: true
+     video1: true
+     out_dir: clips4sale
+     clips4sale_txt: true
+     module: product
+     map_video1: clips
+     map_promoimg: clips_images
+     map_boxcover: clips_images
+     map_sceethumb: clips_images
+
+ebay: 
+     photoset1: true
+     scenethumb: true
+     video1: true
+     capture: true
+     promoimg: true
+     boxcover: true
+     description_txt: true
+     ebay_txt: true
+     out_dir: ebay
+     module: product
+     watermark: true
+     map_photoset: photos
+     map_promoimg: promo
+     map_photoset1: photos/set1
+     map_capture: photos/set2
+     map_ebay_txt: ./
+
+dvd: 
+     photoset1: true
+     video1: true
+     capture: true
+     boxcover: true
+     compliance_txt: true
+     out_dir: dvd
+     module: product
+
+picticon: 
+     photoset1: true
+     video1: true
+     thumbnails: true
+     scenethumb: true
+     description_txt: exists
+     out_dir: web
+     module: product
+
+aebn: 
+     out_dir: aebn
+     video1: true
+     boxcover: true
+     2257: true
+     module: product
+     map_video1: video
+     map_promoimg: video_images
+     map_boxcover: video_images
+     map_scenethumb: video_images
+
+hotmovies: 
+     out_dir: hotmovies
+     video1: true
+     boxcover: true
+     2257: true
+     module: product
+     map_video1: video
+     map_promoimg: video_images
+     map_boxcover: video_images
+     map_scenethumb: video_images
+
+flickrocket: 
+     out_dir: flickrocket
+     video1: true
+     boxcover: true
+     promo: true
+     module: product
+     map_video1: video
+     map_promoimg: video_images
+     map_boxcover: video_images
+     map_scenethumb: video_images
+
+book: 
+     out_dir: book
+     book: true
+     pict1: true
+     pict2: true
+     description: true
+     module: product

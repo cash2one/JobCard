@@ -450,13 +450,14 @@ def exists(source, output,  component, jobcard, config, noexec):
     logger.info("Copy Existing Box cover" + item_source)
     CMD = CONVERT + " '" + str(item_source) + "'   -flatten '" + finaldestination +  "/" + str(edgeid)  + str(item_suffix)  + item_ext +"'"
  
-
+    # Run command if exec
+    command_name = 'CopyBoxCover'
         
     if os.path.isfile(item_source) and not noexec: 
         logger.info("Copy Existing Box cover" + item_source)
         CMD = CONVERT + " '" + str(item_source) + "'   -flatten '" + finaldestination +  "/" + str(edgeid)  + str(item_suffix)  + item_ext +"'"
         
-        command_name = 'CopyBoxCover'
+        
 
         # Run Command
         
